@@ -1,13 +1,18 @@
 ##Setup
 
     $ sudo apt-get install python-pip python-virtualenv
-    $ git clone git@github.com:techism/techism.git
+    $ git clone git://github.com/techism/techism.git
     $ cd techism
     $ virtualenv venv
     $ source venv/bin/activate
-    (venv)$ pip install django
+    (venv)$ pip install -r dependencies.pip
 
 ##Development
 
+Entwicklungsserver starten:
+
     (venv)$ python manage.py runserver
 
+Dependencies speichern:
+
+    (venv)$ pip freeze > dependencies.pip
