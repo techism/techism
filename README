@@ -17,3 +17,8 @@ Dependencies speichern:
 
     (venv)$ pip freeze > dependencies.pip
 
+##Deployment
+
+    $ git remote add prod git@www.techism.de:techism
+    $ git push prod master
+
