@@ -3,7 +3,7 @@
     $ sudo apt-get install python-pip python-virtualenv
     $ git clone git://github.com/techism/techism.git
     $ cd techism
-    $ virtualenv venv
+    $ virtualenv --no-site-packages venv 
     $ source venv/bin/activate
     (venv)$ pip install -r dependencies.pip
 
@@ -16,3 +16,4 @@ Entwicklungsserver starten:
 Dependencies speichern:
 
     (venv)$ pip freeze > dependencies.pip
+
