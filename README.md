@@ -11,7 +11,7 @@
 
 Entwicklungsserver starten:
 
-    (venv)$ python manage.py runserver
+    (venv)$ python techism/manage.py runserver
 
 Dependencies speichern:
 
