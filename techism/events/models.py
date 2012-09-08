@@ -10,15 +10,20 @@ class Location(models.Model):
     def __unicode__(self):
         return self.name;
     
-    
+class OrganizationTag (models.Model):
+    name = models.CharField(max_length=200)
+
 class Organization (models.Model):
     title = models.CharField(max_length=200)
     url = models.URLField()
     description = models.TextField(blank=True, null=True)
+    tags = models.ManyToManyField(OrganizationTag)
         
     def __unicode__(self):
         return self.title;
 
+class EventTag (models.Model):
+    name = models.CharField(max_length=200)
 
 class Event(models.Model):
     title = models.CharField(max_length=200)
@@ -33,7 +38,11 @@ class Event(models.Model):
     date_time_created = models.DateTimeField(auto_now_add=True)
     date_time_modified = models.DateTimeField(auto_now=True)
     organization = models.ForeignKey(Organization, blank=True, null=True)
+    tags = models.ManyToManyField(EventTag)
     
     def __unicode__(self):
         return self.title
+
+class EventTag (models.Model):
+    name = models.CharField(max_length=200)
           
