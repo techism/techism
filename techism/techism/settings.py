@@ -1,4 +1,4 @@
-# Django settings for techism project.
+import os.path
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -99,7 +99,7 @@ ROOT_URLCONF = 'techism.urls'
 WSGI_APPLICATION = 'techism.wsgi.application'
 
 TEMPLATE_DIRS = (
-    os.path.join(os.path.dirname(__file__), 'templates'),
+    os.path.join(os.path.dirname(__file__), '../../templates'),
 )
 
 INSTALLED_APPS = (
