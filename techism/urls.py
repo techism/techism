@@ -1,4 +1,5 @@
 from django.conf.urls import patterns, include, url
+from django.views.generic.simple import direct_to_template
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
@@ -6,6 +7,11 @@ from django.conf.urls import patterns, include, url
 
 urlpatterns = patterns('',
     (r'^$', 'techism.events.views.index'),
+    
+    # static pages
+    (r'^impressum/$', direct_to_template, { 'template': 'impressum.html' }),
+    (r'^about/$', direct_to_template, { 'template': 'about.html' }),
+
     # Examples:
     # url(r'^$', 'techism.views.home', name='home'),
     # url(r'^techism/', include('techism.foo.urls')),

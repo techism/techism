@@ -1,0 +1,82 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="de">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=480, height=640, user-scalable=yes" />
+	<link rel="apple-touch-icon" href="{% static 'images/apple-touch-icon.png' %}"/>
+	<link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/ico">
+    <!-- 
+	<link rel="alternate" type="application/atom+xml" title="Techism - Events, Projekte, User Groups in München" href="/feeds/atom/upcomming_events"/>
+	<link rel="alternate" type="application/rss+xml"  title="Techism - Events, Projekte, User Groups in München (für ältere RSS-Reader)" href="/feeds/rss/upcomming_events"/>
+     -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css" media="screen" />
+	<!-- 
+    <link rel="stylesheet" href="{% static 'css/jquery/jquery-ui-1.8.5.custom.css' %}" type="text/css" media="screen" />
+    <script type="text/javascript" src="{% static 'js/jquery/jquery-1.4.2.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery/jquery-ui-1.8.6.custom.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery/jquery.infinitescroll.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/modernizr-1.6.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/googlemaps.js' %}"></script>
+	<script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js"></script>
+	 -->
+	{% block head %}{% endblock %}
+</head>
+
+<body>
+	<section id="top">
+		<nav>
+			<div>
+				<ul>
+					<li><a href="/"><img width="105" height="33" src="{% static 'images/techism_logo_05.png' %}" alt="Techism"></a></li>
+					<li{% if '/events/' in request.path or '/' == request.path %} id="active"{% endif %}><a href="/events/">Events</a></li>	
+					<li id="add"><a href="/events/create/">+</a></li>
+					<li{% if '/orgs/' in request.path %} id="active"{% endif %}><a href="/orgs/">Gruppen</a></li>
+				</ul>
+				</div>
+		</nav> 
+	</section>
+
+	{% block content %}{% endblock %}
+	<footer>
+		<div id="twocol">
+			<div id="left">
+				<ul>
+					<li><a href="/impressum/">Impressum</a></li>
+					<li><a href="/about/">Über uns</a></li>
+					{% if user.is_authenticated %}
+						{% if user.is_superuser %}
+							<li><a href="/admin/">Admin</a></li> 
+						{% endif %}
+						<li><a href="/accounts/logout/">Logout</a></li> 
+					{% else %}
+						<li><a href="/accounts/login/">Login</a></li>
+					{% endif %}
+				</ul>
+			</div>
+			<div id="right">
+				<ul>
+					<li><a href="/feed.ics">iCal</a></li>
+					<li><a href="/feeds/atom/upcomming_events">RSS</a></li>
+					<li><a href="http://twitter.com/techism">Twitter</a></li>
+				</ul>
+			</div>
+		</div>
+		{% include "version.html" %}
+	</footer>
+	{% block scripts %}
+	 <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-19569985-1']);
+    _gaq.push(['_gat._anonymizeIp']);
+    _gaq.push(['_setDomainName', '.techism.de']);
+    _gaq.push(['_trackPageview']);
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+	{% endblock %}
+</body>
+</html>
