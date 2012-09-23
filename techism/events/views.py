@@ -6,5 +6,5 @@ from techism.events import event_service
 
 def index(request):
     event_list = event_service.get_upcomming_published_events_query_set
-    tags = event_service.get_tags()
+    tags = event_service.get_current_tags()
     return render_to_response('events/index.html', {}, context_instance=RequestContext(request))
