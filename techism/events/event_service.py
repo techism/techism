@@ -1,6 +1,7 @@
 #!/usr/local/bin/python
 # -*- coding: utf-8 -*-
 from techism.models import EventTag
+from techism.models import Event
 
 def get_tags():
     return EventTag.objects.all()

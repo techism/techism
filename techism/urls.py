@@ -5,7 +5,7 @@ from django.conf.urls import patterns, include, url
 # admin.autodiscover()
 
 urlpatterns = patterns('',
-    (r'^$', 'events.views.index'),
+    (r'^$', 'techism.events.views.index'),
     # Examples:
     # url(r'^$', 'techism.views.home', name='home'),
     # url(r'^techism/', include('techism.foo.urls')),

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from events import event_service
+from techism.events import event_service
 
 def index(request):
     event_list = event_service.get_upcomming_published_events_query_set
