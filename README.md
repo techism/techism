@@ -11,7 +11,11 @@
 
 Entwicklungsserver starten:
 
-    (venv)$ python techism/manage.py runserver
+    (venv)$ python manage.py runserver
+
+Oder:
+
+    (venv)$ gunicorn_django techism
 
 Dependencies speichern:
 
