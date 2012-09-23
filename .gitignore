@@ -2,3 +2,6 @@ venv/
 *.pyc
 *.py~
 techism.sqlite
+.project
+.pydevproject
+.settings

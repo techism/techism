@@ -43,6 +43,20 @@ class Event(models.Model):
     def __unicode__(self):
         return self.title
 
-class EventTag (models.Model):
-    name = models.CharField(max_length=200)
+class ChangeType:
+    CREATED = 'C'
+    UPDATED = 'U'
+    CANCELLED = 'D'
+    
+    Choices = (
+        ('C', 'Created'),
+        ('U', 'Updated'),
+        ('D', 'Canceled'),
+    )
+
+class EventChangeLog(models.Model):
+    event = models.ForeignKey(Event)
+    event_title = models.CharField(max_length=200)
+    change_type = models.CharField(max_length=1, choices=ChangeType.Choices)
+    date_time = models.DateTimeField(auto_now_add=True)
           
