@@ -13,4 +13,4 @@ class SimpleTest(TestCase):
     
     def test_tags(self):
         tags = get_current_tags()
-        self.assertEqual(tags.count(), 1)
+        self.assertEqual(tags.count(), 4)
