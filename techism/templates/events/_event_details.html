@@ -1,0 +1,31 @@
+{% load staticfiles %}
+<article class="vevent">
+    <header>
+        <section class="header-content">
+            <div class="title">
+                <h2 class="summary">
+                    <a id="{{ event.id }}_event" href="#event">{{ event.title }}</a>
+                </h2>
+            </div>
+        </section>
+    </header>
+    <section class="detail">
+        <section class="what">
+            <h3>Was</h3>
+            <div class="description">{{ event.description|linebreaks }}</div>
+            <p>
+                <img src="{% static 'images/world_link.png' %}"> <a target="_blank" href="{{ event.url }}">Webseite
+                    des Veranstalters</a>
+            </p>
+            <p class="tags">
+                {% for tag in event.tags.all %} <a href="#">{{ tag.name }}</a> {% endfor %}
+            </p>
+        </section>
+        <section class="when">
+            <h3>Wann</h3>
+        </section>
+        <section class="where">
+            <h3>Wo</h3>
+        </section>
+    </section>
+</article>

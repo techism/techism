@@ -1,1 +1,14 @@
-testseite
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+<section id="content">
+    {% if event_list %}
+        {% for event in event_list %} 
+            {% include "events/_event_details.html" %}
+        {% endfor %}   
+    {% else %}
+        <p>No events are available.</p>
+    {% endif %}  
+</section>
+{% endblock %}
