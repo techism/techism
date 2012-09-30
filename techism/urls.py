@@ -2,7 +2,7 @@ from django.conf.urls import patterns, include, url
 from django.views.generic.simple import direct_to_template
 
 # Uncomment the next two lines to enable the admin:
-# from django.contrib import admin
+from django.contrib import admin
 # admin.autodiscover()
 
 urlpatterns = patterns('',
@@ -14,6 +14,7 @@ urlpatterns = patterns('',
     
     # iCal
     (r'^feed.ics$', 'techism.feeds.views.ical'),
+    (r'^ical/(?P<event_id>.+).ics$', 'techism.feeds.views.ical_single_event'),
 
 
     # Uncomment the admin/doc line below to enable admin documentation:
