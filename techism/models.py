@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class Location(models.Model):
     name = models.CharField(max_length=200)
@@ -32,6 +33,7 @@ class Event(models.Model):
     url = models.URLField()
     description = models.TextField(blank=True, null=True)
     location = models.ForeignKey(Location, blank=True, null=True)
+    user = models.ForeignKey(User, blank=True, null=True)
     archived = models.BooleanField()
     published = models.BooleanField()
     canceled = models.BooleanField()
