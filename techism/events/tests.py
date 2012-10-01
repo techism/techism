@@ -1,15 +1,13 @@
-"""
-"manage.py test".
-
-"""
+#!/usr/local/bin/python
+# -*- coding: utf-8 -*-
 
 from django.test import TestCase
 from event_service import get_current_tags, get_upcomming_published_events_query_set
 
 
-class SimpleTest(TestCase):
+class EventTest(TestCase):
     
-    fixtures = ['fixture.json']
+    fixtures = ['test-utils/fixture.json']
     
     def test_tags(self):
         it = get_current_tags()

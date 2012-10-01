@@ -5,3 +5,4 @@ techism.sqlite
 .project
 .pydevproject
 .settings
+fixture.json
