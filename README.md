@@ -9,20 +9,31 @@
 
 ##Development
 
-Entwicklungsserver starten:
+Start local development server:
 
     (venv)$ python manage.py runserver
 
-Oder:
+or
 
     (venv)$ gunicorn_django techism
 
-Dependencies speichern:
+Save dependencies:
 
     (venv)$ pip freeze > dependencies.pip
 
 ##Deployment
 
-    $ git remote add prod git@www.techism.de:techism
-    $ git push prod master
+Create another virtualenv and install Fabric:
 
+    $ virtualenv --no-site-packages venv-deploy
+    $ pip install Fabric
+    $ source venv-deploy/bin/activate
+    (venv-deploy)$ pip install Fabric
+
+Deploy to test environment:
+
+    (venv-deploy)$ fab deploy_test
+
+Deploy to production environment:
+
+    (venv-deploy)$ fab deploy_prod
