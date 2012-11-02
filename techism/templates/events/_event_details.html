@@ -10,6 +10,10 @@
         </section>
     </header>
     <section class="detail">
+        <section>
+            <a class="url" href="{{ event.get_absolute_url }}">Link zu dieser Detailseite</a>
+        </section>
+
         <section class="what">
             <h3>Was</h3>
             <div class="description">{{ event.description|linebreaks }}</div>

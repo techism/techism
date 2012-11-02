@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from techism import utils
+from django.utils.encoding import iri_to_uri
 
 class Location(models.Model):
     name = models.CharField(max_length=200)
@@ -50,7 +52,12 @@ class Event(models.Model):
     
     def __unicode__(self):
         return self.title
-
+    
+    @models.permalink
+    def get_absolute_url(self):
+        value = utils.slugify(self.title)
+        return ("techism.events.views.details", [iri_to_uri("%s-%s" % (value, self.id))])
+    
 class ChangeType:
     CREATED = 'C'
     UPDATED = 'U'
