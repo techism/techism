@@ -6,7 +6,7 @@ from event_service import get_current_tags, get_upcomming_published_events_query
 from techism.models import Event
 
 
-class EventTest(TestCase):
+class EventServiceTest(TestCase):
     
     fixtures = ['test-utils/fixture.json']
     
@@ -27,6 +27,11 @@ class EventTest(TestCase):
     def test_upcomming_events(self):
         events = get_upcomming_published_events_query_set()
         self.assertEqual(events.count(), 2)
+
+
+class EventViewsTest(TestCase):
+    
+    fixtures = ['test-utils/fixture.json']
 
     def test_view_index_root(self):
         response = self.client.get('/')
