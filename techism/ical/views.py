@@ -5,11 +5,12 @@ from django.shortcuts import get_object_or_404
 from techism.events import event_service
 from techism.ical import ical_service
 from techism.models import Event
-from datetime import datetime, timedelta
+from datetime import timedelta
+from django.utils import timezone
 
 
 def ical(request):
-    ninety_days = datetime.utcnow() + timedelta(days=90)
+    ninety_days = timezone.now() + timedelta(days=90)
     event_list = event_service.get_upcomming_published_events_query_set().filter(date_time_begin__lte=ninety_days).order_by('date_time_begin')
     cal = ical_service.create_calendar_with_metadata(event_list, request)
     response = create_httpresponse(cal.as_string())

@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from django.test import TestCase
+from django.utils import timezone
 from techism.ical import ical_service
 from techism.models import Event
 from django.test.client import RequestFactory
@@ -28,7 +29,7 @@ class IcalServiceTest(TestCase):
         self.assertIn("END:VCALENDAR", ical_string)
     
     def test_create_ical_entry(self):
-        tomorrow = (datetime.date.today() + datetime.timedelta(days=1)).strftime("%Y%m%d")
+        tomorrow = (timezone.now() + datetime.timedelta(days=1)).strftime("%Y%m%d")
         event = Event.objects.get(id=1)
         request = RequestFactory().get('/feed.ics')
         entry = ical_service.create_ical_entry(event, request)
