@@ -1,4 +1,3 @@
-from __future__ import with_statement
 from fabric.api import local, prefix, run, cd, env
 from fabric.contrib.console import confirm
 from fabric.contrib.files import exists
