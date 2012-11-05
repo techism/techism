@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% load media %}
+
+{% block head %}
+    <title>Techism - Create new Event</title>
+    <meta name="description" content="Techism - Create new Event" />
+    <meta name="keywords" content="techism create event" />
+{% endblock %}
+
+
+{% block content %}
+    <div id="content">
+        <div id="create" class="content">
+            {% if not user.is_authenticated %}
+                <div id="message">
+                    <h1>Event hinzufügen</h1>
+                    <p>Bitte beachten!</p>
+                    <ul>
+                        <li>Unser Fokus sind <strong>Treffen</strong>, <strong>Vorträge</strong> und <strong>Konferenzen</strong> aus dem <strong>Open Source</strong>, <strong>User Group</strong> und <strong>DIY</strong> Umfeld</li>
+                        <li>Veranstalungen mit Teilnahmebeschränkungen und Kosten >150€ werden in der Regel nicht aufgenommen.</li>
+                        <li>Neue Events werden erst nach einem Review freigeschaltet. Dies ist leider nötig um "Spam"-Listungen zu vermeiden. Nach einigen erfolgreichen Eintragungen entfällt der Review Prozess.</li> 
+                    </ul>
+                    <p>Eine Anmeldung ist optional und ermöglichst das nachträgliche Editieren und Löschen deiner angelegten Events &raquo; <a href="/accounts/login/">Hier anmelden</a></p>
+                </div>
+            {% endif %}
+            <form action="" method="post">
+                {% csrf_token %}
+                {{ form.id }}
+                <div id="what">
+                    <div class="row">
+                      <h3>Was</h3>
+                    </div>
+                    <div class="row">
+                      {{ form.title.label_tag }} {{ form.title.errors }} 
+                      {{ form.title }}
+                    </div>
+                    <div class="row">
+                    {{ form.url.label_tag }} {{ form.url.errors }}
+                      {{ form.url }}
+                    </div>
+                    <div class="row">
+                    {{ form.description.label_tag }} {{ form.description.errors }}
+                      {{ form.description  }}
+                    </div>
+                    <div class="row">
+                      {{ form.tags.label_tag }} (Komma getrennt) {{ form.tags.errors }}
+                      {{ form.tags }}
+                    </div>
+                </div>
+                <div id="when">
+                    <div class="row"><h3>Wann</h3></div>
+                    <div class="row" id="shortform">
+                      {{ form.date_time_begin.label_tag }} {{ form.date_time_begin.errors }}
+                      <div>{{ form.date_time_begin }} (HH:mm) Uhr</div>
+                    </div>
+                    <div class="row" id="shortform">
+                      {{ form.date_time_end.label_tag }} {{ form.date_time_end.errors }}
+                      <div>{{ form.date_time_end }} (HH:mm) Uhr</div>
+                  </div>
+                </div>
+                <div id="where">
+                    <div class="row"><h3>Wo</h3></div> 
+                    <div class="row">
+                        <label>Veranstaltungsort wählen</label>
+                        {{ form.location }}     
+                    </div>
+                    <div class="row"><p><strong>oder</strong></p></div>
+                    <div class="row">Neuen Veranstaltungsort anlegen</div><br>
+                    <div class="row">
+                        {{ form.location_name.label_tag }} {{ form.location_name.errors }}
+                        {{ form.location_name }}
+                    </div>
+                    <div class="row">
+                        {{ form.location_street.label_tag }} {{ form.location_street.errors }}
+                        {{ form.location_street }}
+                    </div>
+                    <div class="row">
+                        {{ form.location_city.label_tag }} {{ form.location_city.errors }}
+                        {{ form.location_city }}
+                    </div>
+                    <p>
+                        <div class="row submit">
+                            <input id="id_location_show_in_map" onclick="displayLocation(id_{{ form.location_street.html_name }}.value, id_{{ form.location_city.html_name }}.value)" type="button" value="Adresse in Google Maps anzeigen">
+                        </div>
+                    </p>
+                </div>
+                <div id="map_canvas"></div>
+                <div class="row submit"><p><input type="submit" value="{{ button_label }}" /></p></div> 
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+  <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+  {% include_media 'events-create.js' %}
+{% endblock %}
