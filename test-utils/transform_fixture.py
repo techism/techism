@@ -2,10 +2,12 @@
 # -*- coding: utf-8 -*-
 import re
 import datetime
+import pytz
 
 def replace_date(pattern, days_offset, text):
     p = re.compile(pattern)
-    date = datetime.date.today() + datetime.timedelta(days=days_offset)
+    today = datetime.datetime.utcnow().replace(tzinfo=pytz.utc)
+    date = today + datetime.timedelta(days=days_offset)
     str = date.strftime("%Y-%m-%d")
     result = p.sub(str, text)
     return result
