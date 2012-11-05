@@ -46,7 +46,7 @@ class EventViewsTest(TestCase):
         self.assertIsNotNone(response.context['event_list'])
         self.assertEqual(response.context['event_list']().count(), 2)
         self.assertIsNotNone(response.context['tags'])
-        
+
     def test_view_details(self):
         response = self.client.get('/events/1/')
         self.assertEqual(response.status_code, 200)
@@ -60,5 +60,7 @@ class EventViewsTest(TestCase):
         self.assertIsNotNone(response.context['event'])
         self.assertEqual(response.context['event'], Event.objects.get(id=1))
         self.assertIsNotNone(response.context['tags'])
-        
-        
+
+    def test_view_details_of_nonexisting_event(self):
+        response = self.client.get('/events/1234567890/')
+        self.assertEqual(response.status_code, 404)

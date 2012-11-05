@@ -1,6 +1,6 @@
 #!/usr/local/bin/python
 # -*- coding: utf-8 -*-
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from techism.events import event_service
 from techism.models import Event
@@ -23,7 +23,7 @@ def details(request, event_id):
         event_id = splitted_event_id[1]
     
     tags = event_service.get_current_tags()
-    event = Event.objects.get(id=event_id)
+    event = get_object_or_404(Event, id=event_id)
     return render_to_response(
         'events/details.html',
         {

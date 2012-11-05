@@ -21,6 +21,10 @@ Save dependencies:
 
     (venv)$ pip freeze > dependencies.pip
 
+Run tests:
+
+    (venv)$ ./manage.py test techism events ical
+
 ##Deployment
 
 Create another virtualenv and install Fabric:
