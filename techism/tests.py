@@ -1,11 +1,49 @@
 #!/usr/local/bin/python
 # -*- coding: utf-8 -*-
 
-import unittest
+from django.test import TestCase
 from techism import utils
+from techism.models import Event
 import datetime
+from django.utils import timezone
 
-class Test(unittest.TestCase):
+class ModelsTest(TestCase):
+    
+    def test_get_number_of_days_with_no_end_date(self):
+        event = Event(date_time_begin = datetime.datetime(2012, 1, 1, 19, 0, 0, 0, timezone.utc))
+        self.assertEqual(0, event.get_number_of_days())
+
+    def test_get_number_of_days_with_end_date_within_24_hours(self):
+        event = Event(date_time_begin = datetime.datetime(2012, 1, 1, 19, 0, 0, 0, timezone.utc),
+                      date_time_end = datetime.datetime(2012, 1, 1, 22, 0, 0, 0, timezone.utc))
+        self.assertEqual(0, event.get_number_of_days())
+        event = Event(date_time_begin = datetime.datetime(2012, 1, 1, 19, 0, 0, 0, timezone.utc),
+                      date_time_end = datetime.datetime(2012, 1, 2, 18, 30, 0, 0, timezone.utc))
+        self.assertEqual(0, event.get_number_of_days())
+        
+    def test_get_number_of_days_with_end_date_more_than_24_hours(self):
+        event = Event(date_time_begin = datetime.datetime(2012, 1, 1, 19, 0, 0, 0, timezone.utc),
+                      date_time_end = datetime.datetime(2012, 1, 2, 19, 0, 0, 0, timezone.utc))
+        self.assertEqual(1, event.get_number_of_days())
+        event = Event(date_time_begin = datetime.datetime(2012, 1, 1, 19, 0, 0, 0, timezone.utc),
+                      date_time_end = datetime.datetime(2012, 1, 2, 22, 00, 0, 0, timezone.utc))
+        self.assertEqual(1, event.get_number_of_days())
+        event = Event(date_time_begin = datetime.datetime(2012, 1, 1, 19, 0, 0, 0, timezone.utc),
+                      date_time_end = datetime.datetime(2012, 1, 5, 22, 00, 0, 0, timezone.utc))
+        self.assertEqual(4, event.get_number_of_days())
+        
+
+    def _test_tz(self):
+        now = datetime.datetime.utcnow()
+        print now
+        print now.tzinfo
+        from django.utils import timezone
+        now = timezone.now()
+        print now
+        print now.tzinfo
+
+    
+class UtilsTest(TestCase):
 
     def test_localize_none(self):
         dt = None
@@ -39,3 +77,4 @@ class Test(unittest.TestCase):
     def test_slugify(self):
         slugified = utils.slugify(u'A string with\twhitespace, upper case, unicode (ä).')
         self.assertEqual(slugified, "a-string-with-whitespace-upper-case-unicode-a")
+

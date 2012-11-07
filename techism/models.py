@@ -58,6 +58,13 @@ class Event(models.Model):
         value = utils.slugify(self.title)
         return ("techism.events.views.details", [iri_to_uri("%s-%s" % (value, self.id))])
     
+    def get_number_of_days(self):
+        if self.date_time_end is None: 
+            return 0;
+        else:
+            delta = self.date_time_end - self.date_time_begin
+            return delta.days
+    
 class ChangeType:
     CREATED = 'C'
     UPDATED = 'U'

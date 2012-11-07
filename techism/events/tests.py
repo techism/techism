@@ -4,6 +4,11 @@
 from django.test import TestCase
 from event_service import get_current_tags, get_upcomming_published_events_query_set
 from techism.models import Event
+from templatetags import web_tags
+import pytz
+import datetime
+from django.utils import timezone
+from techism import utils
 
 
 class EventServiceTest(TestCase):
@@ -53,6 +58,7 @@ class EventViewsTest(TestCase):
         self.assertIsNotNone(response.context['event'])
         self.assertEqual(response.context['event'], Event.objects.get(id=1))
         self.assertIsNotNone(response.context['tags'])
+        self.assertIn("Morgen", response.content)
 
     def test_view_details_slugified(self):
         response = self.client.get('/events/a-b-c-1/')
@@ -60,7 +66,78 @@ class EventViewsTest(TestCase):
         self.assertIsNotNone(response.context['event'])
         self.assertEqual(response.context['event'], Event.objects.get(id=1))
         self.assertIsNotNone(response.context['tags'])
+        self.assertIn("Morgen", response.content)
 
     def test_view_details_of_nonexisting_event(self):
         response = self.client.get('/events/1234567890/')
         self.assertEqual(response.status_code, 404)
+
+class WebTagsTest(TestCase):
+
+    def test_yesterday(self):
+        tomorrow_local = timezone.localtime(timezone.now()) + datetime.timedelta(days=-1)
+        tomorrow_utc = tomorrow_local.astimezone(pytz.utc)
+        display = web_tags.display_date(tomorrow_utc)
+        self.assertNotIn(u'Heute', display)
+        self.assertNotIn(u'Morgen', display)
+        self.assertNotIn(u'Übermorgen', display)
+    
+    def test_today(self):
+        today_local = timezone.localtime(timezone.now())
+        today_utc = today_local.astimezone(pytz.utc)
+        display = web_tags.display_date(today_utc)
+        self.assertIn("Heute", display)
+        
+        today_local = today_local.replace(hour=0, minute=0, second=0)
+        today_utc = today_local.astimezone(pytz.utc)
+        display = web_tags.display_date(today_utc)
+        self.assertIn(u"Heute", display)
+
+        today_local = today_local.replace(hour=23, minute=59, second=59)
+        today_utc = today_local.astimezone(pytz.utc)
+        display = web_tags.display_date(today_utc)
+        self.assertIn(u'Heute', display)
+        
+    
+    def test_tomorrow(self):
+        tomorrow_local = timezone.localtime(timezone.now()) + datetime.timedelta(days=1)
+        tomorrow_utc = tomorrow_local.astimezone(pytz.utc)
+        display = web_tags.display_date(tomorrow_utc)
+        self.assertIn(u'Morgen', display)
+        
+        tomorrow_local = tomorrow_local.replace(hour=0, minute=0, second=0)
+        tomorrow_utc = tomorrow_local.astimezone(pytz.utc)
+        display = web_tags.display_date(tomorrow_utc)
+        self.assertIn(u'Morgen', display)
+
+        tomorrow_local = tomorrow_local.replace(hour=23, minute=59, second=59)
+        tomorrow_utc = tomorrow_local.astimezone(pytz.utc)
+        display = web_tags.display_date(tomorrow_utc)
+        self.assertIn(u'Morgen', display)
+        
+        
+    def test_day_after_tomorrow(self):
+        tomorrow_local = timezone.localtime(timezone.now()) + datetime.timedelta(days=2)
+        tomorrow_utc = tomorrow_local.astimezone(pytz.utc)
+        display = web_tags.display_date(tomorrow_utc)
+        self.assertIn(u'Übermorgen', display)
+
+        tomorrow_local = tomorrow_local.replace(hour=0, minute=0, second=0)
+        tomorrow_utc = tomorrow_local.astimezone(pytz.utc)
+        display = web_tags.display_date(tomorrow_utc)
+        self.assertIn(u'Übermorgen', display)
+        
+        tomorrow_local = tomorrow_local.replace(hour=23, minute=59, second=59)
+        tomorrow_utc = tomorrow_local.astimezone(pytz.utc)
+        display = web_tags.display_date(tomorrow_utc)
+        self.assertIn(u'Übermorgen', display)
+
+    
+    def test_three_days(self):
+        tomorrow_local = timezone.localtime(timezone.now()) + datetime.timedelta(days=3)
+        tomorrow_utc = tomorrow_local.astimezone(pytz.utc)
+        display = web_tags.display_date(tomorrow_utc)
+        self.assertNotIn(u'Heute', display)
+        self.assertNotIn(u'Morgen', display)
+        self.assertNotIn(u'Übermorgen', display)
+    

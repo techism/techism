@@ -1,4 +1,6 @@
 {% load staticfiles %}
+{% load web_tags %}
+{% load tz %}
 <article class="vevent">
     <header>
         <section class="header-content">
@@ -7,6 +9,14 @@
                     <a id="{{ event.id }}_event" href="#event">{{ event.title }}</a>
                 </h2>
             </div>
+            <div class="date">
+                <div class="box">{{ event.date_time_begin|display_date }}</div>
+            </div>
+            {% if event.get_number_of_days > 1 %}
+            <div class="date">
+                <div class="box">{{ event.get_number_of_days }} Tage</div>
+            </div>
+            {% endif %}
         </section>
     </header>
     <section class="detail">
@@ -21,12 +31,30 @@
                 <img src="{% static 'images/world_link.png' %}"> <a target="_blank" href="{{ event.url }}">Webseite
                     des Veranstalters</a>
             </p>
+            <p class="ical">
+                <img src="{% static 'images/date.png' %}"> <a href="/ical/{{ event.id }}.ics">iCal Export</a><br />
+                <img src="{% static 'images/date.png' %}"> <a
+                    href="webcal://{{ request.get_host }}/ical/{{ event.id }}.ics">WebCal</a>
+            </p>
             <p class="tags">
                 {% for tag in event.tags.all %} <a href="#">{{ tag.name }}</a> {% endfor %}
             </p>
         </section>
         <section class="when">
             <h3>Wann</h3>
+            <p class="date">
+                <div class="dtstart">{{ event.date_time_begin|date:"c" }}</div>
+                {{ event.date_time_begin|display_date }}
+
+                {% if event.date_time_end %} bis
+                  <div class="dtend"> {{ event.date_time_end|date:"c" }}</div>
+				  {% if event.date_time_begin|localtime|date:"YMd" != event.date_time_end|localtime|date:"YMd" %}
+					   {{ event.date_time_end|display_date }}
+					{% else %}
+					   {{ event.date_time_end|time:"H:i" }}
+					{% endif %}
+                {% endif %}
+            </p>
         </section>
         <section class="where">
             <h3>Wo</h3>
