@@ -7,8 +7,13 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     (r'^$', 'techism.events.views.index'),
+    
+    #events
     (r'^events/$', 'techism.events.views.index'),
     (r'^events/(?P<event_id>.+)/$', 'techism.events.views.details'),
+    (r'^events/create/$', 'techism.events.views.create'),
+    
+    # orgs
     
     # static pages
     (r'^impressum/$', direct_to_template, { 'template': 'impressum.html' }),
