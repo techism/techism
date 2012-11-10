@@ -59,6 +59,7 @@ class EventViewsTest(TestCase):
         self.assertEqual(response.context['event'], Event.objects.get(id=1))
         self.assertIsNotNone(response.context['tags'])
         self.assertIn("Morgen", response.content)
+        self.assertIn("webcal://testserver/ical/1.ics", response.content)
 
     def test_view_details_slugified(self):
         response = self.client.get('/events/a-b-c-1/')
@@ -67,6 +68,7 @@ class EventViewsTest(TestCase):
         self.assertEqual(response.context['event'], Event.objects.get(id=1))
         self.assertIsNotNone(response.context['tags'])
         self.assertIn("Morgen", response.content)
+        self.assertIn("webcal://testserver/ical/1.ics", response.content)
 
     def test_view_details_of_nonexisting_event(self):
         response = self.client.get('/events/1234567890/')

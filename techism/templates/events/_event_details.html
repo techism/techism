@@ -34,7 +34,7 @@
             <p class="ical">
                 <img src="{% static 'images/date.png' %}"> <a href="/ical/{{ event.id }}.ics">iCal Export</a><br />
                 <img src="{% static 'images/date.png' %}"> <a
-                    href="webcal://{{ request.get_host }}/ical/{{ event.id }}.ics">WebCal</a>
+                    href="webcal://{{ hostname }}/ical/{{ event.id }}.ics">WebCal</a>
             </p>
             <p class="tags">
                 {% for tag in event.tags.all %} <a href="#">{{ tag.name }}</a> {% endfor %}

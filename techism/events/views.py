@@ -12,7 +12,8 @@ def index(request):
         'events/index.html',
         {
             'event_list': event_list,
-            'tags': tags
+            'tags': tags,
+            'hostname': request.get_host()
         },
         context_instance=RequestContext(request))
 
@@ -28,6 +29,10 @@ def details(request, event_id):
         'events/details.html',
         {
             'event': event,
-            'tags': tags
+            'tags': tags,
+            'hostname': request.get_host()
         },
         context_instance=RequestContext(request))
+
+def create(request):
+    pass
