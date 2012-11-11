@@ -3,6 +3,7 @@
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from techism.events import event_service
+from techism.events.forms import EventForm
 from techism.models import Event
 
 def index(request):
@@ -34,5 +35,16 @@ def details(request, event_id):
         },
         context_instance=RequestContext(request))
 
-def create(request):
-    pass
+
+def create(request, event_id=None):
+    button_label = u'Event hinzuf\u00FCgen'
+    
+    form = EventForm()
+    
+    return render_to_response(
+        'events/create.html',
+        {
+            'form': form,
+            'button_label': button_label
+        },
+        context_instance=RequestContext(request))
