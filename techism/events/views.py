@@ -37,7 +37,7 @@ def details(request, event_id):
 
 
 def create(request, event_id=None):
-    button_label = u'Event hinzuf\u00FCgen'
+    mode = 'CREATE'
     
     form = EventForm()
     
@@ -45,6 +45,6 @@ def create(request, event_id=None):
         'events/create.html',
         {
             'form': form,
-            'button_label': button_label
+            'mode': mode
         },
         context_instance=RequestContext(request))

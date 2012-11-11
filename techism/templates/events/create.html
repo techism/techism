@@ -84,7 +84,9 @@
                     </p>
                 </div>
                 <div id="map_canvas"></div>
-                <div class="row submit"><p><input type="submit" value="{{ button_label }}" /></p></div> 
+                {% if mode == 'CREATE' %}
+                    <div class="row submit"><p><input type="submit" value="Event hinzuf&uuml;gen" /></p></div> 
+                {% endif %}
             </form>
         </div>
     </div>
