@@ -10,6 +10,7 @@ urlpatterns = patterns('',
     
     #events
     (r'^events/$', 'techism.events.views.index'),
+    (r'^events/tags/(?P<tag_name>.+)/$', 'techism.events.views.tag'),
     (r'^events/create/$', 'techism.events.views.create'),
     (r'^events/(?P<event_id>.+)/$', 'techism.events.views.details'),
     
