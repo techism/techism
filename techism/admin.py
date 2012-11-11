@@ -3,6 +3,10 @@
 from techism.models import Event, EventTag, EventChangeLog, Location, Organization, OrganizationTag
 from django.contrib import admin
 
+class LocationAdmin(admin.ModelAdmin):
+    search_fields = ['name']
+    list_display = ['name', 'street', 'city', 'latitude', 'longitude']
+
 class EventAdmin(admin.ModelAdmin):
     search_fields = ['title']
     list_filter = ['published', 'archived']
@@ -21,6 +25,7 @@ class OrganizationTagAdmin(admin.ModelAdmin):
     list_display = ['name']
     
     
+admin.site.register(Location, LocationAdmin)
 admin.site.register(Event, EventAdmin)
 admin.site.register(EventTag, EventTagAdmin)
 admin.site.register(Organization, OrganizationAdmin)

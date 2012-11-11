@@ -21,20 +21,22 @@
     </header>
     <section class="detail">
         <section>
-            <a class="url" href="{{ event.get_absolute_url }}">Link zu dieser Detailseite</a>
+            <a class="url" href="{{ event.get_absolute_url }}"><img src="{% static 'images/world_link.png' %}">
+                Permalink</a>
         </section>
 
         <section class="what">
             <h3>Was</h3>
             <div class="description">{{ event.description|linebreaks }}</div>
             <p>
-                <img src="{% static 'images/world_link.png' %}"> <a target="_blank" href="{{ event.url }}">Webseite
-                    des Veranstalters</a>
+                <a target="_blank" href="{{ event.url }}"><img src="{% static 'images/world_link.png' %}">
+                    Webseite des Veranstalters</a>
             </p>
             <p class="ical">
-                <img src="{% static 'images/date.png' %}"> <a href="/ical/{{ event.id }}.ics">iCal Export</a><br />
-                <img src="{% static 'images/date.png' %}"> <a
-                    href="webcal://{{ hostname }}/ical/{{ event.id }}.ics">WebCal</a>
+                <a href="/ical/{{ event.id }}.ics"><img src="{% static 'images/date.png' %}"> iCal Export</a><br />
+                <a href="webcal://{{ hostname }}/ical/{{ event.id }}.ics"> <img src="{% static 'images/date.png' %}">
+                    WebCal
+                </a>
             </p>
             <p class="tags">
                 {% for tag in event.tags.all %} <a href="#">{{ tag.name }}</a> {% endfor %}
@@ -42,7 +44,7 @@
         </section>
         <section class="when">
             <h3>Wann</h3>
-            <p class="date">
+            <div class="date">
                 <div class="dtstart">{{ event.date_time_begin|date:"c" }}</div>
                 {{ event.date_time_begin|display_date }}
 
@@ -54,10 +56,19 @@
 					   {{ event.date_time_end|time:"H:i" }}
 					{% endif %}
                 {% endif %}
-            </p>
+            </div>
         </section>
-        <section class="where">
+        <section class="where" id="event{{ event.id }}">
+            {% if event.location.name and event.location.street and event.location.city %}
             <h3>Wo</h3>
+            <div class="location">{{event.location.name}}, {{event.location.street}}, {{event.location.city}}</div>
+            <p>
+            <a href="http://www.openstreetmap.org/?mlat={{event.location.latitude|urlencode}}&mlon={{event.location.longitude|urlencode}}&zoom=17">
+                <img src="{% static 'images/osm.png' %}"> Location in OpenStreetMap anzeigen</a><br> 
+            <a href="http://maps.google.de/maps?q={{event.location.latitude|urlencode}},{{event.location.longitude|urlencode}} ({{event.location.street|urlencode}}, {{event.location.city|urlencode}})&z=17">
+                <img src="{% static 'images/googlemaps.png' %}"> Location in Google Maps anzeigen</a><br>
+            </p>
+            {% endif %}
         </section>
     </section>
 </article>

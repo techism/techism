@@ -1,0 +1,4 @@
+$(function() {
+	$(".detail").each(renderEventDetailMap)
+});
+

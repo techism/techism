@@ -8,7 +8,6 @@ body {
   background-color: #000000;
   background: url("../images/head_spotlight.png") no-repeat 0px -50px, #232323 url("../images/bg_noise.gif") repeat;
 }
-.where img { width: 100%; }
 #admin {
   background-color: #ffffff;
   opacity: 0.3;
