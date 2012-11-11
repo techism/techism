@@ -39,7 +39,9 @@
                 </a>
             </p>
             <p class="tags">
-                {% for tag in event.tags.all %} <a href="#">{{ tag.name }}</a> {% endfor %}
+                {% for tag in event.tags.all %}
+                    <a {% ifequal tag_name tag.name %}class="selected"{% endifequal %} href="/events/tags/{{ tag.name }}/">{{ tag.name }}</a>
+                {% endfor %}
             </p>
         </section>
         <section class="when">

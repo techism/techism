@@ -3,7 +3,7 @@
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from techism.events import event_service
-from techism.models import Event
+from techism.models import Event, EventTag
 
 def index(request):
     event_list = event_service.get_upcomming_published_events_query_set
@@ -36,3 +36,16 @@ def details(request, event_id):
 
 def create(request):
     pass
+
+def tag(request, tag_name):
+    tag = get_object_or_404(EventTag, name=tag_name)
+    event_list = event_service.get_upcomming_published_events_query_set().filter(tags=tag).order_by('date_time_begin')
+    tags = event_service.get_current_tags()
+    return render_to_response(
+        'events/index.html', 
+        {
+            'event_list': event_list, 
+            'tags': tags, 
+            'tag_name': tag_name
+        }, 
+        context_instance=RequestContext(request))
