@@ -1,4 +1,5 @@
 from fabric.api import local, prefix, run, cd, env
+from fabric.utils import abort
 from fabric.contrib.console import confirm
 from fabric.contrib.files import exists
 from contextlib import contextmanager as _contextmanager
@@ -10,6 +11,8 @@ BASE_DIR = "/srv/www"
 GIT_REPO_DIR = "techism.git"
 TEST_DIR = "techism-test"
 PROD_DIR = "techism-prod"
+PROD_BLUE_DIR = "techism-prod-blue"
+PROD_GREEN_DIR = "techism-prod-green"
 DB_FILENAME = "techism.sqlite"
 
 def _git_push():
@@ -43,6 +46,11 @@ def _manage_test_db(target_dir):
         if not exists(DB_FILENAME) and exists("../%s/%s" % (PROD_DIR, DB_FILENAME)) and confirm("Copy prod DB?", default=True):
             run("sqlite3 ../%s/%s '.backup %s'" % (PROD_DIR, DB_FILENAME, DB_FILENAME))
 
+def _copy_prod_db(target_dir):
+    with cd(BASE_DIR), cd(target_dir):
+        if exists("../%s/%s" % (PROD_DIR, DB_FILENAME)):
+            run("sqlite3 ../%s/%s '.backup %s'" % (PROD_DIR, DB_FILENAME, DB_FILENAME))
+    
 def _migrate_db(target_dir):
     with cd(BASE_DIR), cd(target_dir):
         with _virtualenv():
@@ -54,6 +62,28 @@ def _collect_static(target_dir):
         with _virtualenv():
             run("./manage.py collectstatic --noinput")
 
+def _create_prod_symlink(next_prod_dir):
+    with cd(BASE_DIR):
+        if exists(PROD_DIR):
+            run("rm %s" % PROD_DIR)
+        run("ln -s %s %s" % (next_prod_dir, PROD_DIR))
+
+def _get_next_prod_dir():
+    with cd(BASE_DIR):
+        if exists(PROD_DIR):
+            # aborts is PROD_DIR is not a link
+            current_prod_dir = run("readlink %s" % PROD_DIR)
+            if current_prod_dir == PROD_BLUE_DIR:
+                return PROD_GREEN_DIR
+            elif current_prod_dir == PROD_GREEN_DIR:
+                return PROD_BLUE_DIR
+            else:
+                abort("Unknown current prod directory: %s" % current_prod_dir)
+        elif exists(PROD_BLUE_DIR) or exists(PROD_GREEN_DIR):
+            abort("Neither %s nor %s must exist." % (PROD_BLUE_DIR, PROD_GREEN_DIR))
+        else:
+            return PROD_BLUE_DIR
+
 @_contextmanager
 def _virtualenv():
     with prefix("source venv/bin/activate"):
@@ -61,19 +91,23 @@ def _virtualenv():
 
 def deploy_test():
     _git_push()
+    run("sudo supervisorctl stop techism-test")
     _clean_checkout(TEST_DIR)
     _setup_venv(TEST_DIR)
     _manage_test_db(TEST_DIR)
     _migrate_db(TEST_DIR)
     _collect_static(TEST_DIR)
-    run("sudo supervisorctl restart techism-test")
+    run("sudo supervisorctl start techism-test")
     
 def deploy_prod():
     _git_push()
-    _clean_checkout(PROD_DIR)
-    _setup_venv(PROD_DIR)
-    _migrate_db(PROD_DIR)
-    _collect_static(PROD_DIR)
-    run("sudo supervisorctl restart techism-prod")
-
+    next_prod_dir = _get_next_prod_dir()
+    _clean_checkout(next_prod_dir)
+    _setup_venv(next_prod_dir)
+    _copy_prod_db(next_prod_dir)
+    _migrate_db(next_prod_dir)
+    _collect_static(next_prod_dir)
+    run("sudo supervisorctl stop techism-prod")
+    _create_prod_symlink(next_prod_dir)
+    run("sudo supervisorctl start techism-prod")
 
