@@ -25,6 +25,16 @@ Run tests:
 
     (venv)$ ./manage.py test techism events ical rss
 
+Edit test data:
+
+    $ cd test-utils
+    $ vi fixture_template.json
+
+Available Placeholders:
+YESTERDAY
+TOMORROW
+NEXTWEEK
+
 ##Deployment
 
 Create another virtualenv and install Fabric:
