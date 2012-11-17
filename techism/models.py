@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from techism import utils
 from django.utils.encoding import iri_to_uri
+from datetime import datetime
+from django.utils import timezone
 
 class Location(models.Model):
     name = models.CharField(max_length=200)
@@ -64,6 +66,13 @@ class Event(models.Model):
         else:
             delta = self.date_time_end - self.date_time_begin
             return delta.days
+        
+    def update_archived_flag(self):
+        "Updates the 'Archived' flag, depending if the the end date is set or not"
+        if self.date_time_end:
+            self.archived = self.date_time_end < timezone.now()
+        else:   
+            self.archived = self.date_time_begin < timezone.now()
     
 class ChangeType:
     CREATED = 'C'
