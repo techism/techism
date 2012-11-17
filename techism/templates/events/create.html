@@ -81,11 +81,12 @@
                     </div>
                     <p>
                         <div class="row submit">
-                            <input id="id_location_show_in_map" onclick="displayLocation(id_{{ form.location_street.html_name }}.value, id_{{ form.location_city.html_name }}.value)" type="button" value="Adresse in Google Maps anzeigen">
+                            <input id="id_location_show_in_map" onclick="displayLocation(id_{{ form.location_street.html_name }}.value, id_{{ form.location_city.html_name }}.value)" 
+                                 type="button" value="Adresse in OpenStreetMap anzeigen">
                         </div>
                     </p>
                 </div>
-                <div class="where"></div>
+                <div id="map_canvas"></div>
                 {% if mode == 'CREATE' %}
                     <div class="row submit"><p><input type="submit" value="Event hinzuf&uuml;gen" /></p></div> 
                 {% endif %}
@@ -95,6 +96,7 @@
 {% endblock %}
 
 {% block scripts %}
+  <script src="{% static 'js/maps.js' %}"></script>
   <script src="{% static 'js/jquery.ui.datepicker-de.js' %}"></script>
   <script src="{% static 'js/jquery-ui-1.9.1.custom.min.js' %}"></script>
   <script src="{% static 'js/events/create.js' %}"></script>
