@@ -1,27 +1,38 @@
 from fabric.api import local, prefix, run, cd, env
+from fabric.context_managers import shell_env
 from fabric.utils import abort
 from fabric.contrib.console import confirm
 from fabric.contrib.files import exists
 from contextlib import contextmanager as _contextmanager
+import datetime
 
 
-env.hosts = ["deploy@next.techism.de:2222"]
+env.hosts = ["techism@next.techism.de:2222"]
 
 BASE_DIR = "/srv/www"
 GIT_REPO_DIR = "techism.git"
-TEST_DIR = "techism-test"
-PROD_DIR = "techism-prod"
-PROD_BLUE_DIR = "techism-prod-blue"
-PROD_GREEN_DIR = "techism-prod-green"
-DB_FILENAME = "techism.sqlite"
+PIP_DOWNLOAD_CACHE_DIR = "pip-download-cache"
+STAGING_DIR = "techism-staging"
+STAGING_BLUE_DIR = "techism-staging-blue"
+STAGING_GREEN_DIR = "techism-staging-green"
+STAGING_SETTINGS = "techism.settings.staging"
+STAGING_WSGI = "techism/settings/staging_wsgi.py"
+STAGING_DB_NAME = "techisms"
+PRODUCTION_DIR = "techism-production"
+PRODUCTION_BLUE_DIR = "techism-production-blue"
+PRODUCTION_GREEN_DIR = "techism-production-green"
+PRODUCTION_SETTINGS = "techism.settings.production"
+PRODUCTION_WSGI = "techism/settings/production_wsgi.py"
+PRODUCTION_DB_NAME = "techismp"
+PRODUCTION_DB_BACKUP_DIR = "/backup/production-db"
 
-def _git_push():
+def __git_push():
     with cd(BASE_DIR):
         if not exists(GIT_REPO_DIR):
             run("git init --bare %s" % GIT_REPO_DIR)
     local("git push --tags ssh://%s@%s:%s%s/%s master" % (env.user, env.host, env.port, BASE_DIR, GIT_REPO_DIR))
 
-def _clean_checkout(target_dir):
+def __clean_checkout(target_dir):
     with cd(BASE_DIR):
         if exists(target_dir):
             with cd(target_dir):
@@ -32,82 +43,95 @@ def _clean_checkout(target_dir):
             run("git clone %s %s" % (GIT_REPO_DIR, target_dir))
         run("chmod 775 %s" % target_dir)
 
-def _setup_venv(target_dir):
-    with cd(BASE_DIR), cd(target_dir):
-        if not exists("venv"):
-            run("virtualenv --no-site-packages --setuptools venv")
-        with _virtualenv():
-            run("pip install --download-cache /srv/www/pip-download-cache -r dependencies.pip")
+def __setup_venv(target_dir):
+    with cd(BASE_DIR):
+        if not exists(PIP_DOWNLOAD_CACHE_DIR):
+            run("mkdir %s" % PIP_DOWNLOAD_CACHE_DIR)
+        with cd(target_dir):
+            if not exists("venv"):
+                run("virtualenv --system-site-packages venv")
+            with __virtualenv():
+                run("pip install --download-cache %s/%s -r dependencies.pip" % (BASE_DIR, PIP_DOWNLOAD_CACHE_DIR))
 
-def _manage_test_db(target_dir):
-    with cd(BASE_DIR), cd(target_dir):
-        if exists(DB_FILENAME) and not confirm("Keep test DB?", default=True): 
-            run("rm techism.sqlite")
-        if not exists(DB_FILENAME) and exists("../%s/%s" % (PROD_DIR, DB_FILENAME)) and confirm("Copy prod DB?", default=True):
-            run("sqlite3 ../%s/%s '.backup %s'" % (PROD_DIR, DB_FILENAME, DB_FILENAME))
+def __manage_staging_db():
+    if confirm("Drop staging DB?", default=False): 
+        run("dropdb %s" % STAGING_DB_NAME)
+        run("createdb -E UTF8 -T template0 %s" % STAGING_DB_NAME)
+        if confirm("Copy production DB?", default=True):
+            run("pg_dump %s | psql %s" % (PRODUCTION_DB_NAME, STAGING_DB_NAME))
 
-def _copy_prod_db(target_dir):
+def __backup_db(db_name):
+    with cd(PRODUCTION_DB_BACKUP_DIR):
+        now = datetime.datetime.utcnow().strftime('%Y-%m-%d-%H-%M-%S')
+        backup_file_name = now + ".pg_dump"
+        run("pg_dump %s > %s" % (db_name, backup_file_name))
+
+def __migrate_db(target_dir, django_settings_module):
     with cd(BASE_DIR), cd(target_dir):
-        if exists("../%s/%s" % (PROD_DIR, DB_FILENAME)):
-            run("sqlite3 ../%s/%s '.backup %s'" % (PROD_DIR, DB_FILENAME, DB_FILENAME))
-    
-def _migrate_db(target_dir):
-    with cd(BASE_DIR), cd(target_dir):
-        with _virtualenv():
+        with __virtualenv(), shell_env(DJANGO_SETTINGS_MODULE=django_settings_module):
             run("./manage.py syncdb")
-            run("chmod 664 %s" % DB_FILENAME)
 
-def _collect_static(target_dir):
+def __run_tests(target_dir, django_settings_module):
     with cd(BASE_DIR), cd(target_dir):
-        with _virtualenv():
-            run("./manage.py collectstatic --noinput")
+        with __virtualenv(), shell_env(DJANGO_SETTINGS_MODULE=django_settings_module):
+            run("./manage.py test techism events ical rss")
 
-def _create_prod_symlink(next_prod_dir):
-    with cd(BASE_DIR):
-        if exists(PROD_DIR):
-            run("rm %s" % PROD_DIR)
-        run("ln -s %s %s" % (next_prod_dir, PROD_DIR))
+def __collect_static(target_dir):
+    with cd(BASE_DIR), cd(target_dir):
+        with __virtualenv():
+            run("./manage.py collectstatic -v 0 --noinput")
 
-def _get_next_prod_dir():
+def __create_active_symlink(next_active_dir, active_dir):
     with cd(BASE_DIR):
-        if exists(PROD_DIR):
-            # aborts is PROD_DIR is not a link
-            current_prod_dir = run("readlink %s" % PROD_DIR)
-            if current_prod_dir == PROD_BLUE_DIR:
-                return PROD_GREEN_DIR
-            elif current_prod_dir == PROD_GREEN_DIR:
-                return PROD_BLUE_DIR
+        if exists(active_dir):
+            run("rm %s" % active_dir)
+        run("ln -s %s %s" % (next_active_dir, active_dir))
+
+def __get_next_active_dir(active_dir, blue_dir, green_dir):
+    with cd(BASE_DIR):
+        if exists(active_dir):
+            # aborts is active dir is not a link
+            current_active_dir = run("readlink %s" % active_dir)
+            if current_active_dir == blue_dir:
+                return green_dir
+            elif current_active_dir == green_dir:
+                return blue_dir
             else:
-                abort("Unknown current prod directory: %s" % current_prod_dir)
-        elif exists(PROD_BLUE_DIR) or exists(PROD_GREEN_DIR):
-            abort("Neither %s nor %s must exist." % (PROD_BLUE_DIR, PROD_GREEN_DIR))
+                abort("Unknown current active directory: %s" % current_active_dir)
+        elif exists(blue_dir) or exists(green_dir):
+            abort("Neither %s nor %s must exist." % (blue_dir, green_dir))
         else:
-            return PROD_BLUE_DIR
+            return blue_dir
+
+def __touch_wsgi(target_dir, wsgi_path):
+    with cd(BASE_DIR), cd(target_dir):
+        run("touch %s" % wsgi_path)
 
 @_contextmanager
-def _virtualenv():
+def __virtualenv():
     with prefix("source venv/bin/activate"):
         yield
 
-def deploy_test():
-    _git_push()
-    run("sudo supervisorctl stop techism-test")
-    _clean_checkout(TEST_DIR)
-    _setup_venv(TEST_DIR)
-    _manage_test_db(TEST_DIR)
-    _migrate_db(TEST_DIR)
-    _collect_static(TEST_DIR)
-    run("sudo supervisorctl start techism-test")
+def deploy_staging():
+    __git_push()
+    next_staging_dir = __get_next_active_dir(STAGING_DIR, STAGING_BLUE_DIR, STAGING_GREEN_DIR)
+    __clean_checkout(next_staging_dir)
+    __setup_venv(next_staging_dir)
+    __run_tests(next_staging_dir, STAGING_SETTINGS)
+    __manage_staging_db()
+    __migrate_db(next_staging_dir, STAGING_SETTINGS)
+    __collect_static(next_staging_dir)
+    __create_active_symlink(next_staging_dir, STAGING_DIR)
+    __touch_wsgi(next_staging_dir, STAGING_WSGI)
     
-def deploy_prod():
-    _git_push()
-    next_prod_dir = _get_next_prod_dir()
-    _clean_checkout(next_prod_dir)
-    _setup_venv(next_prod_dir)
-    _copy_prod_db(next_prod_dir)
-    _migrate_db(next_prod_dir)
-    _collect_static(next_prod_dir)
-    run("sudo supervisorctl stop techism-prod")
-    _create_prod_symlink(next_prod_dir)
-    run("sudo supervisorctl start techism-prod")
+def deploy_production():
+    __git_push()
+    next_prod_dir = __get_next_active_dir(PRODUCTION_DIR, PRODUCTION_BLUE_DIR, PRODUCTION_GREEN_DIR)
+    __clean_checkout(next_prod_dir)
+    __setup_venv(next_prod_dir)
+    __backup_db(PRODUCTION_DB_NAME)
+    __migrate_db(next_prod_dir, PRODUCTION_SETTINGS)
+    __collect_static(next_prod_dir)
+    __create_active_symlink(next_prod_dir, PRODUCTION_DIR)
+    __touch_wsgi(next_prod_dir, PRODUCTION_WSGI)
 

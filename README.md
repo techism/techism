@@ -44,10 +44,10 @@ Create another virtualenv and install Fabric:
     $ source venv-deploy/bin/activate
     (venv-deploy)$ pip install Fabric
 
-Deploy to test environment:
+Deploy to staging environment:
 
-    (venv-deploy)$ fab deploy_test
+    (venv-deploy)$ fab deploy_staging
 
 Deploy to production environment:
 
-    (venv-deploy)$ fab deploy_prod
+    (venv-deploy)$ fab deploy_production
