@@ -4,11 +4,14 @@ import re
 import datetime
 import pytz
 
-def replace_date(pattern, days_offset, text):
+def replace_date(pattern, days_offset, hour, text):
     p = re.compile(pattern)
-    today = datetime.datetime.utcnow().replace(tzinfo=pytz.utc)
-    date = today + datetime.timedelta(days=days_offset)
-    str = date.strftime("%Y-%m-%d")
+    today_utc = datetime.datetime.utcnow().replace(tzinfo=pytz.utc)
+    today_local = today_utc.astimezone(pytz.timezone("Europe/Berlin"))
+    date_local = today_local + datetime.timedelta(days=days_offset)
+    date_local = date_local.replace(hour=hour, minute=0, second=0, microsecond=0)
+    date_utc = date_local.astimezone(pytz.utc)
+    str = date_utc.strftime("%Y-%m-%dT%H:%M:%SZ")
     result = p.sub(str, text)
     return result
     
@@ -17,13 +20,16 @@ in_file = open ('fixture_template.json', 'r')
 text = in_file.read()
 
 #Replace 'YESTERDAY'
-text = replace_date('YESTERDAY', -1, text)
+text = replace_date('YESTERDAY_BEGIN', -1, 19, text)
+text = replace_date('YESTERDAY_END', -1, 22, text)
 
 #Replace 'TOMORROW'
-text = replace_date('TOMORROW', 1, text)
+text = replace_date('TOMORROW_BEGIN', 1, 19, text)
+text = replace_date('TOMORROW_END', 1, 22, text)
 
 #Replace 'NEXTWEEK'
-text = replace_date('NEXTWEEK', 7, text)
+text = replace_date('NEXTWEEK_BEGIN', 7, 19, text)
+text = replace_date('NEXTWEEK_END', 7, 22, text)
 
 
 out_file = open('fixture.json', 'w')
