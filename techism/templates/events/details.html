@@ -2,14 +2,10 @@
 {% load staticfiles %}
 
 {% block head %}
-    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4/leaflet.css" />
+    <link rel="stylesheet" href="{% static 'leaflet-0.4.5/leaflet.css' %}" />
     <!--[if lte IE 8]>
-        <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4/leaflet.ie.css" />
+        <link rel="stylesheet" href="{% static 'leaflet-0.4.5/leaflet.ie.css' %}" />
     <![endif]-->
-    <script src="http://cdn.leafletjs.com/leaflet-0.4/leaflet.js"></script>
-    <script src="{% static 'js/jquery-1.8.2.min.js' %}"></script>
-    <script src="{% static 'js/maps.js' %}"></script>
-    <script src="{% static 'js/events/details.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -28,4 +24,10 @@
 
 {% include "events/_tagcloud.html" %}
 
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'leaflet-0.4.5/leaflet.js' %}"></script>
+    <script src="{% static 'js/maps.js' %}"></script>
+    <script src="{% static 'js/events/details.js' %}"></script>
 {% endblock %}
