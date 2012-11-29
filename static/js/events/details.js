@@ -1,4 +1,4 @@
 $(function() {
-	$(".detail").each(renderEventDetailMap);
+	$(".detail").each(Techism.Map.renderEventDetailMap);
 });
 

@@ -8,7 +8,7 @@ $(document).ready(function(){
       $(this)
         .parent()
         .children(".detail")
-        .slideToggle(300, renderEventDetailMap);
+        .slideToggle(300, Techism.Map.renderEventDetailMap);
     });
 
 });
