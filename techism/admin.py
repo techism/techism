@@ -1,6 +1,6 @@
 #!/usr/local/bin/python
 # -*- coding: utf-8 -*-
-from techism.models import Event, EventTag, EventChangeLog, Location, Organization, OrganizationTag
+from techism.models import Event, EventTag, EventChangeLog, Location, Organization, OrganizationTag, Setting
 from django.contrib import admin
 
 class LocationAdmin(admin.ModelAdmin):
@@ -23,6 +23,10 @@ class OrganizationAdmin(admin.ModelAdmin):
 class OrganizationTagAdmin(admin.ModelAdmin):
     search_fields = ['name']
     list_display = ['name']
+
+class SettingAdmin(admin.ModelAdmin):
+    search_fields = ['name']
+    list_display = ['name']
     
     
 admin.site.register(Location, LocationAdmin)
@@ -30,3 +34,4 @@ admin.site.register(Event, EventAdmin)
 admin.site.register(EventTag, EventTagAdmin)
 admin.site.register(Organization, OrganizationAdmin)
 admin.site.register(OrganizationTag, OrganizationTagAdmin)
+admin.site.register(Setting, SettingAdmin)

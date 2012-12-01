@@ -90,4 +90,9 @@ class EventChangeLog(models.Model):
     event_title = models.CharField(max_length=200)
     change_type = models.CharField(max_length=1, choices=ChangeType.Choices)
     date_time = models.DateTimeField(auto_now_add=True)
-          
+
+class Setting(models.Model):
+    name = models.CharField(max_length=200, primary_key=True)
+    value = models.CharField(max_length=500)
+    date_time_created = models.DateTimeField(auto_now_add=True)
+    date_time_modified = models.DateTimeField(auto_now=True)
