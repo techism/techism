@@ -26,7 +26,7 @@ class FeedTest(TestCase):
         self.assertEqual(response['Content-Type'], 'application/rss+xml; charset=utf-8')
         self.assertIn("<rss xmlns:atom=\"http://www.w3.org/2005/Atom\" version=\"2.0\">", response.content)
         self.assertEqual(response.content.count("<item>"), 2)
-        self.assertIn("<title>Java Event - %s</title>" % self.tomorrow_localtime, response.content)
+        self.assertIn("<title>Future event with end date - %s</title>" % self.tomorrow_localtime, response.content)
         self.assertIn("<link>http://testserver%s</link>" % event.get_absolute_url(), response.content)
         self.assertIn("<guid>http://testserver%s</guid>" % event.get_absolute_url(), response.content)
 
@@ -37,7 +37,7 @@ class FeedTest(TestCase):
         self.assertEqual(response['Content-Type'], 'application/atom+xml; charset=utf-8')
         self.assertIn("<feed xmlns=\"http://www.w3.org/2005/Atom\" xml:lang=\"de-DE\">", response.content)
         self.assertEqual(response.content.count("<entry>"), 2)
-        self.assertIn("<title>Java Event - %s</title>" % self.tomorrow_localtime, response.content)
+        self.assertIn("<title>Future event with end date - %s</title>" % self.tomorrow_localtime, response.content)
         self.assertIn("<link href=\"http://testserver%s\" rel=\"alternate\"></link>" % event.get_absolute_url(), response.content)
         self.assertIn("<id>http://testserver%s</id>" % event.get_absolute_url(), response.content)
 

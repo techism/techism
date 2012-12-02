@@ -19,6 +19,13 @@ def replace_date(pattern, days_offset, hour, text):
 in_file = open ('fixture_template.json', 'r')
 text = in_file.read()
 
+#Replace 'NOW'
+now_utc = datetime.datetime.utcnow().replace(tzinfo=pytz.utc)
+begin_utc = now_utc + datetime.timedelta(minutes=-30)
+end_utc = now_utc + datetime.timedelta(minutes=30)
+text = re.compile('NOW_BEGIN').sub(begin_utc.strftime("%Y-%m-%dT%H:%M:%SZ"), text)
+text = re.compile('NOW_END').sub(end_utc.strftime("%Y-%m-%dT%H:%M:%SZ"), text)
+
 #Replace 'YESTERDAY'
 text = replace_date('YESTERDAY_BEGIN', -1, 19, text)
 text = replace_date('YESTERDAY_END', -1, 22, text)

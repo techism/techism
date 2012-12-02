@@ -8,7 +8,7 @@ from techism.models import Event, EventTag
 from django.http import HttpResponseRedirect
 
 def index(request):
-    event_list = event_service.get_upcomming_published_events_query_set
+    event_list = event_service.get_upcomming_published_events_query_set().order_by('date_time_begin').prefetch_related('tags').select_related('location')
     tags = event_service.get_current_tags()
     return render_to_response(
         'events/index.html',
@@ -116,7 +116,7 @@ def __create_or_update_event_with_location (form, user, event):
             event.user=user
     
     # Compute and store the archived flag
-    event.update_archived_flag()
+    #event.update_archived_flag()
     
     event.save()
     

@@ -2,8 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 from techism import utils
 from django.utils.encoding import iri_to_uri
-from datetime import datetime
-from django.utils import timezone
 
 class Location(models.Model):
     name = models.CharField(max_length=200)
@@ -44,7 +42,6 @@ class Event(models.Model):
     description = models.TextField(blank=True, null=True)
     location = models.ForeignKey(Location, blank=True, null=True)
     user = models.ForeignKey(User, blank=True, null=True)
-    archived = models.BooleanField()
     published = models.BooleanField()
     canceled = models.BooleanField()
     date_time_created = models.DateTimeField(auto_now_add=True)
@@ -67,12 +64,6 @@ class Event(models.Model):
             delta = self.date_time_end - self.date_time_begin
             return delta.days
         
-    def update_archived_flag(self):
-        "Updates the 'Archived' flag, depending if the the end date is set or not"
-        if self.date_time_end:
-            self.archived = self.date_time_end < timezone.now()
-        else:   
-            self.archived = self.date_time_begin < timezone.now()
     
 class ChangeType:
     CREATED = 'C'
