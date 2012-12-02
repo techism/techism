@@ -78,3 +78,18 @@ class UtilsTest(TestCase):
         slugified = utils.slugify(u'A string with\twhitespace, upper case, unicode (ä).')
         self.assertEqual(slugified, "a-string-with-whitespace-upper-case-unicode-a")
 
+
+class AccountsViewsTest(TestCase):
+    
+    def test_login_view(self):
+        response = self.client.get('/accounts/login/')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("Login mit Google", response.content)
+        self.assertIn("Login mit Twitter", response.content)
+        self.assertIn("Login mit Yahoo", response.content)
+        self.assertIn("Login mit OpenID", response.content)
+        
+    def test_logout_view(self):
+        response = self.client.get('/accounts/logout/')
+        self.assertRedirects(response, '/')
+     
