@@ -42,7 +42,7 @@ class IcalServiceTest(TestCase):
         request = RequestFactory().get('/feed.ics')
         entry = ical_service.create_ical_entry(event, request)
         ical_string = entry.as_string()
-        self.assertIn("SUMMARY:Java Event", ical_string)
+        self.assertIn("SUMMARY:Future event with end date", ical_string)
         self.assertIn("DTSTART:%s" % dtstart, ical_string)
         self.assertIn("DTEND:%s" % dtend, ical_string)
         self.assertIn("DTSTAMP:", ical_string)
@@ -88,9 +88,11 @@ class IcalViewTest(TestCase):
         self.assertEqual(response['Expires'], 'Fri, 01 Jan 1990 00:00:00 GMT')
         self.assertIn("BEGIN:VCALENDAR", response.content)
         self.assertIn("BEGIN:VEVENT", response.content)
-        self.assertEqual(response.content.count("BEGIN:VEVENT"), 2)
+        self.assertEqual(response.content.count("BEGIN:VEVENT"), 4)
         self.assertIn("UID:1@techism.de", response.content)
         self.assertIn("UID:2@techism.de", response.content)
+        self.assertIn("UID:5@techism.de", response.content)
+        self.assertIn("UID:6@techism.de", response.content)
 
     def test_view_single_event(self):
         response = self.client.get('/ical/1.ics')

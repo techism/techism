@@ -9,8 +9,8 @@ class LocationAdmin(admin.ModelAdmin):
 
 class EventAdmin(admin.ModelAdmin):
     search_fields = ['title']
-    list_filter = ['published', 'archived']
-    list_display = ['title', 'date_time_begin', 'date_time_end', 'location', 'user', 'archived', 'published']
+    list_filter = ['published']
+    list_display = ['title', 'date_time_begin', 'date_time_end', 'location', 'user', 'published']
 
 class EventTagAdmin(admin.ModelAdmin):
     search_fields = ['name']
