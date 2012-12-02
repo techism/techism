@@ -1,0 +1,44 @@
+{% extends "base.html" %} {% load staticfiles %} {% load url from future %} {% block head %}
+<link rel="stylesheet" href="{% static 'zocial-20121201/zocial.css' %}" />
+{% endblock %} {% block content %}
+<div id="content">
+    <div class="content">
+        <h2>Login</h2>
+
+        <h3>Wähle deinen Login Provider:</h3>
+        <p>
+            <a class="zocial google" href="{% url 'socialauth_begin' 'google' %}">Login mit Google</a> <a
+                class="zocial twitter" href="{% url 'socialauth_begin' 'twitter' %}">Login mit Twitter</a> <a
+                class="zocial yahoo" href="{% url 'socialauth_begin' 'yahoo' %}">Login mit Yahoo</a> <a
+                class="zocial openid" href="#">Login mit OpenID</a>
+        </p>
+        <div id="openid">
+            <form action="{% url 'socialauth_begin' 'openid' %}" method="post">
+                {% csrf_token %}
+                <div class="row">
+                    <label for="openid_identifier">Trage deine OpenID ein:</label> <input id="openid_identifier"
+                        type="text" value="" name="openid_identifier" />
+                    <button class="zocial openid" type="submit">Login mit OpenID</button>
+                </div>
+            </form>
+        </div>
+        <p />
+
+        <h3>Warum?</h3>
+        <p>Nach der Anmeldung kannst du folgende Vorteile nutzen:</p>
+        <ul>
+            <li>Angelegte Events können nachträglich geändert und gelöscht werden.</li>
+            <li>Nach mehreren erfolgreichen Eintragungen entfällt der Reviewprozesses.</li>
+        </ul>
+        <p>
+            <strong>Datenschutz:</strong> Bei der Anmeldung speichern wir deinen Namen und E-Mail Adresse ab. Diese
+            Daten werden bei jedem Login aktualisiert. Die Übertragung deiner Daten nach dem Login ist verschlüsselt.
+        </p>
+
+    </div>
+</div>
+{% endblock %} {% block scripts %}
+<script src="{% static 'js/accounts/login.js' %}"></script>
+{% endblock %}
+
+

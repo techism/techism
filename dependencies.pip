@@ -1,4 +1,8 @@
 Django==1.4.2
-wsgiref==0.1.2
+django-social-auth==0.7.10
+httplib2==0.7.7
 icalendar==2.2
+oauth2==1.5.211
+python-openid==2.2.5
 pytz==2012h
+wsgiref==0.1.2

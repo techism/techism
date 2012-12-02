@@ -27,11 +27,14 @@ urlpatterns = patterns('',
     # Atom
     (r'^feeds/atom/upcomming_events$', UpcommingEventsAtomFeed()),
     
-    #RSS
+    # RSS
     (r'^feeds/rss/upcomming_events$', UpcommingEventsRssFeed()),
 
-    # Uncomment the admin/doc line below to enable admin documentation:
-    # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-
+    # Admin
     url(r'^admin/', include(admin.site.urls)),
+    
+    # Login
+    (r'^accounts/login/$', direct_to_template, { 'template': 'accounts/login.html' }),
+    (r'^accounts/logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
+    url(r'^accounts/', include('social_auth.urls')),
 )

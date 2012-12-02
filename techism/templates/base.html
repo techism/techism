@@ -36,6 +36,14 @@
                 <ul>
                     <li><a href="/impressum/">Impressum</a></li>
                     <li><a href="/about/">Über uns</a></li>
+                    {% if user.is_authenticated %}
+                        {% if user.is_superuser %}
+                            <li><a href="/admin/">Admin</a></li> 
+                        {% endif %}
+                        <li><a href="/accounts/logout/">Logout</a></li> 
+                    {% else %}
+                        <li><a href="/accounts/login/">Login</a></li>
+                    {% endif %}
                 </ul>
             </div>
             <div id="right">
