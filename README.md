@@ -23,7 +23,7 @@ Save dependencies:
 
 Run tests:
 
-    (venv)$ ./manage.py test techism events ical rss
+    (venv)$ ./manage.py test techism events ical rss twitter
 
 Edit test data:
 

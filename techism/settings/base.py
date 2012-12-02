@@ -85,6 +85,7 @@ INSTALLED_APPS = (
     'techism.events',
     'techism.ical',
     'techism.rss',
+    'techism.twitter',
     'django.contrib.admin',
     'social_auth',
     # Uncomment the next line to enable admin documentation:
