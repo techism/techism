@@ -269,8 +269,6 @@ input, textarea {
   outline: 0;
   font: normal 13px/100% Verdana, Tahoma, sans-serif;
   width: 90%;
-  background: -webkit-gradient(linear, left top, left 25, from(#ffffff), color-stop(4%, #eeeeee), to(#ffffff));
-  background: -moz-linear-gradient(top, #ffffff, #eeeeee 1px, #ffffff 25px);
   box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 8px;
   -moz-box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 8px;
   -webkit-box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 8px;
