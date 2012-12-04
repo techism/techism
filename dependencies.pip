@@ -7,3 +7,4 @@ python-openid==2.2.5
 pytz==2012h
 wsgiref==0.1.2
 tweepy==1.12
+mock==1.0.1
