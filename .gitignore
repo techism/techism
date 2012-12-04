@@ -1,9 +1,9 @@
 venv/
 venv-deploy/
 *.pyc
-*.py~
 techism.sqlite
 .project
 .pydevproject
 .settings
 fixture.json
+*.*~
