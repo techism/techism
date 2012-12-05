@@ -25,3 +25,19 @@ class SecureRequiredMiddleware(object):
         if path.startswith(self.paths):
             secure_url = settings.HTTPS_URL + request.get_full_path()
             return HttpResponseRedirect(secure_url)
+
+
+#sets the http headers for a Content Security Policy
+class ContentSecurityPolicyMiddlerware(object):
+    def process_response(self, request, response):
+        
+        standard_policy = "default-src 'self';img-src *;" 
+        #header for firefox and Internet Explorer 
+        response['X-Content-Security-Policy']= standard_policy
+        
+        #header for webkit
+        response['X-WebKit-CSP']= standard_policy		
+        #standard header that will be used in future implementations
+        response['Content-Security-Policy']= standard_policy
+        
+        return response
