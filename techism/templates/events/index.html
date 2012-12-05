@@ -15,7 +15,11 @@
             {% include "events/_event_details.html" %}
         {% endfor %}   
     {% else %}
-        <p>No events are available.</p>
+        <article class="vevent">
+            <section>
+                <p>No events are available.</p>
+            </section>
+        </article>
     {% endif %}  
 </section>
 

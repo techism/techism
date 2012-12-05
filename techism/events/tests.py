@@ -3,12 +3,14 @@
 
 from django.test import TestCase
 from event_service import get_current_tags, get_upcomming_published_events_query_set
-from techism.models import Event
+from techism.models import Event, EventTag
 from templatetags import web_tags
 import pytz
 import datetime
 from django.utils import timezone
-from techism import utils
+from forms import EventForm, CommaSeparatedTagsFormField
+from django.core.exceptions import ValidationError
+import json
 
 
 class EventServiceTest(TestCase):
@@ -32,7 +34,8 @@ class EventServiceTest(TestCase):
     def test_upcomming_events(self):
         events = get_upcomming_published_events_query_set()
         self.assertEqual(events.count(), 4)
-
+        
+        
 
 class EventViewsTest(TestCase):
     
@@ -73,6 +76,77 @@ class EventViewsTest(TestCase):
     def test_view_details_of_nonexisting_event(self):
         response = self.client.get('/events/1234567890/')
         self.assertEqual(response.status_code, 404)
+
+    def test_view_get_locations(self):
+        response = self.client.get('/events/locations/')
+        self.assertEqual(response.status_code, 200)
+        data = json.loads(response.content)
+        self.assertEqual(1, len(data))
+        self.assertEqual(6, len(data[0]))
+        self.assertDictEqual({
+                              u'id': u'1',
+                              u'name': u'Marienplatz',
+                              u'street': u'Marienplatz',
+                              u'city': u'80639 München',
+                              u'latitude': u'48.13788',
+                              u'longitude': u'11.575953'
+                              }, data[0])
+        
+        
+
+class EventFormsTest(TestCase):
+    
+    fixtures = ['test-utils/fixture.json']
+    
+    def test_comma_separated_tags_form_field_is_required(self):
+        field = CommaSeparatedTagsFormField(max_length=200, label= u'Tags', required=True)
+        try:
+            field.clean("")
+            self.fail("Must throw ValidationError")
+        except ValidationError:
+            pass
+        
+    def test_comma_separated_tags_form_field_existing_tags(self):
+        python = EventTag.objects.get(name="python")
+        java = EventTag.objects.get(name="java")
+        field = CommaSeparatedTagsFormField(max_length=200, label= u'Tags', required=True)
+        tags = field.clean("python, java")
+        self.assertItemsEqual((python,java), tags)
+        self.assertEqual(4, EventTag.objects.count())
+        
+    def test_comma_separated_tags_form_field_new_tags(self):
+        field = CommaSeparatedTagsFormField(max_length=200, label= u'Tags', required=True)
+        tags = field.clean("foo, bar")
+        self.assertEquals(2, len(tags))
+        self.assertEqual(tags[0], EventTag.objects.get(name="foo"))
+        self.assertEqual(tags[1], EventTag.objects.get(name="bar"))
+        self.assertEqual(6, EventTag.objects.count())
+        
+    def test_comma_separated_tags_form_field_strip_lowercase_filter_empty_and_duplicates(self):
+        field = CommaSeparatedTagsFormField(max_length=200, label= u'Tags', required=True)
+        tags = field.clean("foo, , Foo Bar,, bar, FOO ,")
+        self.assertEquals(3, len(tags))
+        self.assertEqual(tags[0], EventTag.objects.get(name="foo"))
+        self.assertEqual(tags[1], EventTag.objects.get(name="foo bar"))
+        self.assertEqual(tags[2], EventTag.objects.get(name="bar"))
+        self.assertEqual(7, EventTag.objects.count())
+
+    def test_comma_separated_tags_form_field_allowed_characters(self):
+        field = CommaSeparatedTagsFormField(max_length=200, label= u'Tags', required=True)
+        tags = field.clean("foo, a_z-0.9 äöüß")
+        self.assertEquals(2, len(tags))
+        self.assertEqual(tags[0], EventTag.objects.get(name="foo"))
+        self.assertEqual(tags[1], EventTag.objects.get(name="a_z-0.9 äöüß"))
+        self.assertEqual(6, EventTag.objects.count())
+
+    def test_comma_separated_tags_form_field_not_allowed_characters(self):
+        field = CommaSeparatedTagsFormField(max_length=200, label= u'Tags', required=True)
+        try:
+            field.clean("foo, <script>")
+            self.fail("Must throw ValidationError")
+        except ValidationError:
+            pass
+        
 
 class WebTagsTest(TestCase):
 
