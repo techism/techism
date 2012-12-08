@@ -2,13 +2,47 @@
 # -*- coding: utf-8 -*-
 from django.utils import timezone
 from techism.events import event_service
+from techism.models import TweetedEvent
 from datetime import timedelta
 from django.conf import settings
 import urllib
 
+def tweet_upcoming_events():
+    event_list = get_short_term_events()
+    
+    for event in event_list:
+        must_tweet, prefix = __must_tweet_and_prefix(event)
+        if must_tweet:
+            tweet = format_tweet(event, prefix)
+            #todo
+            print tweet
+    raise Exception ("not implemented yet")
+
+
+def __must_tweet_and_prefix(event):
+    # get last tweet
+    tweet = None
+    tweet_list = TweetedEvent.objects.filter(event=event).order_by('-date_time_created')
+    if tweet_list.exists():
+        tweet = tweet_list[0]
+    
+    # determine if we must tweet and the used prefix
+    if event.canceled:
+        if tweet is None or not tweet.tweet.startswith('[Abgesagt] '):
+            return (True, '[Abgesagt] ')
+    else:
+        if tweet is None:
+            return (True, '')
+        elif not tweet.tweet.startswith('[Update] '):
+            cl_list = EventChangeLog.objects.filter(event=event).filter(date_time__gte=tweet.date_time_created).order_by('-date_time')
+            if cl_list.exists():
+                return (True, '[Update] ')
+    
+    return (False, '')
+
 
 def format_tweet(event, prefix):
-    if event.takes_more_than_one_day():
+    if event.get_number_of_days() > 0:
         date_string = event.date_time_begin.strftime("%d.%m.%Y") + "-" + event.date_time_end.strftime("%d.%m.%Y")
     else:
         date_string = event.date_time_begin.strftime("%d.%m.%Y %H:%M")
@@ -24,8 +58,6 @@ def format_tweet(event, prefix):
     tweet = u'%s%s - %s %s' % (prefix, title, date_string, long_url)
     
     return tweet
-
-
 
 
 def get_short_term_events():
