@@ -1,5 +1,5 @@
 [
-{"pk": 1, "model": "techism.location", "fields": {"latitude": 48.13788, "city": "80639 M\u00fcnchen", "street": "Marienplatz", "name": "Marienplatz", "longitude": 11.575953}},
+{"pk": 1, "model": "techism.location", "fields": {"latitude": 48.13788, "city": "80331 M\u00fcnchen", "street": "Marienplatz", "name": "Stadtverwaltung", "longitude": 11.575953}},
 {"pk": 1, "model": "techism.eventtag", "fields": {"name": "test"}}, 
 {"pk": 2, "model": "techism.eventtag", "fields": {"name": "java"}}, 
 {"pk": 3, "model": "techism.eventtag", "fields": {"name": "node.js"}}, 

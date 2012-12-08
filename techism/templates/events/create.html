@@ -77,12 +77,11 @@
                         {{ form.location_city.label_tag }} {{ form.location_city.errors }}
                         {{ form.location_city }}
                     </div>
-                    <p>
-                        <div class="row submit">
-                            <input id="id_location_show_in_map" onclick="displayLocation(id_{{ form.location_street.html_name }}.value, id_{{ form.location_city.html_name }}.value)" 
-                                 type="button" value="Koordinaten auf Karte suchen">
-                        </div>
-                    </p>
+                    <p/>
+                    <div class="row submit">
+                        <input id="id_location_show_in_map" type="button" value="Koordinaten auf Karte suchen">
+                    </div>
+                    <p/>
                 </div>
                 <div id="map_canvas"></div>
                 {% if mode == 'CREATE' %}

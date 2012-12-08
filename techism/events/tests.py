@@ -85,9 +85,9 @@ class EventViewsTest(TestCase):
         self.assertEqual(6, len(data[0]))
         self.assertDictEqual({
                               u'id': u'1',
-                              u'name': u'Marienplatz',
+                              u'name': u'Stadtverwaltung',
                               u'street': u'Marienplatz',
-                              u'city': u'80639 München',
+                              u'city': u'80331 München',
                               u'latitude': u'48.13788',
                               u'longitude': u'11.575953'
                               }, data[0])
