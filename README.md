@@ -40,7 +40,6 @@ NEXTWEEK
 Create another virtualenv and install Fabric:
 
     $ virtualenv --no-site-packages venv-deploy
-    $ pip install Fabric
     $ source venv-deploy/bin/activate
     (venv-deploy)$ pip install Fabric
 
@@ -51,3 +50,7 @@ Deploy to staging environment:
 Deploy to production environment:
 
     (venv-deploy)$ fab deploy_production
+
+There needs to be an SSH key stored on the server.
+
+SSH fingerprint of the server is: 50:09:98:00:60:19:f4:b8:c1:4f:af:35:91:0c:38:d5
