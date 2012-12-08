@@ -6,6 +6,8 @@ from techism import utils
 from techism.models import Event
 import datetime
 from django.utils import timezone
+from django.conf import settings
+from urlparse import urlparse
 
 class ModelsTest(TestCase):
     
@@ -37,7 +39,6 @@ class ModelsTest(TestCase):
         now = datetime.datetime.utcnow()
         print now
         print now.tzinfo
-        from django.utils import timezone
         now = timezone.now()
         print now
         print now.tzinfo
@@ -82,7 +83,16 @@ class UtilsTest(TestCase):
 class AccountsViewsTest(TestCase):
     
     def test_login_view(self):
-        response = self.client.get('/accounts/login/')
+        response = self.client.get('/accounts/login/', follow=True)
+        
+        # if secure path is configured a redirect to https:// is expected
+        if settings.HTTPS_PATHS and '/accounts/' in settings.HTTPS_PATHS:
+            self.assertTrue(response.redirect_chain)
+            self.assertEqual(1, len(response.redirect_chain))
+            self.assertIn('https://', response.redirect_chain[0][0])
+            self.assertEquals(302, response.redirect_chain[0][1])
+        
+        # check to result
         self.assertEqual(response.status_code, 200)
         self.assertIn("Login mit Google", response.content)
         self.assertIn("Login mit Twitter", response.content)
@@ -90,6 +100,10 @@ class AccountsViewsTest(TestCase):
         self.assertIn("Login mit OpenID", response.content)
         
     def test_logout_view(self):
-        response = self.client.get('/accounts/logout/')
-        self.assertRedirects(response, '/')
+        response = self.client.get('/accounts/logout/', follow=True)
+        self.assertTrue(response.redirect_chain)
+        self.assertEqual(response.status_code, 200)
+        target_url = response.redirect_chain[-1][0]
+        url = urlparse(target_url)
+        self.assertEqual('/', url.path)
      

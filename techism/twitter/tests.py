@@ -4,6 +4,7 @@ from django.test import TestCase
 from django.utils import timezone
 import twitter
 import mock
+from django.conf import settings
 
 
 class TwitterTest(TestCase):
@@ -27,7 +28,7 @@ class TwitterTest(TestCase):
         event.get_absolute_url = mock.Mock(return_value='/events/java-event-1')
         event.title = 'Testevent'
         tweet = twitter.format_tweet(event, '')
-        self.assertEqual(tweet, u'Testevent - ' + now_str + ' http://localhost:8000/events/java-event-1')
+        self.assertEqual(tweet, u'Testevent - ' + now_str + ' ' + settings.HTTP_URL + '/events/java-event-1')
 
 
 
