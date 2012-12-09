@@ -1,16 +1,13 @@
-"""
-This file demonstrates writing tests using the unittest module. These will pass
-when you run "manage.py test".
-
-Replace this with more appropriate tests for your application.
-"""
+#!/usr/local/bin/python
+# -*- coding: utf-8 -*-
 
 from django.test import TestCase
+import organization_service
 
+class OrganizationServiceTest(TestCase):
 
-class SimpleTest(TestCase):
-    def test_basic_addition(self):
-        """
-        Tests that 1 + 1 always equals 2.
-        """
-        self.assertEqual(1 + 1, 2)
+    fixtures = ['test-utils/fixture.json']
+    
+    def test_get_all(self):
+        organizations_list = organization_service.get_all()
+        self.assertEqual(len(organizations_list), 2)

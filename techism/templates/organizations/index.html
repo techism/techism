@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <title>Techism - {{ tag_name|default:'Events, Projekte, User Groups in München!' }}</title>
+    <meta name="description" content="Techism - {{ tag_name|default:'Events, Projekte, User Groups in München!' }}" />
+    <meta name="keywords" content="techism, event, projekte, user groups, münchen{% if tag_name %}, {{ tag_name|lower }}{% endif %}" />
+{% endblock %}
+
+{% block content %}
+<section id="content">
+    {% if organization_list %}
+        {% for organization in organization_list %}
+            <article class="event" id="more">
+                <header>
+                    <h2>{{ organization.title }}</h2>
+                </header>
+                <section class="detail">
+                        <p class="description">
+                            <a target="_blank" href="{{ organization.url }}">{{ organization.url }}</a>
+                        </p>
+                        <p class="tags">
+                            
+                        </p>
+                </section>
+             </article>
+        {% endfor %}   
+    {% else %}
+        <section class="content">
+            <p>Keine Organisationen hinterlegt.</p>
+        </section>
+    {% endif %} 
+</section>
+
+{% endblock %}

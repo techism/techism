@@ -21,7 +21,7 @@ class TwitterTest(TestCase):
 
     def test_format_tweet(self):
         event = Mock ()
-        event.takes_more_than_one_day = mock.Mock(return_value=False)
+        event.get_number_of_days = mock.Mock(return_value=0)
         now = timezone.localtime(timezone.now())
         now_str = now.strftime("%d.%m.%Y %H:%M")
         event.date_time_begin = now
