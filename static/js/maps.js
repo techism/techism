@@ -9,65 +9,112 @@ Techism.Map.searchUrl = location.protocol === 'https:' ? Techism.Map.searchUrlHt
 Techism.Map.staticUrlHttp = 'http://staticmap.openstreetmap.de/staticmap.php';
 Techism.Map.staticUrlHttps = '/map/static'
 Techism.Map.staticUrl = location.protocol === 'https:' ? Techism.Map.staticUrlHttps : Techism.Map.staticUrlHttp;
+Techism.Map.munichCityCenter = { lat: 48.13788, lon: 11.575953 }
 
-
-Techism.Map.Map = function() {
+Techism.Map.Map = function(latLonCallback) {
+    
+    this.latLonCallback = latLonCallback;
+    this.map = null;
+    this.marker = null;
     
     this.initializeMunichCityCenter = function() {
         var where = $("#map_canvas");
-          var width = where.width();
-          var mapId = "map_location";
-          var lat = "48.13788";
-          var lon = "11.575953";
-          if(width < 640) {
-              // static map with link for small screens, max. size of static
-                // map is 640x640
-              var height = Techism.Map.getStaticMapHeight(width);
-              where.append('<img id="'+mapId+'" src="'+Techism.Map.staticUrl+'?center='+lat+','+lon+'&zoom=15&size='+width+'x'+height+'" />');
-          }
-          else {
-              // dynamic map for larger screens
-              var height = Techism.Map.getDynamicMapHeight(width);
-              where.append('<div id="'+mapId+'" style="height: '+height+'px; width: 100%" />');
-              this.map = L.map(mapId, {
-                  scrollWheelZoom: false
-              }).setView([lat, lon], 17);
-              L.tileLayer(Techism.Map.tileUrl, {
-                  attribution: Techism.Map.attribution,
-                  maxZoom: 18
-              }).addTo(this.map);
-          }
+        var width = where.width();
+        var mapId = "map_location";
+        var lat = Techism.Map.munichCityCenter.lat;
+        var lon = Techism.Map.munichCityCenter.lon;
+        if(width < 640) {
+            // static map with link for small screens, max. size of static
+            // map is 640x640
+            var height = Techism.Map.getStaticMapHeight(width);
+            where.append('<img id="'+mapId+'" src="'+Techism.Map.staticUrl+'?center='+lat+','+lon+'&zoom=15&size='+width+'x'+height+'" />');
+        }
+        else {
+            // dynamic map for larger screens
+            var height = Techism.Map.getDynamicMapHeight(width);
+            where.append('<div id="'+mapId+'" style="height: '+height+'px; width: 100%" />');
+            this.map = L.map(mapId, {
+                scrollWheelZoom: false
+            }).setView([lat, lon], 17);
+            L.tileLayer(Techism.Map.tileUrl, {
+                attribution: Techism.Map.attribution,
+                maxZoom: 18
+            }).addTo(this.map);
+            mapThis = this;
+            this.map.on('click', function(e) {
+                if(!mapThis.marker) {
+                    mapThis.displayLatLon(e.latlng.lat, e.latlng.lng);
+                }
+            });
+        }
     };
-
-    this.displayLocation = function(name, street, city, lat, lng) {
+    
+    this.displayLocation = function(street, city) {
         if (street.length > 0 && city.length > 0){
             var where = $("#map_location");
             var location = street +","+city
             var thisMap = this;
             $.getJSON(Techism.Map.searchUrl + "?q=" + encodeURIComponent(location) + "&format=json&polygon=1,limit=1", {}, function (data){
-                if(data[0]) {
-                    var loc = data[0]
-                    if (where[0] && where[0].nodeName && where[0].nodeName == "DIV"){
-                        thisMap.map.setView([loc.lat, loc.lon], 17);
-                        if(!thisMap.marker) {
-                            thisMap.marker = L.marker([loc.lat, loc.lon]).addTo(thisMap.map);
+                var lat = null;
+                var lon = null;
+                if(data && data.length > 0) {
+                    // it there are multiple results prefer one with type 'house'
+                    for(var i=0; i<data.length; i++) {
+                        if(data[i].type == "house") {
+                            lat = data[i].lat;
+                            lon = data[i].lon;
+                            break;
                         }
-                        else {
-                            thisMap.marker.setLatLng([loc.lat, loc.lon]);
-                        }
-                    } 
-                    else {
-                        // img of #map_location may not yet be loaded, use
-                        // parent
-                        var width = where.parent().width(); 
-                        var height = Techism.Map.getStaticMapHeight(width);
-                        var newMap = '<img id="map_location" src="'+Techism.Map.staticUrl+'?center='+loc.lat+','+loc.lon+'&zoom=15&size='+width+'x'+height+'&markers='+loc.lat+','+loc.lon+',ol-marker" />';
-                        where.replaceWith(newMap);
                     }
+                    if(!lat && !lon) {
+                        lat = data[0].lat;
+                        lon = data[0].lon;
+                    }
+                }
+                else {
+                    // default coordinates
+                    lat = Techism.Map.munichCityCenter.lat;
+                    lon = Techism.Map.munichCityCenter.lon;
+                }
+                
+                thisMap.displayLatLon(lat, lon);
+                if(thisMap.latLonCallback) {
+                    thisMap.latLonCallback(lat, lon);
                 }
             });
         }
     }
+    
+    this.displayLatLon = function(lat, lon) {
+        var where = $("#map_location");
+        if (where[0] && where[0].nodeName && where[0].nodeName == "DIV"){
+            this.map.setView([lat, lon], 17);
+            if(!this.marker) {
+                this.marker = L.marker([lat, lon]).addTo(this.map);
+                this.marker.dragging.enable();
+                var thisMap = this;
+                this.marker.on('dragend', function(event) {
+                    var marker = event.target;
+                    var result = marker.getLatLng();
+                    if(thisMap.latLonCallback) {
+                        thisMap.latLonCallback(result.lat, result.lng);
+                    }
+                });
+            }
+            else {
+                this.marker.setLatLng([lat, lon]);
+            }
+        } 
+        else {
+            // img of #map_location may not yet be loaded, use parent
+            var width = where.parent().width(); 
+            var height = Techism.Map.getStaticMapHeight(width);
+            var newMap = '<img id="map_location" src="'+Techism.Map.staticUrl+'?center='+lat+','+lon+'&zoom=15&size='+width+'x'+height+'&markers='+lat+','+lon+',ol-marker" />';
+            where.replaceWith(newMap);
+        }
+    }
+    
+    this.initializeMunichCityCenter();
 }
 
 

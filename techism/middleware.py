@@ -28,10 +28,14 @@ class SecureRequiredMiddleware(object):
 
 
 #sets the http headers for a Content Security Policy
-class ContentSecurityPolicyMiddlerware(object):
+class ContentSecurityPolicyMiddleware(object):
     def process_response(self, request, response):
         
-        standard_policy = "default-src 'self';img-src *;" 
+        standard_policy = "default-src 'self';" \
+            "img-src 'self' *.tile.openstreetmap.org staticmap.openstreetmap.de;" \
+            "style-src 'self' 'unsafe-inline';" \
+            "connect-src 'self' nominatim.openstreetmap.org;" \
+            "xhr-src 'self' nominatim.openstreetmap.org;" 
         #header for firefox and Internet Explorer 
         response['X-Content-Security-Policy']= standard_policy
         
