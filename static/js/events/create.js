@@ -21,23 +21,31 @@ $(function() {
             $("#id_location_name").val(ui.item.name);
             $("#id_location_street").val(ui.item.street);
             $("#id_location_city").val(ui.item.city);
+            $("#id_location_latitude").val(ui.item.latitude);
+            $("#id_location_longitude").val(ui.item.longitude);
             $("#id_location").val(ui.item.id);
+            map.displayLatLon(ui.item.latitude, ui.item.longitude);
             return false;
         }
     });
 
-    // show the map
-    var map = new Techism.Map.Map();
-    map.initializeMunichCityCenter();
+    // initialize the map
+    var map = new Techism.Map.Map(function(lat, lon) {
+        $("#id_location_latitude").val(lat);
+        $("#id_location_longitude").val(lon);
+    });
 
-    // show coordinates in map
+    // display location if one is given
+    var latitude = $("#id_location_latitude").val();
+    var longitude = $("#id_location_longitude").val();
+    if (latitude && longitude) {
+        map.displayLatLon(latitude, longitude);
+    }
+
+    // show coordinates in map when button is clicked
     $("#id_location_show_in_map").click(function() {
-        var name = $("#id_location_name").val();
         var street = $("#id_location_street").val();
         var city = $("#id_location_city").val();
-        // var lat = $("#id_location_lat").val();
-        // var lon = $("#id_location_lon").val();
-
-        map.displayLocation(name, street, city);
+        map.displayLocation(street, city);
     });
 });

@@ -77,13 +77,22 @@
                         {{ form.location_city.label_tag }} {{ form.location_city.errors }}
                         {{ form.location_city }}
                     </div>
-                    <p/>
-                    <div class="row submit">
-                        <input id="id_location_show_in_map" type="button" value="Koordinaten auf Karte suchen">
+                    <div class="row">
+                        {{ form.location.errors }}
+                        {{ form.location_latitude }}
+                        {{ form.location_longitude }}
                     </div>
                     <p/>
+                    <div class="row submit">
+                        <input id="id_location_show_in_map" type="button" value="Addresse auf der Karte suchen">
+                    </div>
+                    <p/>
+                    <div class="row">
+                        Bitte die genauen Koordinaten des Veranstaltungsortes in der Karte markieren.
+                    </div>
+                    <p/>
+                    <div id="map_canvas"></div>
                 </div>
-                <div id="map_canvas"></div>
                 {% if mode == 'CREATE' %}
                     <div class="row submit"><p><input type="submit" value="Event hinzuf&uuml;gen" /></p></div> 
                 {% endif %}
