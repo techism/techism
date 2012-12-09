@@ -1,0 +1,537 @@
+[
+    {
+        "pk": 1, 
+        "model": "techism.organizationtag", 
+        "fields": {
+            "name": "design"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "techism.organizationtag", 
+        "fields": {
+            "name": "python"
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "techism.organizationtag", 
+        "fields": {
+            "name": "softwareentwicklung"
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "techism.organizationtag", 
+        "fields": {
+            "name": "monitoring"
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "techism.organizationtag", 
+        "fields": {
+            "name": "sonstige"
+        }
+    }, 
+    {
+        "pk": 6, 
+        "model": "techism.organizationtag", 
+        "fields": {
+            "name": "open source"
+        }
+    }, 
+    {
+        "pk": 7, 
+        "model": "techism.organizationtag", 
+        "fields": {
+            "name": "libreoffice"
+        }
+    }, 
+    {
+        "pk": 8, 
+        "model": "techism.organizationtag", 
+        "fields": {
+            "name": "linux"
+        }
+    }, 
+    {
+        "pk": 9, 
+        "model": "techism.organizationtag", 
+        "fields": {
+            "name": "cms"
+        }
+    }, 
+    {
+        "pk": 10, 
+        "model": "techism.organizationtag", 
+        "fields": {
+            "name": "php"
+        }
+    }, 
+    {
+        "pk": 11, 
+        "model": "techism.organizationtag", 
+        "fields": {
+            "name": "oracle"
+        }
+    }, 
+    {
+        "pk": 12, 
+        "model": "techism.organizationtag", 
+        "fields": {
+            "name": "datenbanken"
+        }
+    }, 
+    {
+        "pk": 13, 
+        "model": "techism.organizationtag", 
+        "fields": {
+            "name": "requirements engineering"
+        }
+    }, 
+    {
+        "pk": 14, 
+        "model": "techism.organizationtag", 
+        "fields": {
+            "name": "projektmanagement"
+        }
+    }, 
+    {
+        "pk": 15, 
+        "model": "techism.organizationtag", 
+        "fields": {
+            "name": "javascript"
+        }
+    }, 
+    {
+        "pk": 16, 
+        "model": "techism.organizationtag", 
+        "fields": {
+            "name": "hardware"
+        }
+    }, 
+    {
+        "pk": 17, 
+        "model": "techism.organizationtag", 
+        "fields": {
+            "name": "maker"
+        }
+    }, 
+    {
+        "pk": 18, 
+        "model": "techism.organizationtag", 
+        "fields": {
+            "name": "3d drucker"
+        }
+    }, 
+    {
+        "pk": 19, 
+        "model": "techism.organizationtag", 
+        "fields": {
+            "name": "java"
+        }
+    }, 
+    {
+        "pk": 20, 
+        "model": "techism.organizationtag", 
+        "fields": {
+            "name": "atlassian"
+        }
+    }, 
+    {
+        "pk": 21, 
+        "model": "techism.organizationtag", 
+        "fields": {
+            "name": "bugtracker"
+        }
+    }, 
+    {
+        "pk": 22, 
+        "model": "techism.organizationtag", 
+        "fields": {
+            "name": "wiki"
+        }
+    }, 
+    {
+        "pk": 23, 
+        "model": "techism.organizationtag", 
+        "fields": {
+            "name": "web"
+        }
+    }, 
+    {
+        "pk": 24, 
+        "model": "techism.organizationtag", 
+        "fields": {
+            "name": ".net"
+        }
+    }, 
+    {
+        "pk": 25, 
+        "model": "techism.organizationtag", 
+        "fields": {
+            "name": "agile"
+        }
+    }, 
+    {
+        "pk": 26, 
+        "model": "techism.organizationtag", 
+        "fields": {
+            "name": "unix"
+        }
+    }, 
+    {
+        "pk": 27, 
+        "model": "techism.organizationtag", 
+        "fields": {
+            "name": "operations"
+        }
+    }, 
+    {
+        "pk": 28, 
+        "model": "techism.organizationtag", 
+        "fields": {
+            "name": "ruby"
+        }
+    }, 
+    {
+        "pk": 29, 
+        "model": "techism.organizationtag", 
+        "fields": {
+            "name": "geodaten"
+        }
+    }, 
+    {
+        "pk": 30, 
+        "model": "techism.organizationtag", 
+        "fields": {
+            "name": "wissen"
+        }
+    }, 
+    {
+        "pk": 214009, 
+        "model": "techism.organization", 
+        "fields": {
+            "url": "http://www.ixdamunich.de/", 
+            "tags": [
+                1
+            ], 
+            "description": "", 
+            "title": "Munich Chapter of the Interaction Design Association"
+        }
+    }, 
+    {
+        "pk": 214008, 
+        "model": "techism.organization", 
+        "fields": {
+            "url": "http://wiki.python.de/User%20Group%20M%C3%BCnchen", 
+            "tags": [
+                2, 
+                3
+            ], 
+            "description": "", 
+            "title": "PythonStammtisch/User Group M\u00fcnchen"
+        }
+    }, 
+    {
+        "pk": 164007, 
+        "model": "techism.organization", 
+        "fields": {
+            "url": "http://www.monitoring-stammtisch.de/", 
+            "tags": [
+                4
+            ], 
+            "description": "", 
+            "title": "M\u00fcnchner Monitoring Stammtisch"
+        }
+    }, 
+    {
+        "pk": 305001, 
+        "model": "techism.organization", 
+        "fields": {
+            "url": "http://muenchen.freifunk.net/", 
+            "tags": [
+                5
+            ], 
+            "description": "", 
+            "title": "Freifunk M\u00fcnchen"
+        }
+    }, 
+    {
+        "pk": 199012, 
+        "model": "techism.organization", 
+        "fields": {
+            "url": "http://www.opensourcetreffen.de", 
+            "tags": [
+                6, 
+                7, 
+                8
+            ], 
+            "description": "", 
+            "title": "Open-Source-Treffen"
+        }
+    }, 
+    {
+        "pk": 827002, 
+        "model": "techism.organization", 
+        "fields": {
+            "url": "http://www.jug-muenchen.de/", 
+            "tags": [
+                9, 
+                10
+            ], 
+            "description": "", 
+            "title": "Joomla! User Group M\u00fcnchen"
+        }
+    }, 
+    {
+        "pk": 194006, 
+        "model": "techism.organization", 
+        "fields": {
+            "url": "http://wiki.ubuntuusers.de/Anwendertreffen/M%C3%BCnchen", 
+            "tags": [
+                8
+            ], 
+            "description": "", 
+            "title": "Ubuntu Anwendertreffen"
+        }
+    }, 
+    {
+        "pk": 177009, 
+        "model": "techism.organization", 
+        "fields": {
+            "url": "http://www.doag.org/termine/calendar.php", 
+            "tags": [
+                11, 
+                12
+            ], 
+            "description": "", 
+            "title": "DOAG - Deutsche ORACLE Anwender Gruppe e.V. Regionaltreffen S\u00fcdbayern/M\u00fcnchen"
+        }
+    }, 
+    {
+        "pk": 276006, 
+        "model": "techism.organization", 
+        "fields": {
+            "url": "http://wwwspies.informatik.tu-muenchen.de/gi/", 
+            "tags": [
+                13, 
+                3, 
+                14
+            ], 
+            "description": " Regionalgruppe M\u00fcnchen", 
+            "title": "Gesellschaft f\u00fcr Informatik e. V."
+        }
+    }, 
+    {
+        "pk": 975005, 
+        "model": "techism.organization", 
+        "fields": {
+            "url": "http://www.mnug.de/", 
+            "tags": [
+                15
+            ], 
+            "description": "", 
+            "title": "Munich NodeJS User Group"
+        }
+    }, 
+    {
+        "pk": 975004, 
+        "model": "techism.organization", 
+        "fields": {
+            "url": "http://www.fablab-muenchen.de/", 
+            "tags": [
+                16, 
+                17, 
+                18
+            ], 
+            "description": "", 
+            "title": "FabLab M\u00fcnchen"
+        }
+    }, 
+    {
+        "pk": 296001, 
+        "model": "techism.organization", 
+        "fields": {
+            "url": "http://www.jugm.de/", 
+            "tags": [
+                19, 
+                3
+            ], 
+            "description": "", 
+            "title": "Java User Group M\u00fcnchen"
+        }
+    }, 
+    {
+        "pk": 221009, 
+        "model": "techism.organization", 
+        "fields": {
+            "url": "http://wiki.debian.org/LocalGroups/DebianMuc", 
+            "tags": [
+                8
+            ], 
+            "description": "", 
+            "title": "Debian"
+        }
+    }, 
+    {
+        "pk": 821013, 
+        "model": "techism.organization", 
+        "fields": {
+            "url": "http://www.aug-muc.de/display/augmuc/Start", 
+            "tags": [
+                20, 
+                21, 
+                22
+            ], 
+            "description": "", 
+            "title": "Atlassian User Group M\u00fcnchen"
+        }
+    }, 
+    {
+        "pk": 355001, 
+        "model": "techism.organization", 
+        "fields": {
+            "url": "http://munichjs.org/", 
+            "tags": [
+                15, 
+                23, 
+                3
+            ], 
+            "description": "", 
+            "title": "MunichJS"
+        }
+    }, 
+    {
+        "pk": 300001, 
+        "model": "techism.organization", 
+        "fields": {
+            "url": "http://www.munichdot.net/", 
+            "tags": [
+                24, 
+                3
+            ], 
+            "description": "", 
+            "title": ".NET Developers Group"
+        }
+    }, 
+    {
+        "pk": 291004, 
+        "model": "techism.organization", 
+        "fields": {
+            "url": "http://www.scrumtisch.org/", 
+            "tags": [
+                14, 
+                25
+            ], 
+            "description": "", 
+            "title": "Scrumtisch"
+        }
+    }, 
+    {
+        "pk": 177008, 
+        "model": "techism.organization", 
+        "fields": {
+            "url": "http://agiletuesday.org/", 
+            "tags": [
+                14, 
+                25
+            ], 
+            "description": "", 
+            "title": "agiletuesday"
+        }
+    }, 
+    {
+        "pk": 184009, 
+        "model": "techism.organization", 
+        "fields": {
+            "url": "http://www.guug.de/lokal/muenchen/index.html", 
+            "tags": [
+                8, 
+                26, 
+                27
+            ], 
+            "description": "", 
+            "title": "German Unix User Group / SAGE"
+        }
+    }, 
+    {
+        "pk": 165014, 
+        "model": "techism.organization", 
+        "fields": {
+            "url": "http://munich.rubyshift.org/", 
+            "tags": [
+                28, 
+                3, 
+                23
+            ], 
+            "description": "", 
+            "title": "Ruby User Group M\u00fcnchen"
+        }
+    }, 
+    {
+        "pk": 365001, 
+        "model": "techism.organization", 
+        "fields": {
+            "url": "http://refreshmunich.com/", 
+            "tags": [
+                1, 
+                23
+            ], 
+            "description": "", 
+            "title": "Refresh Munich"
+        }
+    }, 
+    {
+        "pk": 213012, 
+        "model": "techism.organization", 
+        "fields": {
+            "url": "http://www.jbug-munich.de/", 
+            "tags": [
+                19, 
+                3
+            ], 
+            "description": "", 
+            "title": "JBoss User Group M\u00fcnchen"
+        }
+    }, 
+    {
+        "pk": 232007, 
+        "model": "techism.organization", 
+        "fields": {
+            "url": "http://wiki.openstreetmap.org/index.php/M%C3%BCnchen", 
+            "tags": [
+                29, 
+                30, 
+                15
+            ], 
+            "description": "", 
+            "title": "OpenStreetMapStammtisch M\u00fcnchen"
+        }
+    }, 
+    {
+        "pk": 195009, 
+        "model": "techism.organization", 
+        "fields": {
+            "url": "http://de.wikipedia.org/wiki/Wikipedia:M%C3%BCnchen", 
+            "tags": [
+                30
+            ], 
+            "description": "", 
+            "title": "Wikipedia Stammtisch"
+        }
+    }, 
+    {
+        "pk": 254007, 
+        "model": "techism.organization", 
+        "fields": {
+            "url": "http://www.gpm-ipma.de/events/regionale_veranstaltungen/bereich_sued.html", 
+            "tags": [
+                14
+            ], 
+            "description": "", 
+            "title": "Deutsche Gesellschaft f\u00fcr Projektmanagement"
+        }
+    }
+]
