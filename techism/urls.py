@@ -16,6 +16,7 @@ urlpatterns = patterns('',
     (r'^events/(?P<event_id>.+)/$', 'techism.events.views.details'),
     
     # orgs
+    (r'^orgs/$', 'techism.organizations.views.index'),
     
     # static pages
     (r'^impressum/$', direct_to_template, { 'template': 'impressum.html' }),

@@ -75,6 +75,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'techism',
     'techism.events',
+    'techism.organizations',
     'techism.ical',
     'techism.rss',
     'techism.twitter',
