@@ -1,11 +1,15 @@
 #!/usr/local/bin/python
 # -*- coding: utf-8 -*-
-from django.utils import timezone
+
 from techism.events import event_service
 from techism.models import TweetedEvent
-from datetime import timedelta
+from techism.settings import service
 from django.conf import settings
+from django.utils import timezone
+import tweepy
+from tweepy.error import TweepError
 import urllib
+from datetime import timedelta
 
 def tweet_upcoming_events():
     event_list = get_short_term_events()
@@ -14,9 +18,17 @@ def tweet_upcoming_events():
         must_tweet, prefix = __must_tweet_and_prefix(event)
         if must_tweet:
             tweet = format_tweet(event, prefix)
-            #todo
-            print tweet
-    raise Exception ("not implemented yet")
+            try:
+                __tweet_event(tweet)
+                __mark_as_tweeted(event, tweet)
+                break
+            except TweepError, e:
+                logging.error(e.reason)
+                if e.reason == u'Status is a duplicate.':
+                    __mark_as_tweeted(event, tweet + " (duplicate)")
+                    break
+                else:
+                    raise e
 
 
 def __must_tweet_and_prefix(event):
@@ -65,3 +77,21 @@ def get_short_term_events():
     three_days = today_local + timedelta(days=3)
     event_list = event_service.get_upcomming_published_events_query_set().filter(date_time_begin__gte=today_local).filter (date_time_begin__lte=three_days).order_by('date_time_begin')
     return event_list
+
+
+def __tweet_event(tweet):
+    CONSUMER_KEY = service.get_twitter_consumer_key_for_tweets()
+    CONSUMER_SECRET = service.get_twitter_consumer_secret_for_tweets()
+    ACCESS_KEY = service.get_twitter_access_key_for_tweets()
+    ACCESS_SECRET = service.get_twitter_access_secret_for_tweets()
+    auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
+    auth.set_access_token(ACCESS_KEY, ACCESS_SECRET)
+    api = tweepy.API(auth)
+    api.update_status(tweet)
+
+
+def __mark_as_tweeted(event, tweet):
+    tweeted_event = TweetedEvent()
+    tweeted_event.event = event
+    tweeted_event.tweet = tweet
+    tweeted_event.save()
