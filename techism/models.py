@@ -9,6 +9,7 @@ class Location(models.Model):
     city = models.CharField(max_length=200)
     latitude = models.FloatField(blank=True, null=True)
     longitude = models.FloatField(blank=True, null=True)
+    historized = models.NullBooleanField(blank=True, null=True, default=False)
     
     def __unicode__(self):
         return self.name;
@@ -24,6 +25,7 @@ class Organization (models.Model):
     url = models.URLField()
     description = models.TextField(blank=True, null=True)
     tags = models.ManyToManyField(OrganizationTag)
+    image = models.ImageField(upload_to="images", blank=True)
     
     def __unicode__(self):
         return self.title;

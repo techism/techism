@@ -11,9 +11,7 @@
     {% if organization_list %}
         {% for organization in organization_list %}
             <article class="event" id="more">
-                <header>
-                    <h2>{{ organization.title }}</h2>
-                </header>
+                <h2>{{ organization.title }}</h2>
                 <section class="detail">
                         <p class="description">
                             <a target="_blank" href="{{ organization.url }}">{{ organization.url }}</a>
