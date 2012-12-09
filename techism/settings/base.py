@@ -56,7 +56,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'techism.middleware.SecureRequiredMiddleware',
-    'techism.middleware.ContentSecurityPolicyMiddlerware',
+    'techism.middleware.ContentSecurityPolicyMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
