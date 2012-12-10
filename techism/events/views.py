@@ -60,9 +60,9 @@ def create(request, event_id=None):
         return __save_event(request, mode)
     
     form = EventForm()
-#    if event_id:
-#        event = Event.objects.get(id=event_id)
-#        form = __to_event_form(event)
+    if event_id:
+        event = Event.objects.get(id=event_id)
+        form = __to_event_form(event)
     
     return render_to_response(
         'events/create.html',
@@ -71,8 +71,8 @@ def create(request, event_id=None):
             'mode': mode
         },
         context_instance=RequestContext(request))
-    
-    
+
+
 def __save_event(request, mode, old_event=None):
     form = EventForm(request.POST) 
     if form.is_valid(): 
@@ -164,6 +164,24 @@ def __create_location(form):
     location.longitude=form.cleaned_data['location_longitude']
     location.save()
     return location
+
+def __to_event_form (event):
+    "Converts an Event to an EventForm"
+    data = {'title': event.title,
+            'url': event.url,
+            'description': event.description,
+            'tags': list(event.tags.all()),
+            'date_time_begin': event.date_time_begin,
+            'date_time_end': event.date_time_end,
+            'location': event.location.id if event.location else None,
+            'location_name': event.location.name if event.location else None,
+            'location_street': event.location.street if event.location else None,
+            'location_city': event.location.city if event.location else None,
+            'location_latitude': event.location.latitude if event.location else None,
+            'location_longitude': event.location.longitude if event.location else None
+            }
+    form = EventForm(initial=data)
+    return form;
 
 def locations(request):
     return HttpResponse(__get_locations_as_json())

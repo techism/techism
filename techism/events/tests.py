@@ -214,6 +214,23 @@ class EventViewsTest(TestCase):
         self.assertFalse(event.published)
         self.assertIn('Dieses Event ist noch nicht veröffentlicht.', response.content)
 
+    def test_copy_view_get(self):
+        response = self.client.get('/events/create/1', follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('id="id_title"', response.content)
+        self.assertIn('id="id_url"', response.content)
+        self.assertIn('id="id_description"', response.content)
+        self.assertIn('id="id_tags"', response.content)
+        self.assertIn('id="id_date_time_begin_0"', response.content)
+        self.assertIn('id="id_date_time_begin_1"', response.content)
+        self.assertIn('id="id_date_time_end_0"', response.content)
+        self.assertIn('id="id_date_time_end_1"', response.content)
+        self.assertIn('id="id_location"', response.content)
+        self.assertIn('id="id_location_name"', response.content)
+        self.assertIn('id="id_location_street"', response.content)
+        self.assertIn('id="id_location_city"', response.content)
+        self.assertIn('id="id_location_latitude"', response.content)
+        self.assertIn('id="id_location_longitude"', response.content)
 
 class EventFormsTest(TestCase):
     
