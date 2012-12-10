@@ -9,3 +9,4 @@ wsgiref==0.1.2
 tweepy==1.12
 mock==1.0.1
 geopy==0.94.2
+PIL==1.1.7
