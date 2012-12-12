@@ -1,4 +1,4 @@
-Django==1.4.2
+Django==1.4.3
 django-social-auth==0.7.10
 httplib2==0.7.7
 icalendar==2.2
