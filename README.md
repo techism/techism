@@ -53,4 +53,27 @@ Deploy to production environment:
 
 There needs to be an SSH key stored on the server.
 
-SSH fingerprint of the server is: 50:09:98:00:60:19:f4:b8:c1:4f:af:35:91:0c:38:d5
+SSH host key fingerprints of the server are:
+
+* RSA: 70:0e:9b:b7:76:7f:04:b7:10:cc:b1:f1:ac:88:a4:d3
+* DSA: 9a:c3:c3:bc:5b:6b:f5:99:82:ce:7b:9c:a2:fc:29:e3
+* ECDSA: 50:09:98:00:60:19:f4:b8:c1:4f:af:35:91:0c:38:d5
+
+
+##Executing manage.py
+
+If one needs to manually run manage.py, e.g. for loading data, 
+some environment variables needs to be set:
+
+For staging:
+
+    $ cd /srv/www/techism-staging
+    $ source venv/bin/activate
+    $ export DJANGO_SETTINGS_MODULE="techism.settings.staging"
+
+For production:
+
+    $ cd /srv/www/techism-production
+    $ source venv/bin/activate
+    $ export DJANGO_SETTINGS_MODULE="techism.settings.production"
+

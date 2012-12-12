@@ -9,8 +9,11 @@ from base import *
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 ADMINS = (
+    ('Christine Koppelt', 'ch.ko123@gmail.com'),
+    ('Stefan Seelmann', 'stefseel@gmail.com'),
 )
 MANAGERS = ADMINS
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 DATABASES = {
     'default': {

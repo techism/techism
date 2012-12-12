@@ -7,6 +7,10 @@ SITE_ID = 1
 USE_I18N = True
 USE_L10N = True
 
+SERVER_EMAIL = 'webmaster@techism.de'
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 25
+
 # If you set this to False, Django will not use timezone-aware datetimes.
 USE_TZ = True
 
