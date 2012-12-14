@@ -232,6 +232,23 @@ class EventViewsTest(TestCase):
         self.assertIn('id="id_location_latitude"', response.content)
         self.assertIn('id="id_location_longitude"', response.content)
 
+    def test_edit_view_get_is_forbidden_for_unauthenticated_user(self):
+        response = self.client.get('/events/edit/1', follow=True)
+        self.assertEqual(response.status_code, 403)
+
+    def test_edit_view_post_is_forbidden_for_unauthenticated_user(self):
+        response = self.client.post('/events/edit/1', follow=True)
+        self.assertEqual(response.status_code, 403)
+
+    def test_cancel_view_get_is_forbidden_for_unauthenticated_user(self):
+        response = self.client.get('/events/cancel/1', follow=True)
+        self.assertEqual(response.status_code, 403)
+
+    def test_cancel_view_post_is_forbidden_for_unauthenticated_user(self):
+        response = self.client.post('/events/cancel/1', follow=True)
+        self.assertEqual(response.status_code, 403)
+
+
 class EventFormsTest(TestCase):
     
     fixtures = ['test-utils/fixture.json']

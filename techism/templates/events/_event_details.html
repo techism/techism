@@ -6,7 +6,7 @@
         <section class="header-content">
             <div class="title">
                 <h2 class="summary">
-                    <a id="{{ event.id }}_event" href="#event">{{ event.title }}</a>
+                    {% if event.canceled %}[Abgesagt] {% endif %}<a id="{{ event.id }}_event"{% if event.canceled %} class="canceled"{% endif %} href="#event">{{ event.title }}</a>
                 </h2>
             </div>
             {% if event.user == user or user.is_superuser %}
@@ -28,7 +28,7 @@
             {% endif %}
         </section>
     </header>
-    <section class="detail">
+    <section class="detail{% if event.canceled %} canceled{% endif %}">
         <section>
             <a class="url" href="{{ event.get_absolute_url }}"><img src="{% static 'images/world_link.png' %}">
                 Permalink</a>

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'leaflet-0.4.5/leaflet.css' %}" />
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="{% static 'leaflet-0.4.5/leaflet.ie.css' %}" />
+    <![endif]-->
+{% endblock %}
+
+{% block content %}
+
+<section id="content">
+	{% include "events/_event_details.html" %}
+	<div id="create" class="content">
+		<form action="" method="post">
+			{% csrf_token %}
+			{{ form.id }}
+			<div class="row submit"><p><input type="submit" value="Event absagen" /></p></div> 
+		</form>
+</section>
+
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'leaflet-0.4.5/leaflet.js' %}"></script>
+    <script src="{% static 'js/maps.js' %}"></script>
+    <script src="{% static 'js/events/details.js' %}"></script>
+{% endblock %}

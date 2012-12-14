@@ -3,9 +3,9 @@
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from techism.events import event_service
-from techism.events.forms import EventForm
+from techism.events.forms import EventForm, EventCancelForm
 from techism.models import Event, EventTag, Location
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, HttpResponseForbidden
 from django.utils import html
 import json
 from geopy import distance
@@ -73,6 +73,44 @@ def create(request, event_id=None):
         context_instance=RequestContext(request))
 
 
+def edit(request, event_id):
+    mode = 'EDIT'
+    
+    event = Event.objects.get(id=event_id)
+    if event.user != request.user and request.user.is_superuser == False:
+        return HttpResponseForbidden()
+    
+    if request.method == 'POST':
+        return __save_event(request, mode, event)
+    
+    form = __to_event_form(event)
+    return render_to_response(
+        'events/create.html',
+        {
+            'form': form,
+            'mode': mode
+        },
+        context_instance=RequestContext(request))
+
+
+def cancel(request, event_id):
+    event = Event.objects.get(id=event_id)
+    
+    if event.user != request.user and request.user.is_superuser == False:
+        return HttpResponseForbidden()
+    
+    if request.method == 'POST':
+        return __cancel_event(request, event)
+    
+    return render_to_response(
+        'events/cancel.html',
+        {
+            'form:': EventCancelForm(),
+            'event': event
+        },
+        context_instance=RequestContext(request))
+
+
 def __save_event(request, mode, old_event=None):
     form = EventForm(request.POST) 
     if form.is_valid(): 
@@ -122,6 +160,7 @@ def __create_or_update_event_with_location (form, user, event):
     
     return event
 
+
 def __get_and_update_or_create_location(form):
     "Get, updates, or creates a Location from the submitted EventForm"
     
@@ -154,6 +193,7 @@ def __get_and_update_or_create_location(form):
         else:
             return None
 
+
 def __create_location(form):
     "Creates a new Location from the submitted EventForm"
     location = Location()
@@ -164,6 +204,7 @@ def __create_location(form):
     location.longitude=form.cleaned_data['location_longitude']
     location.save()
     return location
+
 
 def __to_event_form (event):
     "Converts an Event to an EventForm"
@@ -183,8 +224,28 @@ def __to_event_form (event):
     form = EventForm(initial=data)
     return form;
 
+
+def __cancel_event(request, event):
+    form = EventCancelForm(request.POST) 
+    if form.is_valid():
+        event.canceled = True;
+        event.save()
+        url = event.get_absolute_url()
+        return HttpResponseRedirect(url)
+    else:
+        return render_to_response(
+        'events/cancel.html',
+        {
+            'form:': form,
+            'error': form.errors,
+            'event': event
+        },
+        context_instance=RequestContext(request))
+
+
 def locations(request):
     return HttpResponse(__get_locations_as_json())
+
 
 def __get_locations_as_json():
     location_list = Location.objects.all()
@@ -200,3 +261,4 @@ def __get_locations_as_json():
         locations.append(loc)
     locations_as_json = json.dumps(locations)
     return locations_as_json
+
