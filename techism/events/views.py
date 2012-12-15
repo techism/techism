@@ -5,18 +5,22 @@ from django.template import RequestContext
 from techism.events import event_service
 from techism.events.forms import EventForm, EventCancelForm
 from techism.models import Event, EventTag, Location
-from django.http import HttpResponseRedirect, HttpResponse, HttpResponseForbidden
+from django.http import HttpResponseRedirect, HttpResponse, HttpResponseForbidden, HttpResponseNotFound
 from django.utils import html
+from django.core.paginator import Paginator, InvalidPage, EmptyPage
 import json
 from geopy import distance
 
 def index(request):
     event_list = event_service.get_upcomming_published_events_query_set().order_by('date_time_begin').prefetch_related('tags').select_related('location')
     tags = event_service.get_current_tags()
+    page = __get_paginator_page(request, event_list)
+    if page == -1:
+        return HttpResponseNotFound()
     return render_to_response(
         'events/index.html',
         {
-            'event_list': event_list,
+            'event_list': page,
             'tags': tags,
             'hostname': request.get_host()
         },
@@ -42,11 +46,14 @@ def details(request, event_id):
 def tag(request, tag_name):
     tag = get_object_or_404(EventTag, name=tag_name)
     event_list = event_service.get_upcomming_published_events_query_set().filter(tags=tag).order_by('date_time_begin')
+    page = __get_paginator_page(request, event_list)
+    if page == -1:
+        return HttpResponseNotFound()
     tags = event_service.get_current_tags()
     return render_to_response(
         'events/index.html', 
         {
-            'event_list': event_list, 
+            'event_list': page, 
             'tags': tags, 
             'tag_name': tag_name
         }, 
@@ -261,4 +268,19 @@ def __get_locations_as_json():
         locations.append(loc)
     locations_as_json = json.dumps(locations)
     return locations_as_json
+
+
+def __get_paginator_page(request, event_list):
+    try:
+        num = int(request.GET.get('page', '1'))
+    except ValueError:
+        num = 1
+    
+    paginator = Paginator(event_list, 7);
+    try:
+        page = paginator.page(num)
+    except (EmptyPage, InvalidPage):
+        page = -1
+    
+    return page
 

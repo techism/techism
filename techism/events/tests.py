@@ -45,14 +45,14 @@ class EventViewsTest(TestCase):
         response = self.client.get('/')
         self.assertEqual(response.status_code, 200)
         self.assertIsNotNone(response.context['event_list'])
-        self.assertEqual(response.context['event_list'].count(), 4)
+        self.assertEqual(len(response.context['event_list']), 4)
         self.assertIsNotNone(response.context['tags'])
 
     def test_index_view(self):
         response = self.client.get('/events/')
         self.assertEqual(response.status_code, 200)
         self.assertIsNotNone(response.context['event_list'])
-        self.assertEqual(response.context['event_list'].count(), 4)
+        self.assertEqual(len(response.context['event_list']), 4)
         self.assertIsNotNone(response.context['tags'])
 
     def test_details_view(self):

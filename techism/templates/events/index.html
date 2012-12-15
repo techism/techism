@@ -14,6 +14,17 @@
         {% for event in event_list %} 
             {% include "events/_event_details.html" %}
         {% endfor %}   
+        {% if event_list.has_next %}
+            <article class="vevent" id="more">
+                <header>
+                    <h2>
+                        {% if event_list.has_next %}
+                            <a href="?page={{ event_list.next_page_number }}" class="next">Mehr</a>
+                        {% endif %} 
+                    </h2>
+                </header>
+            </article>
+        {% endif %}
     {% else %}
         <article class="vevent">
             <section>
@@ -29,6 +40,7 @@
 
 {% block scripts %}
     <script src="{% static 'leaflet-0.4.5/leaflet.js' %}"></script>
+    <script src="{% static 'js/jquery-infinitescroll-1.5.100504.min.js' %}"></script>
     <script src="{% static 'js/maps.js' %}"></script>
     <script src="{% static 'js/events/index.js' %}"></script>
 {% endblock %}
