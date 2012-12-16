@@ -11,8 +11,9 @@ from django.core.paginator import Paginator, InvalidPage, EmptyPage
 import json
 from geopy import distance
 
+
 def index(request):
-    event_list = event_service.get_upcomming_published_events_query_set().order_by('date_time_begin').prefetch_related('tags').select_related('location')
+    event_list = __get_event_query_set()
     tags = event_service.get_current_tags()
     page = __get_paginator_page(request, event_list)
     if page == -1:
@@ -25,6 +26,7 @@ def index(request):
             'hostname': request.get_host()
         },
         context_instance=RequestContext(request))
+
 
 def details(request, event_id):
     # the event_id may be the slugified, e.g. 'munichjs-meetup-286002'
@@ -43,9 +45,11 @@ def details(request, event_id):
         },
         context_instance=RequestContext(request))
 
+
 def tag(request, tag_name):
     tag = get_object_or_404(EventTag, name=tag_name)
-    event_list = event_service.get_upcomming_published_events_query_set().filter(tags=tag).order_by('date_time_begin')
+    event_list = __get_event_query_set()
+    event_list = event_list.filter(tags=tag)
     page = __get_paginator_page(request, event_list)
     if page == -1:
         return HttpResponseNotFound()
@@ -58,6 +62,15 @@ def tag(request, tag_name):
             'tag_name': tag_name
         }, 
         context_instance=RequestContext(request))
+
+
+def __get_event_query_set():
+    event_query_set = event_service.get_upcomming_published_events_query_set()
+    event_query_set = event_query_set.order_by('date_time_begin')
+    event_query_set = event_query_set.prefetch_related('tags')
+    event_query_set = event_query_set.prefetch_related('location')
+    event_query_set = event_query_set.prefetch_related('user')
+    return event_query_set
 
 
 def create(request, event_id=None):

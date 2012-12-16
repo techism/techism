@@ -38,13 +38,13 @@ class EventTag (models.Model):
 
 class Event(models.Model):
     title = models.CharField(max_length=200)
-    date_time_begin = models.DateTimeField()
-    date_time_end = models.DateTimeField(blank=True, null=True)
+    date_time_begin = models.DateTimeField(db_index=True)
+    date_time_end = models.DateTimeField(db_index=True,blank=True, null=True)
     url = models.URLField()
     description = models.TextField(blank=True, null=True)
     location = models.ForeignKey(Location, blank=True, null=True)
     user = models.ForeignKey(User, blank=True, null=True)
-    published = models.BooleanField()
+    published = models.BooleanField(db_index=True)
     canceled = models.BooleanField()
     date_time_created = models.DateTimeField(auto_now_add=True)
     date_time_modified = models.DateTimeField(auto_now=True)
