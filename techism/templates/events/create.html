@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 {% block head %}
-    <link rel="stylesheet" href="{% static 'css/smoothness/jquery-ui-1.9.1.custom.min.css' %}" type="text/css" media="screen" />
+    <link rel="stylesheet" href="{% static 'jquery-ui-1.9.1.custom/css/smoothness/jquery-ui-1.9.1.custom.min.css' %}" type="text/css" media="screen" />
     <link rel="stylesheet" href="{% static 'leaflet-0.4.5/leaflet.css' %}" />
     <!--[if lte IE 8]>
         <link rel="stylesheet" href="{% static 'leaflet-0.4.5/leaflet.ie.css' %}" />
@@ -105,8 +105,8 @@
 
 {% block scripts %}
   <script src="{% static 'leaflet-0.4.5/leaflet.js' %}"></script>
+  <script src="{% static 'jquery-ui-1.9.1.custom/js/jquery-ui-datepicker-de.js' %}"></script>
+  <script src="{% static 'jquery-ui-1.9.1.custom/js/jquery-ui-1.9.1.custom.min.js' %}"></script>
   <script src="{% static 'js/maps.js' %}"></script>
-  <script src="{% static 'js/jquery.ui.datepicker-de.js' %}"></script>
-  <script src="{% static 'js/jquery-ui-1.9.1.custom.min.js' %}"></script>
   <script src="{% static 'js/events/create.js' %}"></script>
 {% endblock %}
