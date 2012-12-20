@@ -39,6 +39,9 @@ HTTPS_PATHS = (
 HTTP_URL = 'http://next.techism.de'
 HTTPS_URL = 'https://next.techism.de'
 
+LOGGING['handlers']['errorlogfile']['filename'] = '/srv/www/techism-staging-log/error.log'
+LOGGING['handlers']['debuglogfile']['filename'] = '/srv/www/techism-staging-log/debug.log'
+
 
 ### import settings stored in database
 

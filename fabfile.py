@@ -13,12 +13,14 @@ BASE_DIR = "/srv/www"
 GIT_REPO_DIR = "techism.git"
 PIP_DOWNLOAD_CACHE_DIR = "pip-download-cache"
 STAGING_DIR = "techism-staging"
+STAGING_LOG_DIR = "techism-staging-log"
 STAGING_BLUE_DIR = "techism-staging-blue"
 STAGING_GREEN_DIR = "techism-staging-green"
 STAGING_SETTINGS = "techism.settings.staging"
 STAGING_WSGI = "techism/settings/staging_wsgi.py"
 STAGING_DB_NAME = "techisms"
 PRODUCTION_DIR = "techism-production"
+PRODUCTION_LOG_DIR = "techism-production-log"
 PRODUCTION_BLUE_DIR = "techism-production-blue"
 PRODUCTION_GREEN_DIR = "techism-production-green"
 PRODUCTION_SETTINGS = "techism.settings.production"
@@ -52,6 +54,11 @@ def __setup_venv(target_dir):
                 run("virtualenv --system-site-packages venv")
             with __virtualenv():
                 run("pip install --download-cache %s/%s -r dependencies.pip" % (BASE_DIR, PIP_DOWNLOAD_CACHE_DIR))
+
+def __create_log_dir(log_dir):
+    with cd(BASE_DIR):
+        if not exists(log_dir):
+            run("mkdir %s" % log_dir)
 
 def __manage_staging_db():
     if confirm("Drop staging DB?", default=False): 
@@ -117,6 +124,7 @@ def deploy_staging():
     next_staging_dir = __get_next_active_dir(STAGING_DIR, STAGING_BLUE_DIR, STAGING_GREEN_DIR)
     __clean_checkout(next_staging_dir)
     __setup_venv(next_staging_dir)
+    __create_log_dir(STAGING_LOG_DIR)
     __run_tests(next_staging_dir, STAGING_SETTINGS)
     __manage_staging_db()
     __migrate_db(next_staging_dir, STAGING_SETTINGS)
@@ -129,6 +137,7 @@ def deploy_production():
     next_prod_dir = __get_next_active_dir(PRODUCTION_DIR, PRODUCTION_BLUE_DIR, PRODUCTION_GREEN_DIR)
     __clean_checkout(next_prod_dir)
     __setup_venv(next_prod_dir)
+    __create_log_dir(STAGING_LOG_DIR)
     __backup_db(PRODUCTION_DB_NAME)
     __migrate_db(next_prod_dir, PRODUCTION_SETTINGS)
     __collect_static(next_prod_dir)

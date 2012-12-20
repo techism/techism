@@ -107,24 +107,37 @@ LOGOUT_URL = '/accounts/logout/'
 # more details on how to customize your logging configuration.
 LOGGING = {
     'version': 1,
-    'disable_existing_loggers': False,
-    'filters': {
-        'require_debug_false': {
-            '()': 'django.utils.log.RequireDebugFalse'
-        }
+    'disable_existing_loggers': True,
+    'formatters': {
+        'standard': {
+            'format' : '[%(asctime)s] [%(levelname)s] [%(pathname)s:%(lineno)s] %(message)s',
+        },
     },
     'handlers': {
-        'mail_admins': {
-            'level': 'ERROR',
-            'filters': ['require_debug_false'],
-            'class': 'django.utils.log.AdminEmailHandler'
-        }
+        'errorlogfile': {
+            'level':'WARNING',
+            'class':'logging.handlers.TimedRotatingFileHandler',
+            'filename': 'log/error.log',
+            'when': 'midnight',
+            'utc' : True,
+            'backupCount': 30,
+            'formatter': 'standard',
+        },
+        'debuglogfile': {
+            'level':'DEBUG',
+            'class':'logging.handlers.TimedRotatingFileHandler',
+            'filename': 'log/debug.log',
+            'when': 'midnight',
+            'utc' : True,
+            'backupCount': 30,
+            'formatter': 'standard',
+        },
     },
     'loggers': {
-        'django.request': {
-            'handlers': ['mail_admins'],
-            'level': 'ERROR',
-            'propagate': True,
+        'django': {
+            'handlers': ['errorlogfile', 'debuglogfile'],
+            'level': 'DEBUG',
+            'propagate': False,
         },
     }
 }
