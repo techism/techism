@@ -13,6 +13,7 @@ ADMINS = (
 )
 MANAGERS = ADMINS
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_SUBJECT_PREFIX = '[Techism] '
 
 TEMPLATE_LOADERS = (
     ('django.template.loaders.cached.Loader', (

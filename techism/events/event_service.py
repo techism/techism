@@ -21,8 +21,8 @@ def get_upcomming_published_events_query_set():
     return Event.objects.filter(published, (not_or_recently_started | not_ended))
 
 def send_event_review_mail(event):
-    subject = u'[Techism] Neues Event - bitte prüfen'
-    message_details = u'Titel: %s\n\nBeschreibung: %s\n\n' % (event.title, event.description);
-    message_urls = u'Login-Url: %s\n\nEvent-Url: %s\n\n' % (settings.HTTPS_URL+"/accounts/login/", settings.HTTPS_URL+"/admin/techism2/event/");
+    subject = u'Neues Event - bitte prüfen'
+    message_details = u'Titel: %s\n\nBeschreibung: %s\n\n' % (event.title, event.description)
+    message_urls = u'Login-Url: %s\n\nEvent-Url: %s\n\n' % (settings.HTTPS_URL+"/accounts/login/", settings.HTTPS_URL+"/admin/techism/event/"+str(event.id)+"/")
     message = message_details + message_urls
     mail_managers(subject, message)
