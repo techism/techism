@@ -20,6 +20,7 @@ urlpatterns = patterns('',
     
     # orgs
     (r'^orgs/$', 'techism.organizations.views.index'),
+    (r'^orgs/tags/(?P<tag_name>.+)/$', 'techism.organizations.views.tag'),
     
     # static pages
     (r'^impressum/$', direct_to_template, { 'template': 'impressum.html' }),
