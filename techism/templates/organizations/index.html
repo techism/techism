@@ -10,17 +10,17 @@
 <section id="content">
     {% if organization_list %}
         {% for organization in organization_list %}
-            <article class="event" id="more">
+            <div class="organizations" >
                 <h2>{{ organization.title }}</h2>
-                <section class="detail">
-                        <p class="description">
-                            <a target="_blank" href="{{ organization.url }}">{{ organization.url }}</a>
-                        </p>
-                        <p class="tags">
-                            
-                        </p>
-                </section>
-             </article>
+                <p class="description">
+                    <a target="_blank" href="{{ organization.url }}">{{ organization.url }}</a>
+                </p>
+                <p class="tags">
+                          {% for tag in organization.tags.all %}  
+                                <a href="/orgs/tags/{{ tag.name }}">{{ tag.name }}</a>
+                          {% endfor %}
+                </p>
+             </div>
         {% endfor %}   
     {% else %}
         <section class="content">
