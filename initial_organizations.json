@@ -294,7 +294,7 @@
             "tags": [
                 1
             ], 
-            "description": "", 
+            "description": "Die Global Game Jam (GGJ) ist das größte weltweite 48-Stunden Spiele-Entwicklungs-Event, das jährlich im Januar stattfindet.", 
             "title": "Global Game Jam"
         }
     }, 
@@ -306,7 +306,7 @@
             "tags": [
                 2
             ], 
-            "description": "", 
+            "description": "Der Stammtisch findet  an jedem 2. Mittwoch des Monats statt. Meist gibt es einen Vortrag aus der Apple Welt.", 
             "title": "Mac-Treff M\u00fcnchen"
         }
     }, 
@@ -318,7 +318,7 @@
             "tags": [
                 3
             ], 
-            "description": "", 
+            "description": "Monatliche Treffen mit einem Vortrag aus der Welt des Interaction Design.", 
             "title": "Munich Chapter of the Interaction Design Association"
         }
     }, 
@@ -331,8 +331,8 @@
                 4, 
                 5
             ], 
-            "description": "", 
-            "title": "PythonStammtisch/User Group M\u00fcnchen"
+            "description": "Aktuell finden die Treffen 14-tägig um 18:30 Uhr im Institus für Informatik der LMU statt. Es gibt meist einen Vortrag, anschließend Diskussion im Restaurant.", 
+            "title": "Python Stammtisch/User Group M\u00fcnchen"
         }
     }, 
     {
@@ -343,7 +343,7 @@
             "tags": [
                 6
             ], 
-            "description": "", 
+            "description": "Abendliche Treffen am letzten Montag des Monats. Meist gibt es einen Vortrag. Schwerpunkt sind die Tools Nagios, Icinga und Shinken.", 
             "title": "M\u00fcnchner Monitoring Stammtisch"
         }
     }, 
@@ -355,7 +355,7 @@
             "tags": [
                 7
             ], 
-            "description": "", 
+            "description": "Stammtisch für BSD-UNIX (Free/Net/Open/DragonFlyBSD, MacOSX/Darwin usw.) Interessierte.", 
             "title": "BSD Social Event"
         }
     }, 
@@ -368,7 +368,7 @@
                 8, 
                 9
             ], 
-            "description": "", 
+            "description": "Monatliche Treffen für Kanban und Lean Interessierte. Es gibt einen Vortrag oder einen Open Space.", 
             "title": "Limited WIP Society"
         }
     }, 
@@ -381,7 +381,7 @@
                 10, 
                 11
             ], 
-            "description": "", 
+            "description": "Sporadische abendliche Treffen zum Thema Web 2.0. Kurzvorträge umrahmt von Networking.", 
             "title": "Webmontag"
         }
     }, 
@@ -393,7 +393,7 @@
             "tags": [
                 12
             ], 
-            "description": "", 
+            "description": "Treffen finden 2-4 mal im Jahr statt.", 
             "title": "Freifunk M\u00fcnchen"
         }
     }, 
@@ -418,7 +418,7 @@
             "tags": [
                 13
             ], 
-            "description": "", 
+            "description": "Regelmäßige Events für angehende Unternehmer, z.B. Gründerabende und Entrepreneurs‘ Night ", 
             "title": "UnternehmerTUM"
         }
     }, 
@@ -430,7 +430,7 @@
             "tags": [
                 15
             ], 
-            "description": "", 
+            "description": "Der Stammtisch findet alle 2 Monate. Es gibt keine Agenda, es können aber Projekt und Demos vorgestellt werden.", 
             "title": "Augmented-Reality Stammtisch"
         }
     }, 
@@ -454,7 +454,7 @@
             "tags": [
                 14
             ], 
-            "description": "", 
+            "description": "Computerzeitschrift für München. Listet Termine von IT Veranstaltungen in München und in ganz Deutschland.", 
             "title": "IT-Szene M\u00fcnchen"
         }
     }, 
@@ -466,8 +466,8 @@
             "tags": [
                 16
             ], 
-            "description": "", 
-            "title": "Linux UG M\u00fcnchen"
+            "description": "Monatlich stattfindender Stammtisch im Rhaetenhaus um mit anderen Linux-Nutzern fachzusimpeln.", 
+            "title": "Linux User Group M\u00fcnchen"
         }
     }, 
     {
@@ -480,7 +480,7 @@
                 18, 
                 16
             ], 
-            "description": "", 
+            "description": "Monatliche Treffen in denen Open-Source Projekte vorgestellt werden. Es werden auch längere Workshops am Wochenende angeboten.", 
             "title": "Open-Source-Treffen"
         }
     }, 
@@ -493,7 +493,7 @@
                 19, 
                 20
             ], 
-            "description": "", 
+            "description": "Treffen für Benutzer des Joomla! CMS, die in der Regel monatlich stattfinden.", 
             "title": "Joomla! User Group M\u00fcnchen"
         }
     }, 
@@ -506,7 +506,7 @@
                 19, 
                 20
             ], 
-            "description": "", 
+            "description": "Ein dreitägiges Barcamp rund um das TYPO3 CMS das seit 2008 jährlich im Herbst stattfindet.", 
             "title": "Typo3Camp"
         }
     }, 
@@ -518,8 +518,8 @@
             "tags": [
                 16
             ], 
-            "description": "", 
-            "title": "Linux UG Ottobrunn"
+            "description": "Die Treffen für Linux Interessierte finden alle zwei Wochen im Südosten Münchens statt. Die LUG nimmt auch an überregionalen Linux Konferenzen teil.", 
+            "title": "Linux User Group Ottobrunn"
         }
     }, 
     {
@@ -530,7 +530,7 @@
             "tags": [
                 21
             ], 
-            "description": "", 
+            "description": "Jeden dritten Dienstag im Monat trifft sich die Gruppe in einer Gaststätte. Es gibt einen Vortrag oder Lightning Talks.", 
             "title": "Open Web Application Security Project"
         }
     }, 
@@ -543,7 +543,7 @@
                 19, 
                 20
             ], 
-            "description": "", 
+            "description": "Die regelmäßigen Treffen finden jeden dritten Mittwoch im Monat im EineWeltHaus statt. Außerdem organisiert die Gruppe Drupal LAN Parties.", 
             "title": "Drupal User Group M\u00fcnchen"
         }
     }, 
@@ -555,7 +555,7 @@
             "tags": [
                 16
             ], 
-            "description": "", 
+            "description": "Regelmäßige Treffen im Froshkönig. Auch Linux Neulinge sind willkommen und können Fragen stellen.", 
             "title": "Ubuntu Anwendertreffen"
         }
     }, 
@@ -1342,6 +1342,31 @@
             ], 
             "description": "", 
             "title": "Deutsche Gesellschaft f\u00fcr System Dynamics"
+        }
+    },
+    {
+        "pk": 365002, 
+        "model": "techism.organization", 
+        "fields": {
+            "url": "http://www.tgm-online.de/tgm/", 
+            "tags": [
+                34, 
+                11
+            ], 
+            "description": "", 
+            "title": "typographische gesellschaft m\u00fcnchen"
+        }
+    },
+    {
+        "pk": 301004, 
+        "model": "techism.organization", 
+        "fields": {
+            "url": "http://www.meetup.com/Creative-Coding/", 
+            "tags": [
+                11
+            ], 
+            "description": "", 
+            "title": "Creative Coding"
         }
     }
 ]
