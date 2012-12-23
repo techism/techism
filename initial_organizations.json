@@ -555,7 +555,7 @@
             "tags": [
                 16
             ], 
-            "description": "Regelmäßige Treffen im Froshkönig. Auch Linux Neulinge sind willkommen und können Fragen stellen.", 
+            "description": "Regelmäßige Treffen im Froschkönig. Auch Linux Neulinge sind willkommen und können Fragen stellen.", 
             "title": "Ubuntu Anwendertreffen"
         }
     }, 
@@ -567,7 +567,7 @@
             "tags": [
                 15
             ], 
-            "description": "", 
+            "description": "Der Stammtisch trifft sich vierteljährlich für alle die sich mit Computerlinguistik, Phonetik und Sprachverarbeitung beschäftigen.", 
             "title": "M\u00fcnchener Computerlinguistik-Stammtisch"
         }
     }, 
@@ -579,7 +579,7 @@
             "tags": [
                 22
             ], 
-            "description": "", 
+            "description": "Informeller Austausch für diejenigen die Udacity und/oder Coursera Kurse belegen. Findet monatlich statt.", 
             "title": "Udacity+Coursera Stammtisch"
         }
     }, 
@@ -587,11 +587,11 @@
         "pk": 177009, 
         "model": "techism.organization", 
         "fields": {
-            "url": "http://www.doag.org/termine/calendar.php", 
+            "url": "http://www.doag.org/de/events/regionaltreffen/muenchensuedbayern.html", 
             "tags": [
                 23
             ], 
-            "description": "", 
+            "description": "Monatliche Treffen mit Vorträgen und Erfahrungsberichten aus der Oracle Produktwelt.", 
             "title": "DOAG - Deutsche ORACLE Anwender Gruppe e.V. Regionaltreffen S\u00fcdbayern/M\u00fcnchen"
         }
     }, 
@@ -617,8 +617,8 @@
                 5, 
                 8
             ], 
-            "description": " Regionalgruppe M\u00fcnchen", 
-            "title": "Gesellschaft f\u00fcr Informatik e. V."
+            "description": "Es gibt monatlich eine Abendversanstaltung Nähe des Hauptbahnhofes. Daneben bieten die vielen Arbeitskreise ebenfalls Vorträge an.", 
+            "title": "Gesellschaft f\u00fcr Informatik e. V., Regionalgruppe M\u00fcnchen"
         }
     }, 
     {
@@ -630,7 +630,7 @@
                 25, 
                 5
             ], 
-            "description": "", 
+            "description": "Alle zwei Monate (im Wechsel mit MunichJS) treffen sich NodeJS Interessierte bei TNG in Unterföhring. Es gibt meist zwei Vorträge.", 
             "title": "Munich NodeJS User Group"
         }
     }, 
@@ -642,7 +642,7 @@
             "tags": [
                 12
             ], 
-            "description": "", 
+            "description": "Die Hightech-Werkstatt bietet auch für Nichtmitglieder Veranstaltungen, z.B. Open FabLab, Laser-Abend, oder Workshops.", 
             "title": "FabLab M\u00fcnchen"
         }
     }, 
@@ -668,7 +668,7 @@
                 27, 
                 5
             ], 
-            "description": "", 
+            "description": "Monatlicher Vortrag aus der Java Welt.", 
             "title": "Java User Group M\u00fcnchen"
         }
     }, 
@@ -693,7 +693,7 @@
                 16, 
                 6
             ], 
-            "description": "", 
+            "description": "Es finden regelmäßige informelle Treffen in einer Gaststätte statt. Außerdem gibt es auch Bug Squashing Parties und Release Parties.", 
             "title": "Debian"
         }
     }, 
@@ -706,7 +706,7 @@
                 5, 
                 28
             ], 
-            "description": "", 
+            "description": "Bei den Treffen werden gemeinsam Code Katas gelöst.", 
             "title": ".NET Coding Dojo Muenchen"
         }
     }, 
@@ -719,7 +719,7 @@
                 29, 
                 5
             ], 
-            "description": "", 
+            "description": "Unregelmäßig stattfindende Treffen zu Lisp, Schema, oder auch Clojure.", 
             "title": "LispUG Munich"
         }
     }, 
@@ -733,7 +733,7 @@
                 31, 
                 8
             ], 
-            "description": "", 
+            "description": "Die Treffen finden ca. 4x im Jahr statt. Es gibt i.d.R. mehrere Vorträge, Lightning Talks, und eine Fishbowl Diskussion.", 
             "title": "Atlassian User Group M\u00fcnchen"
         }
     }, 
@@ -757,7 +757,7 @@
             "tags": [
                 13
             ], 
-            "description": "", 
+            "description": "Jährlich stattfindender Business Plan Wettbewerb.", 
             "title": "MBPW - M\u00fcnchener Business Plan Wettbewerb"
         }
     }, 
@@ -769,7 +769,7 @@
             "tags": [
                 16
             ], 
-            "description": "", 
+            "description": "Der Stammtisch in Grafing im Osten von München findet monatlich statt.", 
             "title": "Linux UG Grafing"
         }
     }, 
@@ -782,7 +782,7 @@
                 25, 
                 5
             ], 
-            "description": "", 
+            "description": "Alle zwei Monate treffen sich JavaScript Coder. Es gibt entweder Vorträge oder gemeinsames coworken.", 
             "title": "MunichJS"
         }
     }, 
@@ -795,7 +795,7 @@
                 28, 
                 5
             ], 
-            "description": "", 
+            "description": "An jedem 3. Dienstag im Monat treffen sich .NET Entwickler zu einem Vortrag.", 
             "title": ".NET Developers Group"
         }
     }, 
@@ -807,7 +807,7 @@
             "tags": [
                 1
             ], 
-            "description": "", 
+            "description": "Ein jährlich stattfindendes Barcamp der Gamesbranche.", 
             "title": "GameCamp Munich"
         }
     }, 
@@ -833,7 +833,7 @@
                 32, 
                 5
             ], 
-            "description": "", 
+            "description": "Jeden 2. Donnerstag im Monat treffen sich iOS und Mac Entwickler.", 
             "title": "Cocoa Heads M\u00fcnchen"
         }
     }, 
@@ -871,7 +871,7 @@
                 8, 
                 9
             ], 
-            "description": "", 
+            "description": "Monatlicher Stammtisch. Meist wird eine agile Technik oder Methodik vorgestellt, die dann von allen Teilnehmern geübt wird.", 
             "title": "agiletuesday"
         }
     }, 
@@ -885,7 +885,7 @@
                 7, 
                 6
             ], 
-            "description": "", 
+            "description": "Meist monatliche Treffen mit einem Vortrag aus dem Bereich Unix/Systemadministration mit anschießendem Erfahrunsaustausch in einer Gaststätte.", 
             "title": "German Unix User Group / SAGE"
         }
     }, 
@@ -909,7 +909,7 @@
             "tags": [
                 32
             ], 
-            "description": "", 
+            "description": "Monatiliches Treffen der Mobile Users. Besprochen werden neue mobile Geräte, Betriebssysteme, Apps.", 
             "title": "MU:MUC"
         }
     }, 
@@ -933,7 +933,7 @@
             "tags": [
                 15
             ], 
-            "description": "", 
+            "description": "Die Münchner Regionalgruppe des ältesten Computerclubs Deutschlands trifft sich i.d.R. monatlich.", 
             "title": "Computerclub AUGE"
         }
     }, 
@@ -946,7 +946,7 @@
                 20, 
                 5
             ], 
-            "description": "", 
+            "description": "Es finden etwa 4 Treffen pro Jahr statt.", 
             "title": "SymfonyUsergroup M\u00fcnchen"
         }
     }, 
@@ -958,7 +958,7 @@
             "tags": [
                 16
             ], 
-            "description": "", 
+            "description": "Jeden 2. Dienstag im Monat treffen sich Gentoo User zum Stammtisch.", 
             "title": "Gentoo Linux UG M\u00fcnchen"
         }
     }, 
@@ -984,7 +984,7 @@
                 5, 
                 34
             ], 
-            "description": "", 
+            "description": "Monatliches Treffen von und für Ruby Entwickler. Es gibt mehrere i.d.R mehrere Vorträge pro Abend.", 
             "title": "Ruby User Group M\u00fcnchen"
         }
     }, 
@@ -1021,7 +1021,7 @@
             "tags": [
                 36
             ], 
-            "description": "", 
+            "description": "TeX/LaTeX Interessierte treffen sich alle zwei Monate zu einem Stammtisch. Außerdem gibt es einmal in Jahr einen bayerischen Stammtisch.", 
             "title": "TeX-Stammtisch M\u00fcnchen"
         }
     }, 
@@ -1033,7 +1033,7 @@
             "tags": [
                 32
             ], 
-            "description": "", 
+            "description": "MobileMondey Munich organisiert Abendveranstaltungen rund um das Mobile Internet.", 
             "title": "MobileMonday - chapter Munich"
         }
     }, 
@@ -1047,7 +1047,7 @@
                 37, 
                 11
             ], 
-            "description": "", 
+            "description": "Seit 2007 findet in München (fast) jährlich ein Barcamp statt.", 
             "title": "BarCamp Munich"
         }
     }, 
@@ -1060,7 +1060,7 @@
                 5, 
                 38
             ], 
-            "description": "", 
+            "description": "Die Perl Mongers treffen sich alle 1-2 Monate", 
             "title": "Perl Mongers M\u00fcnchen"
         }
     }, 
@@ -1073,7 +1073,7 @@
                 27, 
                 5
             ], 
-            "description": "", 
+            "description": "Beim Java Coding Dojo werden Katas (kleine Programmieraufgaben) gemeinsam gelöst.", 
             "title": "Java Coding Dojo"
         }
     }, 
@@ -1086,7 +1086,7 @@
                 3, 
                 11
             ], 
-            "description": "", 
+            "description": "Designer und Entwickler treffen sich monatlich zum Stammtisch, um über Libraries, Apps und Konferenzen auszutauschen.", 
             "title": "Refresh Munich"
         }
     }, 
@@ -1119,11 +1119,11 @@
         "pk": 187010, 
         "model": "techism.organization", 
         "fields": {
-            "url": "https://groups.google.com/forum/#!forum/android-muenchen", 
+            "url": "https://plus.google.com/u/0/115160714098008559164", 
             "tags": [
                 32
             ], 
-            "description": "", 
+            "description": "In regelmäßigen Abständen veranstaltet die Gruppe Meetings mit Vorträgen.", 
             "title": "Android Usergroup M\u00fcnchen"
         }
     }, 
@@ -1148,7 +1148,7 @@
             "tags": [
                 14
             ], 
-            "description": "", 
+            "description": "Die LMU bietet öffentliche Veranstaltungen, Vorträge und Vorlesungen an.", 
             "title": "Veranstaltungskalender der LMU"
         }
     }, 
@@ -1160,7 +1160,7 @@
             "tags": [
                 26
             ], 
-            "description": "", 
+            "description": "Die Deutsch Museum bietet immer mittwochs wissenschaftliche Vorträge für jedermann an.", 
             "title": "Vortragsreihe Wissenschaft f\u00fcr jedermann"
         }
     }, 
@@ -1172,7 +1172,7 @@
             "tags": [
                 1
             ], 
-            "description": "", 
+            "description": "Ein monatlicher Stammtisch von Leuten, welche gerne Spiele machen.", 
             "title": "GameDevMuc"
         }
     }, 
@@ -1198,8 +1198,8 @@
                 5, 
                 12
             ], 
-            "description": "", 
-            "title": "ccc - Chaos Computer Club M\u00fcnchen"
+            "description": "Öffentliche Treffen gibt es jeden 2. Dienstag im Monat.", 
+            "title": "CCC - Chaos Computer Club M\u00fcnchen"
         }
     }, 
     {
@@ -1210,7 +1210,7 @@
             "tags": [
                 11
             ], 
-            "description": "", 
+            "description": "Monatlicher Stammtisch aller SEO Interessierten.", 
             "title": "Seo Nomaden"
         }
     }, 
@@ -1223,7 +1223,7 @@
                 27, 
                 5
             ], 
-            "description": "", 
+            "description": "Neben regelmäßigen abendlichen Treffen mit einem Vortrag organisiert die Gruppe auch jährlich den JBoss OneDayTalk.", 
             "title": "JBoss User Group M\u00fcnchen"
         }
     }, 
@@ -1249,7 +1249,7 @@
                 26, 
                 25
             ], 
-            "description": "", 
+            "description": "Mapper treffen sich monatlich zum Stammtisch.", 
             "title": "OpenStreetMapStammtisch M\u00fcnchen"
         }
     }, 
@@ -1262,7 +1262,7 @@
                 26, 
                 31
             ], 
-            "description": "", 
+            "description": "Die Wikipedianer treffen sich monatlich zum Stammtisch.", 
             "title": "Wikipedia Stammtisch"
         }
     }, 
@@ -1275,7 +1275,7 @@
                 20, 
                 19
             ], 
-            "description": "", 
+            "description": "Am ersten Dienstag des Monats trifft sich die TYPO3 User Group. Jedes Treffen hat einen Schwerpunkt.", 
             "title": "Typo3 UG M\u00fcnchen"
         }
     }, 
@@ -1316,7 +1316,7 @@
             "tags": [
                 16
             ], 
-            "description": "", 
+            "description": "Die Gruppe trifft sich an jedem vierten Mittwoch im Monat in Erding, im Nordosten Münchens.", 
             "title": "Linux UG Erding"
         }
     }, 
@@ -1353,7 +1353,7 @@
                 34, 
                 11
             ], 
-            "description": "", 
+            "description": "Die TGM veranstaltet Vorträge, Konferenzen und Ausstellungen zum Thema Typographie und Gestaltung an.", 
             "title": "typographische gesellschaft m\u00fcnchen"
         }
     },
