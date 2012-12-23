@@ -3,6 +3,7 @@
 
 import pytz
 from pytz import timezone
+import reversion
 
 utc = pytz.utc
 cet = timezone('Europe/Berlin')
@@ -38,3 +39,33 @@ def slugify(value):
     value = unicode(re.sub('[^\w\s-]', '', value).strip().lower())
     value = re.sub('[-\s]+', '-', value)
     return value
+
+def get_canceled_and_cancel_prefix(event):
+    if event.canceled:
+        return (True,  "[Abgesagt] ")
+    return (False, "")
+
+def get_changed_and_change_prefix(event, from_date):
+    current_version = None
+    previous_version = None
+    
+    version_list = reversion.get_for_object(event)
+    for version in version_list:
+        # 1st element is the current version
+        if not current_version:
+            current_version = version
+        
+        # find compare version
+        previous_version = version
+        if version.revision.date_created < from_date:
+            break
+    
+    if current_version and previous_version:
+        if current_version.field_dict['canceled'] == True:
+            return (True, "[Abgesagt] ")
+        if current_version.field_dict['date_time_begin'] != previous_version.field_dict['date_time_begin']:
+            return (True, "[Update][Datum] ")
+        if current_version.field_dict['location'] and previous_version.field_dict['location'] and current_version.field_dict['location'] != previous_version.field_dict['location']:
+            return (True, "[Update][Ort] ")
+    
+    return (False, "")

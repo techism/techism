@@ -3,13 +3,14 @@
 
 from django.test import TestCase
 from techism import utils
-from techism.models import Event
+from techism.models import Event, Location
 import datetime
 from django.utils import timezone
 from django.conf import settings
 from urlparse import urlparse
+import reversion
 
-class ModelsTest(TestCase):
+class ModelsUnitTest(TestCase):
     
     def test_get_number_of_days_with_no_end_date(self):
         event = Event(date_time_begin = datetime.datetime(2012, 1, 1, 19, 0, 0, 0, timezone.utc))
@@ -43,7 +44,29 @@ class ModelsTest(TestCase):
         print now
         print now.tzinfo
 
+
+class ModelsIntegrationTest(TestCase):
     
+    def test_event_versioning(self):
+        now = timezone.now().replace(microsecond=0)
+        tomorrow = now + datetime.timedelta(days=1)
+        
+        event = Event(title=u'Test', description='Test', url='http://www.example.com',
+                      date_time_begin=now)
+        event.save()
+        
+        version_list = reversion.get_for_object(event)
+        self.assertEqual(1, len(version_list))
+        
+        event.date_time_begin=tomorrow
+        event.save()
+        
+        version_list = reversion.get_for_object(event)
+        self.assertEqual(2, len(version_list))
+        self.assertEqual(now, version_list[1].field_dict['date_time_begin'])
+        self.assertEqual(tomorrow, version_list[0].field_dict['date_time_begin'])
+
+
 class UtilsTest(TestCase):
 
     def test_localize_none(self):
@@ -78,6 +101,61 @@ class UtilsTest(TestCase):
     def test_slugify(self):
         slugified = utils.slugify(u'A string with\twhitespace, upper case, unicode (ä).')
         self.assertEqual(slugified, "a-string-with-whitespace-upper-case-unicode-a")
+
+
+class UtilsIntegrationTest(TestCase):
+    
+    fixtures = ['test-utils/fixture.json']
+    
+    def test_event_versioning(self):
+        
+        now = timezone.now()
+        t1 = now + datetime.timedelta(days=3)
+        t2 = now + datetime.timedelta(days=5)
+        
+        # just created event, empty prefix expected
+        event = Event(title=u'Test', description='Test', url='http://www.example.com', date_time_begin=t1)
+        event.save()
+        
+        changed, prefix = utils.get_changed_and_change_prefix(event, now)
+        self.assertFalse(changed)
+        self.assertEqual("", prefix)
+        
+        # date updated, prefix expected
+        now = timezone.now()
+        event.date_time_begin = t2
+        event.save()
+        
+        changed, prefix = utils.get_changed_and_change_prefix(event, now)
+        self.assertTrue(changed)
+        self.assertEqual("[Update][Datum] ", prefix)
+        
+        # location added, no update expected
+        now = timezone.now()
+        event.location = Location.objects.get(id=1)
+        event.save()
+        
+        changed, prefix = utils.get_changed_and_change_prefix(event, now)
+        self.assertFalse(changed)
+        self.assertEqual("", prefix)
+        
+        # location updated, prefix expected
+        now = timezone.now()
+        event.location = Location.objects.get(id=2)
+        event.save()
+        
+        changed, prefix = utils.get_changed_and_change_prefix(event, now)
+        self.assertTrue(changed)
+        self.assertEqual("[Update][Ort] ", prefix)
+        
+        # canceled, prefix expected
+        now = timezone.now()
+        event.canceled = True;
+        event.save()
+        
+        changed, prefix = utils.get_changed_and_change_prefix(event, now)
+        self.assertTrue(changed)
+        self.assertEqual("[Abgesagt] ", prefix)
 
 
 class AccountsViewsTest(TestCase):

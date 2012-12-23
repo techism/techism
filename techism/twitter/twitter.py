@@ -2,8 +2,9 @@
 # -*- coding: utf-8 -*-
 
 from techism.events import event_service
-from techism.models import TweetedEvent, EventChangeLog
+from techism.models import TweetedEvent
 from techism.settings import service
+from techism import utils
 from django.conf import settings
 from django.utils import timezone
 import tweepy
@@ -34,25 +35,23 @@ def tweet_upcoming_events():
 
 
 def __must_tweet_and_prefix(event):
-    # get last tweet
+    # check if already tweeted, reweet only when changed
     tweet = None
     tweet_list = TweetedEvent.objects.filter(event=event).order_by('-date_time_created')
-    if tweet_list.exists():
+    if tweet_list:
         tweet = tweet_list[0]
+        changed, prefix = utils.get_changed_and_change_prefix(event, tweet.date_time_created)
+        if changed and not tweet.tweet.startswith(prefix):
+            return (True, prefix)
+        else:
+            return (False, '')
     
-    # determine if we must tweet and the used prefix
-    if event.canceled:
-        if tweet is None or not tweet.tweet.startswith('[Abgesagt] '):
-            return (True, '[Abgesagt] ')
+    # always tweet canceled event once
+    canceled, prefix = utils.get_canceled_and_cancel_prefix(event)
+    if canceled:
+        return (True, prefix)
     else:
-        if tweet is None:
-            return (True, '')
-        elif not tweet.tweet.startswith('[Update] '):
-            cl_list = EventChangeLog.objects.filter(event=event).filter(date_time__gte=tweet.date_time_created).order_by('-date_time')
-            if cl_list.exists():
-                return (True, '[Update] ')
-    
-    return (False, '')
+        return (True, '')
 
 
 def format_tweet(event, prefix):

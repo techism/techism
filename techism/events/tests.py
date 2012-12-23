@@ -11,6 +11,7 @@ from django.utils import timezone
 from forms import EventForm, CommaSeparatedTagsFormField
 from django.core.exceptions import ValidationError
 import json
+import reversion
 
 
 class EventServiceTest(TestCase):
@@ -81,7 +82,7 @@ class EventViewsTest(TestCase):
         response = self.client.get('/events/locations/')
         self.assertEqual(response.status_code, 200)
         data = json.loads(response.content)
-        self.assertEqual(1, len(data))
+        self.assertEqual(2, len(data))
         self.assertEqual(6, len(data[0]))
         self.assertDictEqual({
                               u'id': u'1',
@@ -117,7 +118,6 @@ class EventViewsTest(TestCase):
         self.assertFormError(response, 'form', 'url', 'Dieses Feld ist zwingend erforderlich.')
         self.assertFormError(response, 'form', 'date_time_begin', 'Dieses Feld ist zwingend erforderlich.')
         self.assertFormError(response, 'form', 'tags', 'Dieses Feld ist zwingend erforderlich.')
-        pass
 
     def test_create_view_post__create_new_unpublished_event_with_new_tags_and_new_location(self):
         num_events = Event.objects.count()
@@ -165,6 +165,10 @@ class EventViewsTest(TestCase):
         # check that event is not published
         self.assertFalse(event.published)
         self.assertIn('Dieses Event ist noch nicht veröffentlicht.', response.content)
+        
+        # check revision was created
+        version_list = reversion.get_for_object(event)
+        self.assertEqual(2, len(version_list))
     
     def test_create_view_post__create_new_unpublished_event_with_existing_tags_and_existing_location(self):
         num_events = Event.objects.count()
@@ -213,6 +217,10 @@ class EventViewsTest(TestCase):
         # check that event is not published
         self.assertFalse(event.published)
         self.assertIn('Dieses Event ist noch nicht veröffentlicht.', response.content)
+        
+        # check revision was created
+        version_list = reversion.get_for_object(event)
+        self.assertEqual(2, len(version_list))
 
     def test_copy_view_get(self):
         response = self.client.get('/events/create/1', follow=True)

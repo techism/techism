@@ -3,7 +3,7 @@
 from django.contrib.syndication.views import Feed
 from django.utils.feedgenerator import Atom1Feed
 from django.utils import html
-from techism.rss import feed_service
+from techism import utils
 from techism.events import event_service
 from datetime import timedelta
 from django.utils import timezone
@@ -21,7 +21,9 @@ class UpcommingEventsRssFeed(Feed):
         return event_list
 
     def item_title(self, item):
-        prefix = feed_service.get_change_log_prefix(item)
+        first_publish_date = item.date_time_begin - timedelta(days=7)
+        _, prefix = utils.get_changed_and_change_prefix(item, first_publish_date)
+        
         date_time_begin_localtime = timezone.localtime(item.date_time_begin)
         if item.get_number_of_days() > 1:
             date_time_end_localtime = timezone.localtime(item.date_time_end)

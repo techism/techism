@@ -1,5 +1,6 @@
 [
 {"pk": 1, "model": "techism.location", "fields": {"latitude": 48.13788, "city": "80331 M\u00fcnchen", "street": "Marienplatz", "name": "Stadtverwaltung", "longitude": 11.575953}},
+{"pk": 2, "model": "techism.location", "fields": {"latitude": 48.13920100163921, "city": "80331 M\u00fcnchen", "street": "Stachus", "name": "Stachus", "longitude": 11.566007137298584}},
 {"pk": 1, "model": "techism.eventtag", "fields": {"name": "test"}}, 
 {"pk": 2, "model": "techism.eventtag", "fields": {"name": "java"}}, 
 {"pk": 3, "model": "techism.eventtag", "fields": {"name": "node.js"}}, 

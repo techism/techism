@@ -85,6 +85,7 @@ INSTALLED_APPS = (
     'techism.twitter',
     'django.contrib.admin',
     'social_auth',
+    'reversion',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )

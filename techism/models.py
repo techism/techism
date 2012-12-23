@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from techism import utils
 from django.utils.encoding import iri_to_uri
+import reversion
 
 class Location(models.Model):
     name = models.CharField(max_length=200)
@@ -65,24 +66,10 @@ class Event(models.Model):
         else:
             delta = self.date_time_end - self.date_time_begin
             return delta.days
-        
     
-class ChangeType:
-    CREATED = 'C'
-    UPDATED = 'U'
-    CANCELLED = 'D'
-    
-    Choices = (
-        ('C', 'Created'),
-        ('U', 'Updated'),
-        ('D', 'Canceled'),
-    )
-
-class EventChangeLog(models.Model):
-    event = models.ForeignKey(Event)
-    event_title = models.CharField(max_length=200)
-    change_type = models.CharField(max_length=1, choices=ChangeType.Choices)
-    date_time = models.DateTimeField(auto_now_add=True)
+    def save(self, *args, **kwargs):
+        with reversion.create_revision():
+            super(Event, self).save(*args, **kwargs)
 
 class Setting(models.Model):
     name = models.CharField(max_length=200, primary_key=True)
@@ -95,3 +82,5 @@ class TweetedEvent(models.Model):
     tweet = models.CharField(max_length=200)
     date_time_created = models.DateTimeField(auto_now_add=True)
     date_time_modified = models.DateTimeField(auto_now=True)
+
+reversion.register(Event)
