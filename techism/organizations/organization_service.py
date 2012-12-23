@@ -1,6 +1,7 @@
 #!/usr/local/bin/python
 # -*- coding: utf-8 -*-
-from techism.models import Organization
+from techism.models import Organization, OrganizationTag
+from django.db.models import Count
 
 def get_all():
     return Organization.objects.all()
@@ -11,8 +12,8 @@ def get_by_tag(tag):
     event_list = organization_list.filter(tags=tag)
     return event_list
 
-def get_current_tags():
-    return None
+def get_tags():
+    return OrganizationTag.objects.filter(organization__title__isnull=False).annotate(num_tags=Count('name')).order_by('name').iterator()
 
 
 def __get_organization_query_set():

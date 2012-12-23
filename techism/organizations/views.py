@@ -7,16 +7,18 @@ from techism.models import Organization, OrganizationTag
 
 def index(request):
     list = organization_service.get_all()
+    tags = organization_service.get_tags()
     return render_to_response(
         'organizations/index.html',
-        {'organization_list': list}, 
+        {'organization_list': list,
+         'tags': tags}, 
         context_instance=RequestContext(request))
 
 
 def tag(request, tag_name):
     tag = get_object_or_404(OrganizationTag, name=tag_name)
     list = organization_service.get_by_tag(tag)
-    tags = organization_service.get_current_tags()
+    tags = organization_service.get_tags()
     return render_to_response(
         'organizations/index.html', 
         {
