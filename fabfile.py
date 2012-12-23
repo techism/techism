@@ -114,6 +114,10 @@ def __touch_wsgi(target_dir, wsgi_path):
     with cd(BASE_DIR), cd(target_dir):
         run("touch %s" % wsgi_path)
 
+def __install_crontab(target_dir):
+    with cd(BASE_DIR), cd(target_dir):
+        run("crontab < conf/crontab")
+
 @_contextmanager
 def __virtualenv():
     with prefix("source venv/bin/activate"):
@@ -129,6 +133,7 @@ def deploy_staging():
     __manage_staging_db()
     __migrate_db(next_staging_dir, STAGING_SETTINGS)
     __collect_static(next_staging_dir)
+    __install_crontab(next_staging_dir)
     __create_active_symlink(next_staging_dir, STAGING_DIR)
     __touch_wsgi(next_staging_dir, STAGING_WSGI)
     
@@ -141,6 +146,7 @@ def deploy_production():
     __backup_db(PRODUCTION_DB_NAME)
     __migrate_db(next_prod_dir, PRODUCTION_SETTINGS)
     __collect_static(next_prod_dir)
+    __install_crontab(next_prod_dir)
     __create_active_symlink(next_prod_dir, PRODUCTION_DIR)
     __touch_wsgi(next_prod_dir, PRODUCTION_WSGI)
 
