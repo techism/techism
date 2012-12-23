@@ -139,5 +139,10 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': False,
         },
+        'techism': {
+        'handlers': ['errorlogfile', 'debuglogfile'],
+        'level': 'DEBUG',
+        'propagate': False,
+        },
     }
 }

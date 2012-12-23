@@ -2,13 +2,14 @@
 # -*- coding: utf-8 -*-
 
 from techism.events import event_service
-from techism.models import TweetedEvent
+from techism.models import TweetedEvent, EventChangeLog
 from techism.settings import service
 from django.conf import settings
 from django.utils import timezone
 import tweepy
 from tweepy.error import TweepError
 import urllib
+import logging
 from datetime import timedelta
 
 def tweet_upcoming_events():
@@ -23,12 +24,13 @@ def tweet_upcoming_events():
                 __mark_as_tweeted(event, tweet)
                 break
             except TweepError, e:
-                logging.error(e.reason)
+                logger = logging.getLogger(__name__)
+                logger.error(e.reason,  exc_info=True)
                 if e.reason == u'Status is a duplicate.':
                     __mark_as_tweeted(event, tweet + " (duplicate)")
                     break
                 else:
-                    raise e
+                    raise
 
 
 def __must_tweet_and_prefix(event):
@@ -54,10 +56,12 @@ def __must_tweet_and_prefix(event):
 
 
 def format_tweet(event, prefix):
+    date_time_begin_localtime = timezone.localtime(event.date_time_begin)
     if event.get_number_of_days() > 0:
-        date_string = event.date_time_begin.strftime("%d.%m.%Y") + "-" + event.date_time_end.strftime("%d.%m.%Y")
+        date_time_end_localtime = timezone.localtime(event.date_time_end)
+        date_string = date_time_begin_localtime.strftime("%d.%m.%Y") + "-" + date_time_end_localtime.strftime("%d.%m.%Y")
     else:
-        date_string = event.date_time_begin.strftime("%d.%m.%Y %H:%M")
+        date_string = date_time_begin_localtime.strftime("%d.%m.%Y %H:%M")
     
     base_url = settings.HTTP_URL
     relative_url = event.get_absolute_url()
@@ -73,9 +77,9 @@ def format_tweet(event, prefix):
 
 
 def get_short_term_events():
-    today_local = timezone.localtime(timezone.now())
-    three_days = today_local + timedelta(days=3)
-    event_list = event_service.get_upcomming_published_events_query_set().filter(date_time_begin__gte=today_local).filter (date_time_begin__lte=three_days).order_by('date_time_begin')
+    now_utc = timezone.now()
+    three_days = now_utc + timedelta(days=3)
+    event_list = event_service.get_upcomming_published_events_query_set().filter(date_time_begin__gte=now_utc).filter (date_time_begin__lte=three_days).order_by('date_time_begin')
     return event_list
 
 
