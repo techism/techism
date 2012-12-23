@@ -90,23 +90,31 @@ class TwitterIntegrationTest(TestCase):
 
     @mock.patch('techism.twitter.twitter.__tweet_event')
     def test_tweet_and_marked_as_tweeted(self, mocked_tweet_event_function):
+        tweets = []
+        
         # 1st call: one event is tweeted and marked
-        event1 = Event.objects.get(id=1)
         twitter.tweet_upcoming_events()
-        mocked_tweet_event_function.assert_called_once_with(event1.title + ' - ' + self.tomorrow_localtime + ' ' + settings.HTTP_URL + event1.get_absolute_url())
-        mocked_tweet_event_function.reset_mock()
+        self.assertEquals(1, mocked_tweet_event_function.call_count)
         self.assertEqual(TweetedEvent.objects.count(), 1)
+        tweets.append(mocked_tweet_event_function.call_args[0][0])
+        mocked_tweet_event_function.reset_mock()
         
         # 2nd call: other event is tweeted and marked
-        event2 = Event.objects.get(id=2)
         twitter.tweet_upcoming_events()
-        mocked_tweet_event_function.assert_called_once_with(event2.title + ' - ' + self.tomorrow_localtime + ' ' + settings.HTTP_URL + event2.get_absolute_url())
-        mocked_tweet_event_function.reset_mock()
+        self.assertEquals(1, mocked_tweet_event_function.call_count)
         self.assertEqual(TweetedEvent.objects.count(), 2)
+        tweets.append(mocked_tweet_event_function.call_args[0][0])
+        mocked_tweet_event_function.reset_mock()
         
         # 3rd call: no more upcomming event
         twitter.tweet_upcoming_events()
         self.assertFalse(mocked_tweet_event_function.called)
+        
+        # assert correct tweets
+        event2 = Event.objects.get(id=2)
+        event1 = Event.objects.get(id=1)
+        self.assertIn(event1.title + ' - ' + self.tomorrow_localtime + ' ' + settings.HTTP_URL + event1.get_absolute_url(), tweets)
+        self.assertIn(event2.title + ' - ' + self.tomorrow_localtime + ' ' + settings.HTTP_URL + event2.get_absolute_url(), tweets)
 
 
 class TwitterUnitTest(TestCase):
