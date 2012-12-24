@@ -9,7 +9,7 @@ if __name__ == "__main__":
         execfile("transform_fixture.py")
         os.chdir("..")
 
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "techism.settings.development")
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "techism.settings.local")
 
     from django.core.management import execute_from_command_line
 

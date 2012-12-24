@@ -21,7 +21,7 @@ DATABASES = {
     }
 }
 
-WSGI_APPLICATION = 'techism.settings.development_wsgi.application'
+WSGI_APPLICATION = 'techism.settings.local_wsgi.application'
 
 SESSION_COOKIE_SECURE = False
 HTTPS_PATHS = (
