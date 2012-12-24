@@ -1,20 +1,18 @@
 section, header, footer, aside, nav, article { display: block; }
+html { height:100%;}
 body {
   padding: 0;
   margin: 0 auto;
   width: 85%;
+  height: 100%;
   font-family: Trebuchet MS, Helvetica, Arial, sans-serif;
-  font-size: 15px;
+  font-size: 16px;
   background-color: #000000;
   background: url("../images/head_spotlight.png") no-repeat 0px -50px, #232323 url("../images/bg_noise.gif") repeat;
 }
 #admin {
   background-color: #ffffff;
   opacity: 0.3;
-  -webkit-border-top-left-radius: 5px;
-  -webkit-border-top-right-radius: 5px;
-  -moz-border-radius-topleft: 5px;
-  -moz-border-radius-topright: 5px;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   padding: 5px;
@@ -58,10 +56,6 @@ nav div ul item {
   margin: 15px;
 }
 #add {
-  -webkit-border-top-left-radius: 5px;
-  -webkit-border-top-right-radius: 5px;
-  -moz-border-radius-topleft: 5px;
-  -moz-border-radius-topright: 5px;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   background-color: #ffffff;
@@ -111,15 +105,11 @@ h3 {
   background: #e2e2e2;
   color: #ffffff;
   border-radius: 5px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
   padding: 3px;
 }
 #tagcloud {
   padding: 15px;
   border-radius: 5px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
   text-decoration: none;
   line-height: 35px;
 }
@@ -128,8 +118,6 @@ h3 {
   color: #ffffff;
   padding: 5px;
   border-radius: 5px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
   text-decoration: none;
   border: 1px solid grey;
 }
@@ -146,14 +134,13 @@ h3 {
 #tagcloud a:hover { border: 1px solid #00ff00; }
 #tagcloud .selected { border: 1px solid #00ff00; }
 .tags a {
-  background: #000000;
-  color: #ffffff;
+  background:#f9f9f9;
+  color: #999999;
   padding: 5px;
   border-radius: 5px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
   text-decoration: none;
   line-height: 40px;
+  border: 1px solid #999999;
 }
 .tags a:hover { border: 1px solid #00ff00; }
 .tags .selected { border: 1px solid #00ff00; }
@@ -170,8 +157,6 @@ footer ul li { margin-right: 10px; }
 #content {
   background: #ffffff;
   border-radius: 5px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
   color: #000000;
 }
 .vevent {
@@ -246,8 +231,6 @@ footer ul li { margin-right: 10px; }
   color: #00ff00;
   background: #424242;
   border-radius: 5px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
   padding: 5px;
 }
 label {
@@ -270,8 +253,6 @@ input, textarea {
   font: normal 13px/100% Verdana, Tahoma, sans-serif;
   width: 90%;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 8px;
-  -moz-box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 8px;
-  -webkit-box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 8px;
 }
 textarea {
   width: 90%;
@@ -285,26 +266,18 @@ textarea {
 input:hover {
   border-color: #c9c9c9;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 8px;
-  -moz-box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 8px;
-  -webkit-box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 8px;
 }
 textarea:hover {
   border-color: #c9c9c9;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 8px;
-  -moz-box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 8px;
-  -webkit-box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 8px;
 }
 input:focus {
   border-color: #c9c9c9;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 8px;
-  -moz-box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 8px;
-  -webkit-box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 8px;
 }
 textarea:focus {
   border-color: #c9c9c9;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 8px;
-  -moz-box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 8px;
-  -webkit-box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 8px;
 }
 .submit input {
   width: auto;
@@ -320,3 +293,4 @@ textarea:focus {
   color: #3b3b3b;
 }
 .canceled { text-decoration: line-through; }
+.organizations { max-width:400px;padding: 10px 15px 10px 15px;}
