@@ -37,8 +37,8 @@ HTTPS_PATHS = (
     '/admin/',
     '/accounts/',
 )
-HTTP_URL = 'http://next.techism.de'
-HTTPS_URL = 'https://next.techism.de'
+HTTP_URL = 'http://staging.techism.de'
+HTTPS_URL = 'https://staging.techism.de'
 
 LOGGING['handlers']['errorlogfile']['filename'] = '/srv/www/techism-staging-log/error.log'
 LOGGING['handlers']['debuglogfile']['filename'] = '/srv/www/techism-staging-log/debug.log'
