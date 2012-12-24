@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 from django.contrib.sitemaps import Sitemap
 from datetime import datetime
+from techism.organizations import organization_service
 
 
 class OrgIndexSitemap(Sitemap):
@@ -16,3 +17,14 @@ class OrgIndexSitemap(Sitemap):
 
     def lastmod(self, obj):
         return datetime.now()
+    
+    
+class OrgTagsSitemap(Sitemap):
+    changefreq = "monthly"
+    priority = 0.3
+
+    def items(self):
+        return organization_service.get_tags()
+
+    def location(self, obj):
+        return '/orgs/tags/' + obj.name + '/'

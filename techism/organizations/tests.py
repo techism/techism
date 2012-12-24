@@ -13,7 +13,7 @@ class OrganizationServiceTest(TestCase):
         self.assertEqual(len(organizations_list), 2)
         
     def test_get_current_tags(self):
-        tags = organization_service.get_tags()
+        tags = organization_service.get_tags().iterator()
         tag1 = tags.next()
         self.assertEqual(tag1.name, "tag1")
         self.assertEqual(tag1.num_tags, 2)

@@ -2,8 +2,8 @@ from django.conf.urls import patterns, include, url
 from django.views.generic.simple import direct_to_template
 from techism.rss.feeds import UpcommingEventsRssFeed, UpcommingEventsAtomFeed
 from techism.sitemaps import TechismSitemap
-from techism.events.sitemaps import EventIndexSitemap,EventDetailsSitemap
-from techism.organizations.sitemaps import OrgIndexSitemap
+from techism.events.sitemaps import EventIndexSitemap,EventDetailsSitemap,EventTagsSitemap
+from techism.organizations.sitemaps import OrgIndexSitemap,OrgTagsSitemap
 from django.contrib import admin
 
 admin.autodiscover()
@@ -12,7 +12,9 @@ sitemaps = {
     'techism': TechismSitemap,
     'event_index': EventIndexSitemap,
     'event_details': EventDetailsSitemap,
+    'event_tags': EventTagsSitemap,
     'organizations_index': OrgIndexSitemap,
+    'organizations_tags': OrgTagsSitemap,
 }
 
 urlpatterns = patterns('',

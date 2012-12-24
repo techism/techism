@@ -28,3 +28,14 @@ class EventDetailsSitemap(Sitemap):
 
     def lastmod(self, obj):
         return obj.date_time_modified
+    
+
+class EventTagsSitemap(Sitemap):
+    changefreq = "daily"
+    priority = 0.5
+
+    def items(self):
+        return event_service.get_current_tags()
+
+    def location(self, obj):
+        return '/events/tags/' + obj.name + '/'

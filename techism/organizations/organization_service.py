@@ -13,7 +13,7 @@ def get_by_tag(tag):
     return event_list
 
 def get_tags():
-    return OrganizationTag.objects.filter(organization__title__isnull=False).annotate(num_tags=Count('name')).order_by('name').iterator()
+    return OrganizationTag.objects.filter(organization__title__isnull=False).annotate(num_tags=Count('name')).order_by('name').all()
 
 
 def __get_organization_query_set():

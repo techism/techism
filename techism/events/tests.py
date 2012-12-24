@@ -19,7 +19,7 @@ class EventServiceTest(TestCase):
     fixtures = ['test-utils/fixture.json']
     
     def test_tags(self):
-        it = get_current_tags()
+        it = get_current_tags().iterator()
         tag1 = it.next()
         self.assertEqual(tag1.name, "java")
         self.assertEqual(tag1.num_tags, 2)
