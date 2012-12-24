@@ -29,7 +29,13 @@ class SecureRequiredMiddleware(object):
 
 #sets the http headers for a Content Security Policy
 class ContentSecurityPolicyMiddleware(object):
+    
     def process_response(self, request, response):
+        
+        # exclude CSP for Django Admin and OpenID login
+        path = request.get_full_path()
+        if path.startswith(('/admin/', '/accounts/login/')):
+            return response
         
         standard_policy = "default-src 'self';" \
             "img-src 'self' *.tile.openstreetmap.org staticmap.openstreetmap.de;" \
@@ -38,9 +44,8 @@ class ContentSecurityPolicyMiddleware(object):
             "xhr-src 'self' nominatim.openstreetmap.org;" 
         #header for firefox and Internet Explorer 
         response['X-Content-Security-Policy']= standard_policy
-        
         #header for webkit
-        response['X-WebKit-CSP']= standard_policy		
+        response['X-WebKit-CSP']= standard_policy
         #standard header that will be used in future implementations
         response['Content-Security-Policy']= standard_policy
         

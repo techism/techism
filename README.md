@@ -9,7 +9,7 @@
 
 ##Development
 
-Start local development server:
+### Start local development server
 
     (venv)$ python manage.py runserver
 
@@ -17,15 +17,15 @@ or
 
     (venv)$ gunicorn_django techism
 
-Save dependencies:
+### Save dependencies
 
     (venv)$ pip freeze > dependencies.pip
 
-Run tests:
+### Run tests
 
     (venv)$ ./manage.py test techism events ical rss twitter organizations
 
-Edit test data:
+### Edit test data
 
     $ cd test-utils
     $ vi fixture_template.json
@@ -34,6 +34,20 @@ Available Placeholders:
 YESTERDAY
 TOMORROW
 NEXTWEEK
+
+### Schema migrations
+
+[South](http://south.readthedocs.org/) is used for database schema migrations.
+
+Whenever changing the model create a new migration using:
+
+    $ ./manage.py schemamigration techism --auto
+
+Then apply the schema migration to the database:
+
+    $ ./manage.py syncdb
+    $ ./manage.py migrate
+
 
 ##Deployment
 

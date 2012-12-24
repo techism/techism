@@ -10,7 +10,7 @@ class Location(models.Model):
     city = models.CharField(max_length=200)
     latitude = models.FloatField(blank=True, null=True)
     longitude = models.FloatField(blank=True, null=True)
-    historized = models.NullBooleanField(blank=True, null=True, default=False)
+    historized_since = models.DateTimeField(db_index=True, blank=True, null=True)
     
     def __unicode__(self):
         return self.name;
@@ -40,7 +40,7 @@ class EventTag (models.Model):
 class Event(models.Model):
     title = models.CharField(max_length=200)
     date_time_begin = models.DateTimeField(db_index=True)
-    date_time_end = models.DateTimeField(db_index=True,blank=True, null=True)
+    date_time_end = models.DateTimeField(db_index=True, blank=True, null=True)
     url = models.URLField()
     description = models.TextField(blank=True, null=True)
     location = models.ForeignKey(Location, blank=True, null=True)
@@ -79,7 +79,7 @@ class Setting(models.Model):
 
 class TweetedEvent(models.Model):
     event = models.ForeignKey(Event)
-    tweet = models.CharField(max_length=200)
+    tweet = models.CharField(max_length=500)
     date_time_created = models.DateTimeField(auto_now_add=True)
     date_time_modified = models.DateTimeField(auto_now=True)
 
