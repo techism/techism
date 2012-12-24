@@ -77,6 +77,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sitemaps',
     'techism',
     'techism.events',
     'techism.organizations',
@@ -87,7 +88,6 @@ INSTALLED_APPS = (
     'social_auth',
     'reversion',
     'south'
-    # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
 

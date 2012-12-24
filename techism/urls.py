@@ -1,9 +1,19 @@
 from django.conf.urls import patterns, include, url
 from django.views.generic.simple import direct_to_template
 from techism.rss.feeds import UpcommingEventsRssFeed, UpcommingEventsAtomFeed
-
+from techism.sitemaps import TechismSitemap
+from techism.events.sitemaps import EventIndexSitemap,EventDetailsSitemap
+from techism.organizations.sitemaps import OrgIndexSitemap
 from django.contrib import admin
+
 admin.autodiscover()
+
+sitemaps = {
+    'techism': TechismSitemap,
+    'event_index': EventIndexSitemap,
+    'event_details': EventDetailsSitemap,
+    'organizations_index': OrgIndexSitemap,
+}
 
 urlpatterns = patterns('',
     (r'^$', 'techism.events.views.index'),
@@ -43,4 +53,7 @@ urlpatterns = patterns('',
     (r'^accounts/login/$', direct_to_template, { 'template': 'accounts/login.html' }),
     (r'^accounts/logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
     url(r'^accounts/', include('social_auth.urls')),
+    
+    #Sitemap
+    (r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps})
 )

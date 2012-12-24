@@ -7,6 +7,10 @@ User-agent: Googlebot
 Crawl-delay: 1
 Allow: /
 
+User-agent: Googlebot-Mobile
+Crawl-delay: 1
+Allow: /
+
 User-agent: Slurp
 Crawl-delay: 1
 Allow: /
@@ -17,6 +21,14 @@ Allow: /
 
 User-agent: DuckDuckBot
 Crawl-delay: 1
-Allow: / 
+Allow: /
+
+User-agent: Yandex
+Crawl-delay: 1
+Allow: /
+
+User-agent: baiduspider
+Crawl-delay: 1
+Allow: /
 
 
