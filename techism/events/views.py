@@ -268,7 +268,7 @@ def locations(request):
 
 
 def __get_locations_as_json():
-    location_list = Location.objects.all()
+    location_list = Location.objects.filter(historized_since__isnull=True)
     locations = []
     for location in location_list:
         loc = dict()
