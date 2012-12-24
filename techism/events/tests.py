@@ -84,14 +84,12 @@ class EventViewsTest(TestCase):
         data = json.loads(response.content)
         self.assertEqual(2, len(data))
         self.assertEqual(6, len(data[0]))
-        self.assertDictEqual({
-                              u'id': 1,
-                              u'name': u'Stadtverwaltung',
-                              u'street': u'Marienplatz',
-                              u'city': u'80331 München',
-                              u'latitude': 48.13788,
-                              u'longitude': 11.575953
-                              }, data[0])
+        self.assertEqual(6, len(data[1]))
+        self.assertIn("Stadtverwaltung", response.content)
+        self.assertIn("Marienplatz", response.content)
+        self.assertIn("80331 M\\u00fcnchen", response.content)
+        self.assertIn("11.575953", response.content)
+        self.assertIn("48.13788", response.content)
 
     def test_create_view_get(self):
         response = self.client.get('/events/create/')
