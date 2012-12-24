@@ -264,20 +264,20 @@ def __cancel_event(request, event):
 
 
 def locations(request):
-    return HttpResponse(__get_locations_as_json())
+    return HttpResponse(__get_locations_as_json(), mimetype="application/json")
 
 
 def __get_locations_as_json():
-    location_list = Location.objects.all()
+    location_list = Location.objects.filter(historized_since__isnull=True)
     locations = []
     for location in location_list:
         loc = dict()
-        loc['id'] = html.escape(location.id)
-        loc['name'] = html.escape(location.name)
-        loc['street'] = html.escape(location.street)
-        loc['city'] = html.escape(location.city)
-        loc['latitude'] = html.escape(location.latitude)
-        loc['longitude'] = html.escape(location.longitude)
+        loc['id'] = location.id
+        loc['name'] = location.name
+        loc['street'] = location.street
+        loc['city'] = location.city
+        loc['latitude'] = location.latitude
+        loc['longitude'] = location.longitude
         locations.append(loc)
     locations_as_json = json.dumps(locations)
     return locations_as_json
