@@ -1350,8 +1350,8 @@
         "fields": {
             "url": "http://www.tgm-online.de/tgm/", 
             "tags": [
-                34, 
-                11
+                36, 
+                3
             ], 
             "description": "Die TGM veranstaltet Vorträge, Konferenzen und Ausstellungen zum Thema Typographie und Gestaltung an.", 
             "title": "typographische gesellschaft m\u00fcnchen"
@@ -1363,7 +1363,7 @@
         "fields": {
             "url": "http://www.meetup.com/Creative-Coding/", 
             "tags": [
-                11
+                3
             ], 
             "description": "", 
             "title": "Creative Coding"
