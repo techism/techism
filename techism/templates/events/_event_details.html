@@ -30,8 +30,9 @@
     </header>
     <section class="detail{% if event.canceled %} canceled{% endif %}">
         <section>
-            <a class="url" href="{{ event.get_absolute_url }}"><img src="{% static 'images/world_link.png' %}">
-                Permalink</a>
+            <a class="url" href="{{ event.get_absolute_url }}"><img src="{% static 'images/world_link.png' %}">Permalink</a> &nbsp;
+            <a href="/ical/{{ event.id }}.ics"><img src="{% static 'images/date.png' %}"> iCal Export</a> &nbsp;
+            <a href="webcal://{{ hostname }}/ical/{{ event.id }}.ics"> <img src="{% static 'images/date.png' %}">WebCal</a>
         </section>
 
         <section class="what">
@@ -40,12 +41,6 @@
             <p>
                 <a target="_blank" href="{{ event.url }}"><img src="{% static 'images/world_link.png' %}">
                     Webseite des Veranstalters</a>
-            </p>
-            <p class="ical">
-                <a href="/ical/{{ event.id }}.ics"><img src="{% static 'images/date.png' %}"> iCal Export</a> &nbsp;
-                <a href="webcal://{{ hostname }}/ical/{{ event.id }}.ics"> <img src="{% static 'images/date.png' %}">
-                    WebCal
-                </a>
             </p>
             <p class="tags">
                 {% for tag in event.tags.all %}

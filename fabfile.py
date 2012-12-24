@@ -12,6 +12,13 @@ env.hosts = ["techism@next.techism.de:2222"]
 BASE_DIR = "/srv/www"
 GIT_REPO_DIR = "techism.git"
 PIP_DOWNLOAD_CACHE_DIR = "pip-download-cache"
+DEV_DIR = "techism-dev"
+DEV_LOG_DIR = "techism-dev-log"
+DEV_BLUE_DIR = "techism-dev-blue"
+DEV_GREEN_DIR = "techism-dev-green"
+DEV_SETTINGS = "techism.settings.dev"
+DEV_WSGI = "techism/settings/dev_wsgi.py"
+DEV_DB_NAME = "techismd"
 STAGING_DIR = "techism-staging"
 STAGING_LOG_DIR = "techism-staging-log"
 STAGING_BLUE_DIR = "techism-staging-blue"
@@ -60,12 +67,19 @@ def __create_log_dir(log_dir):
         if not exists(log_dir):
             run("mkdir %s" % log_dir)
 
+def __manage_dev_db():
+    if confirm("Drop DEV DB?", default=False): 
+        run("dropdb %s" % DEV_DB_NAME)
+        run("createdb -E UTF8 -T template0 %s" % DEV_DB_NAME)
+        #if confirm("Copy production DB?", default=True):
+        #    run("pg_dump %s | psql %s" % (PRODUCTION_DB_NAME, STAGING_DB_NAME))
+
 def __manage_staging_db():
     if confirm("Drop staging DB?", default=False): 
         run("dropdb %s" % STAGING_DB_NAME)
         run("createdb -E UTF8 -T template0 %s" % STAGING_DB_NAME)
-        if confirm("Copy production DB?", default=True):
-            run("pg_dump %s | psql %s" % (PRODUCTION_DB_NAME, STAGING_DB_NAME))
+        #if confirm("Copy production DB?", default=True):
+        #    run("pg_dump %s | psql %s" % (PRODUCTION_DB_NAME, STAGING_DB_NAME))
 
 def __backup_db(db_name):
     with cd(PRODUCTION_DB_BACKUP_DIR):
@@ -123,6 +137,20 @@ def __install_crontab(target_dir):
 def __virtualenv():
     with prefix("source venv/bin/activate"):
         yield
+
+def deploy_dev():
+    __git_push()
+    next_dev_dir = __get_next_active_dir(DEV_DIR, DEV_BLUE_DIR, DEV_GREEN_DIR)
+    __clean_checkout(next_dev_dir)
+    __setup_venv(next_dev_dir)
+    __create_log_dir(DEV_LOG_DIR)
+    __run_tests(next_dev_dir, DEV_SETTINGS)
+    __manage_dev_db()
+    __migrate_db(next_dev_dir, DEV_SETTINGS)
+    __collect_static(next_dev_dir)
+    __install_crontab(next_dev_dir)
+    __create_active_symlink(next_dev_dir, DEV_DIR)
+    __touch_wsgi(next_dev_dir, DEV_WSGI)
 
 def deploy_staging():
     __git_push()
