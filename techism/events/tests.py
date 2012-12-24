@@ -85,12 +85,12 @@ class EventViewsTest(TestCase):
         self.assertEqual(2, len(data))
         self.assertEqual(6, len(data[0]))
         self.assertDictEqual({
-                              u'id': u'1',
+                              u'id': 1,
                               u'name': u'Stadtverwaltung',
                               u'street': u'Marienplatz',
                               u'city': u'80331 München',
-                              u'latitude': u'48.13788',
-                              u'longitude': u'11.575953'
+                              u'latitude': 48.13788,
+                              u'longitude': 11.575953
                               }, data[0])
 
     def test_create_view_get(self):
