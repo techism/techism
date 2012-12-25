@@ -1,5 +1,4 @@
 section, header, footer, aside, nav, article { display: block; }
-html { height:100%;}
 body {
   padding: 0;
   margin: 0 auto;
