@@ -13,7 +13,9 @@
             <div class="organizations" >
                 <h2>{{ organization.title }}</h2>
                 <p class="description">
+                    {{ organization.description }}<br>
                     <a target="_blank" href="{{ organization.url }}">{{ organization.url }}</a>
+                    
                 </p>
                 <p class="tags">
                           {% for tag in organization.tags.all %}  
