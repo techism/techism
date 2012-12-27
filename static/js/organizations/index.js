@@ -1,5 +1,5 @@
 $(function(){
-  $('#content').masonry({
+  $('#contentorganizations').masonry({
     itemSelector : '.organizations'
   });
 });

@@ -8,8 +8,8 @@
 {% endblock %}
 
 {% block content %}
-<div id="content">
-    {% if organization_list %}
+{% if organization_list %}
+    <div id="contentorganizations">
         {% for organization in organization_list %}
             <div class="organizations" >
                 <h2>{{ organization.title }}</h2>
@@ -26,13 +26,15 @@
                 </p>
              </div>
         {% endfor %}   
-    {% else %}
-        <section class="content">
+    </div>
+{% else %}
+    <div id="content">
+        <div class="content">
             <p>Keine Organisationen hinterlegt.</p>
-        </section>
-    {% endif %} 
+        </div>
+    </div>
+{% endif %} 
     
-</div>
 
 {% include "organizations/_tagcloud.html" %}
 

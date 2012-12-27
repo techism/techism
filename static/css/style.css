@@ -292,6 +292,14 @@ textarea:focus {
   color: #3b3b3b;
 }
 .canceled { text-decoration: line-through; }
-.organizations { max-width:400px;padding: 10px 15px 10px 15px; float:left;
-border: 1px solid grey;  margin: 5px; border-radius: 5px;word-wrap:break-word;
+.organizations { 
+  max-width:400px;
+  width: 100%;
+  background-color: #ffffff;
+  padding: 10px 15px 10px 15px;
+  float:left;
+  margin: 0px 5px 10px 5px;
+  border-radius: 5px;
+  word-wrap:break-word;
 }
+
