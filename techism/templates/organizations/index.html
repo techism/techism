@@ -26,7 +26,27 @@
                 </p>
              </div>
         {% endfor %}   
-    </div>
+        </div>
+        {% if organization_list.has_previous %}
+            <div class="organizations" id="more">
+                <header>
+                    <h2>
+                            <a href="?page={{ organization_list.previous_page_number }}" class="next">Zur&uuml;ck</a>
+                    </h2>
+                </header>
+            </div>
+        {% endif %}
+        {% if organization_list.has_next %}
+            <div class="organizations" id="more">
+                <header>
+                    <h2>
+                            <a href="?page={{ organization_list.next_page_number }}" class="next">Weiter</a>
+                    </h2>
+                </header>
+            </div>
+        {% endif %}
+
+    
 {% else %}
     <div id="content">
         <div class="content">
