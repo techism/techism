@@ -26,27 +26,16 @@
                 </p>
              </div>
         {% endfor %}   
-        </div>
-        {% if organization_list.has_previous %}
-            <div class="organizations" id="more">
-                <header>
-                    <h2>
-                            <a href="?page={{ organization_list.previous_page_number }}" class="next">Zur&uuml;ck</a>
-                    </h2>
-                </header>
-            </div>
-        {% endif %}
         {% if organization_list.has_next %}
-            <div class="organizations" id="more">
+            <div class="organizations more" id="more">
                 <header>
                     <h2>
-                            <a href="?page={{ organization_list.next_page_number }}" class="next">Weiter</a>
+                        <a href="?page={{ organization_list.next_page_number }}" class="next">Mehr</a>
                     </h2>
                 </header>
             </div>
         {% endif %}
-
-    
+    </div>
 {% else %}
     <div id="content">
         <div class="content">
@@ -63,4 +52,5 @@
 {% block scripts %}
     <script src="{% static 'js/organizations/index.js' %}"></script>
     <script src="{% static 'jquery-masonry-2.1.06/jquery.masonry.min.js' %}"></script>
+    <script src="{% static 'jquery-infinitescroll-1.5.100504/jquery-infinitescroll-1.5.100504.min.js' %}"></script>
 {% endblock %}

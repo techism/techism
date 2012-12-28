@@ -305,4 +305,7 @@ textarea:focus {
   border-radius: 5px;
   word-wrap:break-word;
 }
+.more {
+  max-width:100%;
+}
 
