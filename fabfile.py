@@ -26,14 +26,14 @@ STAGING_GREEN_DIR = "techism-staging-green"
 STAGING_SETTINGS = "techism.settings.staging"
 STAGING_WSGI = "techism/settings/staging_wsgi.py"
 STAGING_DB_NAME = "techisms"
-PRODUCTION_DIR = "techism-production"
-PRODUCTION_LOG_DIR = "techism-production-log"
-PRODUCTION_BLUE_DIR = "techism-production-blue"
-PRODUCTION_GREEN_DIR = "techism-production-green"
-PRODUCTION_SETTINGS = "techism.settings.production"
-PRODUCTION_WSGI = "techism/settings/production_wsgi.py"
-PRODUCTION_DB_NAME = "techismp"
-PRODUCTION_DB_BACKUP_DIR = "/backup/production-db"
+PROD_DIR = "techism-prod"
+PROD_LOG_DIR = "techism-prod-log"
+PROD_BLUE_DIR = "techism-prod-blue"
+PROD_GREEN_DIR = "techism-prod-green"
+PROD_SETTINGS = "techism.settings.prod"
+PROD_WSGI = "techism/settings/prod_wsgi.py"
+PROD_DB_NAME = "techismp"
+PROD_DB_BACKUP_DIR = "/backup/prod-db"
 
 def __git_push():
     with cd(BASE_DIR):
@@ -71,18 +71,18 @@ def __manage_dev_db():
     if confirm("Drop DEV DB?", default=False): 
         run("dropdb %s" % DEV_DB_NAME)
         run("createdb -E UTF8 -T template0 %s" % DEV_DB_NAME)
-        #if confirm("Copy production DB?", default=True):
-        #    run("pg_dump %s | psql %s" % (PRODUCTION_DB_NAME, STAGING_DB_NAME))
+        #if confirm("Copy prod DB?", default=True):
+        #    run("pg_dump %s | psql %s" % (PROD_DB_NAME, STAGING_DB_NAME))
 
 def __manage_staging_db():
     if confirm("Drop staging DB?", default=False): 
         run("dropdb %s" % STAGING_DB_NAME)
         run("createdb -E UTF8 -T template0 %s" % STAGING_DB_NAME)
-        #if confirm("Copy production DB?", default=True):
-        #    run("pg_dump %s | psql %s" % (PRODUCTION_DB_NAME, STAGING_DB_NAME))
+        #if confirm("Copy prod DB?", default=True):
+        #    run("pg_dump %s | psql %s" % (PROD_DB_NAME, STAGING_DB_NAME))
 
 def __backup_db(db_name):
-    with cd(PRODUCTION_DB_BACKUP_DIR):
+    with cd(PROD_DB_BACKUP_DIR):
         now = datetime.datetime.utcnow().strftime('%Y-%m-%d-%H-%M-%S')
         backup_file_name = now + ".pg_dump"
         run("pg_dump %s > %s" % (db_name, backup_file_name))
@@ -166,16 +166,16 @@ def deploy_staging():
     __create_active_symlink(next_staging_dir, STAGING_DIR)
     __touch_wsgi(next_staging_dir, STAGING_WSGI)
     
-def deploy_production():
+def deploy_prod():
     __git_push()
-    next_prod_dir = __get_next_active_dir(PRODUCTION_DIR, PRODUCTION_BLUE_DIR, PRODUCTION_GREEN_DIR)
+    next_prod_dir = __get_next_active_dir(PROD_DIR, PROD_BLUE_DIR, PROD_GREEN_DIR)
     __clean_checkout(next_prod_dir)
     __setup_venv(next_prod_dir)
     __create_log_dir(STAGING_LOG_DIR)
-    __backup_db(PRODUCTION_DB_NAME)
-    __migrate_db(next_prod_dir, PRODUCTION_SETTINGS)
+    __backup_db(PROD_DB_NAME)
+    __migrate_db(next_prod_dir, PROD_SETTINGS)
     __collect_static(next_prod_dir)
     __install_crontab(next_prod_dir)
-    __create_active_symlink(next_prod_dir, PRODUCTION_DIR)
-    __touch_wsgi(next_prod_dir, PRODUCTION_WSGI)
+    __create_active_symlink(next_prod_dir, PROD_DIR)
+    __touch_wsgi(next_prod_dir, PROD_WSGI)
 

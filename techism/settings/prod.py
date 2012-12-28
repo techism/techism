@@ -4,7 +4,7 @@
 from base import *
 
 
-### production specific settings
+### prod specific settings
 
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
@@ -29,7 +29,7 @@ DATABASES = {
     }
 }
 
-WSGI_APPLICATION = 'techism.settings.production_wsgi.application'
+WSGI_APPLICATION = 'techism.settings.prod_wsgi.application'
 
 SESSION_COOKIE_SECURE = True
 HTTPS_PATHS = (
@@ -39,8 +39,8 @@ HTTPS_PATHS = (
 HTTP_URL = 'http://next.techism.de:9080'
 HTTPS_URL = 'https://next.techism.de:9443'
 
-LOGGING['handlers']['errorlogfile']['filename'] = '/srv/www/techism-production-log/error.log'
-LOGGING['handlers']['debuglogfile']['filename'] = '/srv/www/techism-production-log/debug.log'
+LOGGING['handlers']['errorlogfile']['filename'] = '/srv/www/techism-prod-log/error.log'
+LOGGING['handlers']['debuglogfile']['filename'] = '/srv/www/techism-prod-log/debug.log'
 
 
 ### import settings stored in database

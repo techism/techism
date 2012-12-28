@@ -57,13 +57,17 @@ Create another virtualenv and install Fabric:
     $ source venv-deploy/bin/activate
     (venv-deploy)$ pip install Fabric
 
+Deploy to development environment:
+
+    (venv-deploy)$ fab deploy_dev
+
 Deploy to staging environment:
 
     (venv-deploy)$ fab deploy_staging
 
 Deploy to production environment:
 
-    (venv-deploy)$ fab deploy_production
+    (venv-deploy)$ fab deploy_prod
 
 There needs to be an SSH key stored on the server.
 
@@ -79,6 +83,12 @@ SSH host key fingerprints of the server are:
 If one needs to manually run manage.py, e.g. for loading data, 
 some environment variables needs to be set:
 
+For development:
+
+    $ cd /srv/www/techism-dev
+    $ source venv/bin/activate
+    $ export DJANGO_SETTINGS_MODULE="techism.settings.dev"
+
 For staging:
 
     $ cd /srv/www/techism-staging
@@ -87,7 +97,7 @@ For staging:
 
 For production:
 
-    $ cd /srv/www/techism-production
+    $ cd /srv/www/techism-prod
     $ source venv/bin/activate
-    $ export DJANGO_SETTINGS_MODULE="techism.settings.production"
+    $ export DJANGO_SETTINGS_MODULE="techism.settings.prod"
 
