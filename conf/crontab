@@ -1,3 +1,4 @@
 SHELL=/bin/bash
 */5 * * * * cd /srv/www/techism-staging && source venv/bin/activate && export DJANGO_SETTINGS_MODULE="techism.settings.staging" && ./manage.py sendtwitter
+12 4 * * * /usr/bin/pg_dump techismp -f /backup/production-db/$(date +"\%Y-\%m-\%d-\%H-\%M-\%S").pg_dump
 
