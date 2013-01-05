@@ -83,9 +83,10 @@ class IcalViewTest(TestCase):
         response = self.client.get('/feed.ics')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response['Content-Type'], 'text/calendar; charset=UTF-8')
-        self.assertEqual(response['Cache-Control'], 'no-cache, no-store, max-age=0, must-revalidate')
-        self.assertEqual(response['Pragma'], 'no-cache')
-        self.assertEqual(response['Expires'], 'Fri, 01 Jan 1990 00:00:00 GMT')
+        self.assertEqual(response['Cache-Control'], 'public, must-revalidate, max-age=10800')
+        self.assertIn('Expires', response)
+        self.assertIn('Last-Modified', response)
+        self.assertIn('ETag', response)
         self.assertIn("BEGIN:VCALENDAR", response.content)
         self.assertIn("BEGIN:VEVENT", response.content)
         self.assertEqual(response.content.count("BEGIN:VEVENT"), 4)
@@ -94,18 +95,32 @@ class IcalViewTest(TestCase):
         self.assertIn("UID:5@techism.de", response.content)
         self.assertIn("UID:6@techism.de", response.content)
 
-    def test_view_single_event(self):
+    def test_view_single_future_event(self):
         response = self.client.get('/ical/1.ics')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response['Content-Type'], 'text/calendar; charset=UTF-8')
-        self.assertEqual(response['Cache-Control'], 'no-cache, no-store, max-age=0, must-revalidate')
-        self.assertEqual(response['Pragma'], 'no-cache')
-        self.assertEqual(response['Expires'], 'Fri, 01 Jan 1990 00:00:00 GMT')
+        self.assertEqual(response['Cache-Control'], 'public, must-revalidate, max-age=10800')
+        self.assertIn('Expires', response)
+        self.assertIn('Last-Modified', response)
+        self.assertIn('ETag', response)
         self.assertIn("BEGIN:VCALENDAR", response.content)
         self.assertIn("BEGIN:VEVENT", response.content)
         self.assertEqual(response.content.count("BEGIN:VEVENT"), 1)
         self.assertIn("UID:1@techism.de", response.content)
-        
+
+    def test_view_single_past_event(self):
+        response = self.client.get('/ical/4.ics')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response['Content-Type'], 'text/calendar; charset=UTF-8')
+        self.assertEqual(response['Cache-Control'], 'public, must-revalidate, max-age=31536000')
+        self.assertIn('Expires', response)
+        self.assertIn('Last-Modified', response)
+        self.assertIn('ETag', response)
+        self.assertIn("BEGIN:VCALENDAR", response.content)
+        self.assertIn("BEGIN:VEVENT", response.content)
+        self.assertEqual(response.content.count("BEGIN:VEVENT"), 1)
+        self.assertIn("UID:4@techism.de", response.content)
+
     def test_view_single_nonexisting_event(self):
         response = self.client.get('/ical/1234567890.ics')
         self.assertEqual(response.status_code, 404)
