@@ -21,7 +21,7 @@
                 </p>
                 <p class="tags">
                           {% for tag in organization.tags.all %}  
-                                <a href="/orgs/tags/{{ tag.name }}">{{ tag.name }}</a>
+                                <a {% ifequal tag_name tag.name %}class="selected"{% endifequal %} href="/orgs/tags/{{ tag.name }}">{{ tag.name }}</a>
                           {% endfor %}
                 </p>
              </div>
