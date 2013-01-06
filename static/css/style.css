@@ -4,10 +4,10 @@ body {
   margin: 0 auto;
   width: 85%;
   height: 100%;
-  font-family: Trebuchet MS, Helvetica, Arial, sans-serif;
+  font-family: Verdana, Helvetica, Arial, sans-serif;
   font-size: 16px;
   background-color: #000000;
-  background: url("../images/head_spotlight.png") no-repeat 0px -50px, #232323 url("../images/bg_noise.gif") repeat;
+  background: #232323 url("../images/bg_noise.gif") repeat;
 }
 #admin {
   background-color: #ffffff;
@@ -136,13 +136,12 @@ h3 {
 #tagcloud a:hover { border: 1px solid #00ff00; }
 #tagcloud .selected { border: 1px solid #00ff00; }
 .tags a {
-  background:#f9f9f9;
-  color: #999999;
+  background:#efefef;
+  color: #999;
   padding: 5px;
   border-radius: 5px;
   text-decoration: none;
   line-height: 40px;
-  border: 1px solid #999999;
 }
 .tags a:hover { border: 1px solid #00ff00; }
 .tags .selected { border: 1px solid #00ff00; }
@@ -197,8 +196,6 @@ footer ul li { margin-right: 10px; }
 .box {
   display: box;
   border-radius: 5px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
   padding: 3px;
   margin-left: 5px;
 }
