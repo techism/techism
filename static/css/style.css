@@ -17,7 +17,7 @@ body {
   padding: 5px;
 }
 #active a {
-  color: #aaff00;
+  color: #99e600;
   text-decoration: none;
 }
 nav div ul {
@@ -32,11 +32,10 @@ nav div ul li {
   list-style: none;
   margin-right: 5px;
   display: inline;
-  text-decoration: none;
 }
 nav div ul a {
-  font-size: 28px;
-  font-weight: normal;
+  font-size: 24px;
+  font-weight: bold;
   list-style: none;
   margin-right: 5px;
   display: inline;
@@ -133,8 +132,8 @@ h3 {
 #tagcloud a.tag7 { color: #efefef; }
 #tagcloud a.tag8 { color: #f7f7f7; }
 #tagcloud a.tag9 { color: #ffffff; }
-#tagcloud a:hover { color: #aaff00; }
-#tagcloud .selected { color: #aaff00; }
+#tagcloud a:hover { color: #99e600; }
+#tagcloud .selected { color: #99e600; }
 .tags a {
   background:#efefef;
   color: #999;
@@ -143,8 +142,8 @@ h3 {
   text-decoration: none;
   line-height: 40px;
 }
-.tags a:hover { background: #aaff00; }
-.tags .selected { background: #aaff00; }
+.tags a:hover { color: #99e600;background:#fff;border: 1px solid #efefef; }
+.tags .selected { color: #99e600; background:#fff;border: 1px solid #efefef;  }
 #top li a img { opacity: 0.5; }
 #top a:hover img { opacity: 0.7; }
 #top #logo { display: inline; }
@@ -227,7 +226,7 @@ footer ul li { margin-right: 10px; }
 #message p { margin-bottom: 0px; }
 #message.bottom { border-bottom: none; }
 .errorlist {
-  color: #aaff00;
+  color: #99e600;
   background: #424242;
   border-radius: 5px;
   padding: 5px;
