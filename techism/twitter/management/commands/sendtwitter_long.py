@@ -5,4 +5,4 @@ from techism.twitter import twitter
 class ShortTermTwitter(BaseCommand):
 
     def handle(self, *args, **options):
-        twitter.tweet_upcoming_events()
+        twitter.tweet_upcoming_longterm_events()

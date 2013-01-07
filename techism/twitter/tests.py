@@ -8,6 +8,7 @@ import twitter
 import mock
 from django.conf import settings
 
+
 class TwitterIntegrationTest(TestCase):
 
     fixtures = ['test-utils/fixture.json']
@@ -36,6 +37,10 @@ class TwitterIntegrationTest(TestCase):
         twitter.tweet_upcoming_events()
         self.assertEquals(1, mocked_tweet_event_function.call_count)
         self.assertTrue(mocked_tweet_event_function.call_args[0][0].startswith('[Abgesagt] '), 'Tweet must start with [Abgesagt]')
+        mocked_tweet_event_function.reset_mock()
+        
+        twitter.tweet_upcoming_events()
+        self.assertEquals(1, mocked_tweet_event_function.call_count)
         mocked_tweet_event_function.reset_mock()
         
         # no more tweets
@@ -80,13 +85,21 @@ class TwitterIntegrationTest(TestCase):
         self.assertTrue(mocked_tweet_event_function.call_args[0][0].startswith('[Abgesagt] Future event'), 'Tweet must start with [Abgesagt]')
         mocked_tweet_event_function.reset_mock()
         
+        twitter.tweet_upcoming_events()
+        self.assertEquals(1, mocked_tweet_event_function.call_count)
+        mocked_tweet_event_function.reset_mock()
+        
         # no more tweet
         twitter.tweet_upcoming_events()
         self.assertFalse(mocked_tweet_event_function.called)
 
     def test_get_short_term_events(self):
         event_list = twitter.get_short_term_events()
-        self.assertEqual(len(event_list), 2)
+        self.assertEqual(len(event_list), 3)
+
+    def test_get_long_term_events(self):
+        event_list = twitter.get_long_term_events()
+        self.assertEqual(len(event_list), 1)
 
     @mock.patch('techism.twitter.twitter.__tweet_event')
     def test_tweet_and_marked_as_tweeted(self, mocked_tweet_event_function):
@@ -106,7 +119,13 @@ class TwitterIntegrationTest(TestCase):
         tweets.append(mocked_tweet_event_function.call_args[0][0])
         mocked_tweet_event_function.reset_mock()
         
-        # 3rd call: no more upcomming event
+        twitter.tweet_upcoming_events()
+        self.assertEquals(1, mocked_tweet_event_function.call_count)
+        self.assertEqual(TweetedEvent.objects.count(), 3)
+        tweets.append(mocked_tweet_event_function.call_args[0][0])
+        mocked_tweet_event_function.reset_mock()
+        
+        # 4rd call: no more upcomming event
         twitter.tweet_upcoming_events()
         self.assertFalse(mocked_tweet_event_function.called)
         

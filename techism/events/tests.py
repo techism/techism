@@ -22,19 +22,19 @@ class EventServiceTest(TestCase):
         it = get_current_tags().iterator()
         tag1 = it.next()
         self.assertEqual(tag1.name, "java")
-        self.assertEqual(tag1.num_tags, 2)
+        self.assertEqual(tag1.num_tags, 3)
         tag2 = it.next()
         self.assertEqual(tag2.name, "python")
         self.assertEqual(tag2.num_tags, 2)
         tag3 = it.next()
         self.assertEqual(tag3.name, "test")
-        self.assertEqual(tag3.num_tags, 4)
+        self.assertEqual(tag3.num_tags, 5)
         with self.assertRaises(StopIteration): 
             it.next()
             
     def test_upcomming_events(self):
         events = get_upcomming_published_events_query_set()
-        self.assertEqual(events.count(), 4)
+        self.assertEqual(events.count(), 5)
         
         
 
@@ -46,14 +46,14 @@ class EventViewsTest(TestCase):
         response = self.client.get('/')
         self.assertEqual(response.status_code, 200)
         self.assertIsNotNone(response.context['event_list'])
-        self.assertEqual(len(response.context['event_list']), 4)
+        self.assertEqual(len(response.context['event_list']), 5)
         self.assertIsNotNone(response.context['tags'])
 
     def test_index_view(self):
         response = self.client.get('/events/')
         self.assertEqual(response.status_code, 200)
         self.assertIsNotNone(response.context['event_list'])
-        self.assertEqual(len(response.context['event_list']), 4)
+        self.assertEqual(len(response.context['event_list']), 5)
         self.assertIsNotNone(response.context['tags'])
 
     def test_details_view(self):

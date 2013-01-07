@@ -89,7 +89,7 @@ class IcalViewTest(TestCase):
         self.assertIn('ETag', response)
         self.assertIn("BEGIN:VCALENDAR", response.content)
         self.assertIn("BEGIN:VEVENT", response.content)
-        self.assertEqual(response.content.count("BEGIN:VEVENT"), 4)
+        self.assertEqual(response.content.count("BEGIN:VEVENT"), 5)
         self.assertIn("UID:1@techism.de", response.content)
         self.assertIn("UID:2@techism.de", response.content)
         self.assertIn("UID:5@techism.de", response.content)

@@ -12,6 +12,7 @@ from tweepy.error import TweepError
 import urllib
 import logging
 from datetime import timedelta
+from django.db.models import F
 
 def tweet_upcoming_events():
     event_list = get_short_term_events()
@@ -33,6 +34,11 @@ def tweet_upcoming_events():
                 else:
                     raise
 
+
+def tweet_upcoming_longterm_events():
+    event_list = get_long_term_events()
+    for event in event_list:
+        raise Exception ("Not implemented yet")
 
 def __must_tweet_and_prefix(event):
     # check if already tweeted, reweet only when changed
@@ -79,6 +85,12 @@ def get_short_term_events():
     now_utc = timezone.now()
     three_days = now_utc + timedelta(days=3)
     event_list = event_service.get_upcomming_published_events_query_set().filter(date_time_begin__gte=now_utc).filter (date_time_begin__lte=three_days).order_by('date_time_begin')
+    return event_list
+
+def get_long_term_events():
+    now_utc = timezone.now()
+    ninety_days = now_utc + timedelta(days=90)
+    event_list = event_service.get_upcomming_published_events_query_set().filter(date_time_begin__gte=now_utc).filter(date_time_begin__lte=ninety_days).filter(date_time_end__gte=F('date_time_begin')+timedelta(hours=8)).order_by('date_time_begin')
     return event_list
 
 
