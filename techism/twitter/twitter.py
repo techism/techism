@@ -18,7 +18,7 @@ def tweet_upcoming_events():
     event_list = get_short_term_events()
     
     for event in event_list:
-        must_tweet, prefix = __must_tweet_and_prefix(event)
+        must_tweet, prefix = __must_tweet_and_prefix(event, 'S')
         if must_tweet:
             tweet = format_tweet(event, prefix)
             try:
@@ -37,10 +37,14 @@ def tweet_upcoming_events():
 
 def tweet_upcoming_longterm_events():
     event_list = get_long_term_events()
+    
     for event in event_list:
+        must_tweet, prefix = __must_tweet_and_prefix(event, 'L')
         raise Exception ("Not implemented yet")
 
-def __must_tweet_and_prefix(event):
+
+
+def __must_tweet_and_prefix(event, type):
     # check if already tweeted, reweet only when changed
     tweet = None
     tweet_list = TweetedEvent.objects.filter(event=event).order_by('-date_time_created')

@@ -78,9 +78,14 @@ class Setting(models.Model):
     date_time_modified = models.DateTimeField(auto_now=True)
 
 class TweetedEvent(models.Model):
+    TWEET_TYPE = (
+        ('S', u'Short Term'),
+        ('L', u'Long Term'),
+    )
     event = models.ForeignKey(Event)
     tweet = models.CharField(max_length=500)
     date_time_created = models.DateTimeField(auto_now_add=True)
     date_time_modified = models.DateTimeField(auto_now=True)
+    type = models.CharField(max_length=1, choices=TWEET_TYPE)
 
 reversion.register(Event)
