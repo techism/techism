@@ -69,3 +69,14 @@ def get_changed_and_change_prefix(event, from_date):
             return (True, "[Update][Ort] ")
     
     return (False, "")
+
+def cache(cache_timeout, viewfunc):
+    def _cache_controller(request, *args, **kwargs):
+        from django.utils.cache import patch_cache_control, patch_response_headers
+        response = viewfunc(request, *args, **kwargs)
+        if not response.has_header('Cache-Control'):
+            patch_response_headers(response, cache_timeout=cache_timeout)
+        patch_cache_control(response, public=True, must_revalidate=True)
+        return response
+    return _cache_controller
+

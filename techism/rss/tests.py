@@ -5,6 +5,7 @@ from django.test import TestCase
 from django.utils import timezone
 import datetime
 from techism.models import Event, Location
+from django.core.cache import cache
 
 
 class FeedTest(TestCase):
@@ -20,6 +21,10 @@ class FeedTest(TestCase):
         response = self.client.get('/feeds/rss/upcomming_events')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response['Content-Type'], 'application/rss+xml; charset=utf-8')
+        self.assertEqual(response['Cache-Control'], 'public, must-revalidate, max-age=10800')
+        self.assertIn('Expires', response)
+        self.assertIn('Last-Modified', response)
+        self.assertIn('ETag', response)
         self.assertIn("<rss xmlns:atom=\"http://www.w3.org/2005/Atom\" version=\"2.0\">", response.content)
         self.assertEqual(response.content.count("<item>"), 3)
         self.assertIn("<title>Future event with end date - %s</title>" % self.tomorrow_190000, response.content)
@@ -31,6 +36,10 @@ class FeedTest(TestCase):
         response = self.client.get('/feeds/atom/upcomming_events')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response['Content-Type'], 'application/atom+xml; charset=utf-8')
+        self.assertEqual(response['Cache-Control'], 'public, must-revalidate, max-age=10800')
+        self.assertIn('Expires', response)
+        self.assertIn('Last-Modified', response)
+        self.assertIn('ETag', response)
         self.assertIn("<feed xmlns=\"http://www.w3.org/2005/Atom\" xml:lang=\"de-DE\">", response.content)
         self.assertEqual(response.content.count("<entry>"), 3)
         self.assertIn("<title>Future event with end date - %s</title>" % self.tomorrow_190000, response.content)
@@ -50,6 +59,7 @@ class FeedTest(TestCase):
         # change location, expect feed with updated location prefix
         event.location = Location.objects.get(id=2)
         event.save()
+        cache.clear()
         
         response = self.client.get('/feeds/atom/upcomming_events')
         self.assertEqual(response.status_code, 200)
@@ -59,6 +69,7 @@ class FeedTest(TestCase):
         # change start date, expect feed with updated date/time prefix
         event.date_time_begin = event.date_time_begin - datetime.timedelta(hours=1)
         event.save()
+        cache.clear()
         
         response = self.client.get('/feeds/atom/upcomming_events')
         self.assertEqual(response.status_code, 200)
@@ -68,6 +79,7 @@ class FeedTest(TestCase):
         # cancel event, expect feed with cancel prefix
         event.canceled = True;
         event.save()
+        cache.clear()
         
         response = self.client.get('/feeds/atom/upcomming_events')
         self.assertEqual(response.status_code, 200)
