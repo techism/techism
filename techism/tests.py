@@ -99,8 +99,8 @@ class UtilsTest(TestCase):
         self.assertEqual(result.tzinfo, utils.cet)
 
     def test_slugify(self):
-        slugified = utils.slugify(u'A string with\twhitespace, upper case, unicode (ä).')
-        self.assertEqual(slugified, "a-string-with-whitespace-upper-case-unicode-a")
+        slugified = utils.slugify(u'A string with\twhitespace, UPPER CASE, unicode (ä), under_score _.')
+        self.assertEqual(slugified, "a-string-with-whitespace-upper-case-unicode-a-under_score-_")
 
 
 class UtilsIntegrationTest(TestCase):

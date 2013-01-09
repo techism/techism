@@ -78,6 +78,16 @@ class EventViewsTest(TestCase):
         response = self.client.get('/events/1234567890/')
         self.assertEqual(response.status_code, 404)
 
+    def test_details_view_with_nondigit_event_id(self):
+        response = self.client.get('/events/abc/')
+        self.assertEqual(response.status_code, 404)
+        response = self.client.get('/events/tags/')
+        self.assertEqual(response.status_code, 404)
+        response = self.client.get('/events/favicon.ico/')
+        self.assertEqual(response.status_code, 404)
+        response = self.client.get('/events/abc-123/wp-content/themes/modularity/includes/timthumb.php/')
+        self.assertEqual(response.status_code, 404)
+
     def test_locations_view(self):
         response = self.client.get('/events/locations/')
         self.assertEqual(response.status_code, 200)

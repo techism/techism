@@ -67,7 +67,7 @@ class IcalServiceTest(TestCase):
         self._create_ical_and_check_multi_byte_chars(u'1234')
 
     def _create_ical_and_check_multi_byte_chars(self, prefix):
-        event = Event(title=u'Test', description=prefix + u'ä' * 50)
+        event = Event(id=999, title=u'Test', description=prefix + u'ä' * 50)
         request = RequestFactory().get('/feed.ics')
         entry = ical_service.create_ical_entry(event, request)
         ical_string = entry.as_string()
