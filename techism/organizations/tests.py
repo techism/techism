@@ -29,11 +29,13 @@ class OrganizationViewsTest(TestCase):
     def test_index_view(self):
         response = self.client.get('/orgs/')
         self.assertEqual(response.status_code, 200)
+        self.assertIn('Content-Security-Policy', response)
         self.assertIsNotNone(response.context['organization_list'])
         self.assertEqual(len(response.context['organization_list']), 2)
         
     def test_index_view_tag(self):
         response = self.client.get('/orgs/tags/tag1/')
         self.assertEqual(response.status_code, 200)
+        self.assertIn('Content-Security-Policy', response)
         self.assertIsNotNone(response.context['organization_list'])
         self.assertEqual(len(response.context['organization_list']), 2)

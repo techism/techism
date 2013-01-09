@@ -45,6 +45,7 @@ class EventViewsTest(TestCase):
     def test_index_view_root(self):
         response = self.client.get('/')
         self.assertEqual(response.status_code, 200)
+        self.assertIn('Content-Security-Policy', response)
         self.assertIsNotNone(response.context['event_list'])
         self.assertEqual(len(response.context['event_list']), 5)
         self.assertIsNotNone(response.context['tags'])
@@ -52,6 +53,7 @@ class EventViewsTest(TestCase):
     def test_index_view(self):
         response = self.client.get('/events/')
         self.assertEqual(response.status_code, 200)
+        self.assertIn('Content-Security-Policy', response)
         self.assertIsNotNone(response.context['event_list'])
         self.assertEqual(len(response.context['event_list']), 5)
         self.assertIsNotNone(response.context['tags'])
@@ -59,6 +61,7 @@ class EventViewsTest(TestCase):
     def test_details_view(self):
         response = self.client.get('/events/1/')
         self.assertEqual(response.status_code, 200)
+        self.assertIn('Content-Security-Policy', response)
         self.assertIsNotNone(response.context['event'])
         self.assertEqual(response.context['event'], Event.objects.get(id=1))
         self.assertIsNotNone(response.context['tags'])
@@ -77,6 +80,7 @@ class EventViewsTest(TestCase):
     def test_details_view_with_nonexisting_event(self):
         response = self.client.get('/events/1234567890/')
         self.assertEqual(response.status_code, 404)
+        self.assertIn('Content-Security-Policy', response)
 
     def test_details_view_with_nondigit_event_id(self):
         response = self.client.get('/events/abc/')
@@ -91,6 +95,7 @@ class EventViewsTest(TestCase):
     def test_locations_view(self):
         response = self.client.get('/events/locations/')
         self.assertEqual(response.status_code, 200)
+        self.assertNotIn('Content-Security-Policy', response)
         data = json.loads(response.content)
         self.assertEqual(2, len(data))
         self.assertEqual(6, len(data[0]))
@@ -104,6 +109,7 @@ class EventViewsTest(TestCase):
     def test_create_view_get(self):
         response = self.client.get('/events/create/')
         self.assertEqual(response.status_code, 200)
+        self.assertIn('Content-Security-Policy', response)
         self.assertIn('id="id_title"', response.content)
         self.assertIn('id="id_url"', response.content)
         self.assertIn('id="id_description"', response.content)
@@ -233,6 +239,7 @@ class EventViewsTest(TestCase):
     def test_copy_view_get(self):
         response = self.client.get('/events/create/1', follow=True)
         self.assertEqual(response.status_code, 200)
+        self.assertIn('Content-Security-Policy', response)
         self.assertIn('id="id_title"', response.content)
         self.assertIn('id="id_url"', response.content)
         self.assertIn('id="id_description"', response.content)

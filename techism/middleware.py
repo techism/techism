@@ -36,6 +36,8 @@ class ContentSecurityPolicyMiddleware(object):
         path = request.get_full_path()
         if path.startswith(('/admin/', '/accounts/login/')):
             return response
+        if not 'text/html' in response['Content-Type']:
+            return response
         
         standard_policy = "default-src 'self';" \
             "img-src 'self' *.tile.openstreetmap.org staticmap.openstreetmap.de;" \
