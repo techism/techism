@@ -31,6 +31,10 @@ class TwitterIntegrationTest(TestCase):
         event2.canceled = True
         event2.save()
         
+        event7 = Event.objects.get(id=7)
+        event7.canceled = True
+        event7.save()
+        
         # tweet of first event
         twitter.tweet_upcoming_shortterm_events()
         self.assertEquals(1, mocked_tweet_event_function.call_count)
@@ -45,6 +49,7 @@ class TwitterIntegrationTest(TestCase):
         
         twitter.tweet_upcoming_shortterm_events()
         self.assertEquals(1, mocked_tweet_event_function.call_count)
+        self.assertTrue(mocked_tweet_event_function.call_args[0][0].startswith('[Abgesagt] '), 'Tweet must start with [Abgesagt]')
         mocked_tweet_event_function.reset_mock()
         
         # no more tweets
