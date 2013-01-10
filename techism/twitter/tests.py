@@ -18,7 +18,7 @@ class TwitterIntegrationTest(TestCase):
     tomorrow_localtime = tomorrow_190000.strftime("%d.%m.%Y %H:%M")
 
     @mock.patch('techism.twitter.twitter.__tweet_event')
-    def test_tweet_canceled_event(self, mocked_tweet_event_function):
+    def _test_short_term_tweet_canceled_event(self, mocked_tweet_event_function):
         event1 = Event.objects.get(id=1)
         event1.canceled = True
         event1.save()
@@ -28,30 +28,46 @@ class TwitterIntegrationTest(TestCase):
         event2.save()
         
         # tweet of first event
-        twitter.tweet_upcoming_events()
+        twitter.tweet_upcoming_shortterm_events()
         self.assertEquals(1, mocked_tweet_event_function.call_count)
         self.assertTrue(mocked_tweet_event_function.call_args[0][0].startswith('[Abgesagt] '), 'Tweet must start with [Abgesagt]')
         mocked_tweet_event_function.reset_mock()
         
         # tweet of second event
-        twitter.tweet_upcoming_events()
+        twitter.tweet_upcoming_shortterm_events()
         self.assertEquals(1, mocked_tweet_event_function.call_count)
         self.assertTrue(mocked_tweet_event_function.call_args[0][0].startswith('[Abgesagt] '), 'Tweet must start with [Abgesagt]')
         mocked_tweet_event_function.reset_mock()
         
-        twitter.tweet_upcoming_events()
+        twitter.tweet_upcoming_shortterm_events()
         self.assertEquals(1, mocked_tweet_event_function.call_count)
         mocked_tweet_event_function.reset_mock()
         
         # no more tweets
-        twitter.tweet_upcoming_events()
+        twitter.tweet_upcoming_shortterm_events()
+        self.assertFalse(mocked_tweet_event_function.called)
+        
+    @mock.patch('techism.twitter.twitter.__tweet_event')
+    def _test_long_term_tweet_canceled_event(self, mocked_tweet_event_function):
+        event1 = Event.objects.get(id=7)
+        event1.canceled = True
+        event1.save()
+        
+        # tweet of first event
+        twitter.tweet_upcoming_longterm_events()
+        self.assertEquals(1, mocked_tweet_event_function.call_count)
+        self.assertTrue(mocked_tweet_event_function.call_args[0][0].startswith('[Abgesagt] '), 'Tweet must start with [Abgesagt]')
+        mocked_tweet_event_function.reset_mock()
+        
+        # no more tweets
+        twitter.tweet_upcoming_longterm_events()
         self.assertFalse(mocked_tweet_event_function.called)
 
     @mock.patch('techism.twitter.twitter.__tweet_event')
-    def test_tweet_updated_event(self, mocked_tweet_event_function):
+    def _test_short_term_tweet_updated_event(self, mocked_tweet_event_function):
         # tweet events, without prefix
-        twitter.tweet_upcoming_events()
-        twitter.tweet_upcoming_events()
+        twitter.tweet_upcoming_shortterm_events()
+        twitter.tweet_upcoming_shortterm_events()
         mocked_tweet_event_function.reset_mock()
 
         # hack: save without change to create a version
@@ -62,7 +78,7 @@ class TwitterIntegrationTest(TestCase):
         event.date_time_begin = event.date_time_begin - datetime.timedelta(hours=1)
         event.save()
         
-        twitter.tweet_upcoming_events()
+        twitter.tweet_upcoming_shortterm_events()
         self.assertEquals(1, mocked_tweet_event_function.call_count)
         self.assertTrue(mocked_tweet_event_function.call_args[0][0].startswith('[Update][Datum] Future event'), 'Tweet must start with [Update][Datum]')
         mocked_tweet_event_function.reset_mock()
@@ -71,7 +87,7 @@ class TwitterIntegrationTest(TestCase):
         event.location = Location.objects.get(id=2)
         event.save()
         
-        twitter.tweet_upcoming_events()
+        twitter.tweet_upcoming_shortterm_events()
         self.assertEquals(1, mocked_tweet_event_function.call_count)
         self.assertTrue(mocked_tweet_event_function.call_args[0][0].startswith('[Update][Ort] Future event'), 'Tweet must start with [Update][Ort]')
         mocked_tweet_event_function.reset_mock()
@@ -80,17 +96,58 @@ class TwitterIntegrationTest(TestCase):
         event.canceled = True;
         event.save()
         
-        twitter.tweet_upcoming_events()
+        twitter.tweet_upcoming_shortterm_events()
         self.assertEquals(1, mocked_tweet_event_function.call_count)
         self.assertTrue(mocked_tweet_event_function.call_args[0][0].startswith('[Abgesagt] Future event'), 'Tweet must start with [Abgesagt]')
         mocked_tweet_event_function.reset_mock()
         
-        twitter.tweet_upcoming_events()
+        twitter.tweet_upcoming_shortterm_events()
         self.assertEquals(1, mocked_tweet_event_function.call_count)
         mocked_tweet_event_function.reset_mock()
         
         # no more tweet
-        twitter.tweet_upcoming_events()
+        twitter.tweet_upcoming_shortterm_events()
+        self.assertFalse(mocked_tweet_event_function.called)
+        
+    @mock.patch('techism.twitter.twitter.__tweet_event')
+    def test_long_term_tweet_updated_event(self, mocked_tweet_event_function):
+        # tweet events, without prefix
+        twitter.tweet_upcoming_longterm_events()
+        mocked_tweet_event_function.reset_mock()
+
+        # hack: save without change to create a version
+        event = Event.objects.get(id=7)
+        event.save()
+        
+        # change start date, expect tweet with updated date/time
+        event.date_time_begin = event.date_time_begin - datetime.timedelta(hours=1)
+        event.save()
+        
+        twitter.tweet_upcoming_longterm_events()
+        self.assertEquals(1, mocked_tweet_event_function.call_count)
+        self.assertTrue(mocked_tweet_event_function.call_args[0][0].startswith('[Update][Datum] Future long term'), 'Tweet must start with [Update][Datum]')
+        mocked_tweet_event_function.reset_mock()
+        
+        # change location, expect tweet with updated location
+        event.location = Location.objects.get(id=2)
+        event.save()
+        
+        twitter.tweet_upcoming_longterm_events()
+        self.assertEquals(1, mocked_tweet_event_function.call_count)
+        self.assertTrue(mocked_tweet_event_function.call_args[0][0].startswith('[Update][Ort] Future long term'), 'Tweet must start with [Update][Ort]')
+        mocked_tweet_event_function.reset_mock()
+        
+        # cancel event, expect tweet with cancel info
+        event.canceled = True;
+        event.save()
+        
+        twitter.tweet_upcoming_longterm_events()
+        self.assertEquals(1, mocked_tweet_event_function.call_count)
+        self.assertTrue(mocked_tweet_event_function.call_args[0][0].startswith('[Abgesagt] Future long term'), 'Tweet must start with [Abgesagt]')
+        mocked_tweet_event_function.reset_mock()
+        
+        # no more tweet
+        twitter.tweet_upcoming_longterm_events()
         self.assertFalse(mocked_tweet_event_function.called)
 
     def test_get_short_term_events(self):
@@ -102,31 +159,31 @@ class TwitterIntegrationTest(TestCase):
         self.assertEqual(len(event_list), 1)
 
     @mock.patch('techism.twitter.twitter.__tweet_event')
-    def test_tweet_and_marked_as_tweeted(self, mocked_tweet_event_function):
+    def _test_short_term_tweet_and_marked_as_tweeted(self, mocked_tweet_event_function):
         tweets = []
         
         # 1st call: one event is tweeted and marked
-        twitter.tweet_upcoming_events()
+        twitter.tweet_upcoming_shortterm_events()
         self.assertEquals(1, mocked_tweet_event_function.call_count)
         self.assertEqual(TweetedEvent.objects.count(), 1)
         tweets.append(mocked_tweet_event_function.call_args[0][0])
         mocked_tweet_event_function.reset_mock()
         
         # 2nd call: other event is tweeted and marked
-        twitter.tweet_upcoming_events()
+        twitter.tweet_upcoming_shortterm_events()
         self.assertEquals(1, mocked_tweet_event_function.call_count)
         self.assertEqual(TweetedEvent.objects.count(), 2)
         tweets.append(mocked_tweet_event_function.call_args[0][0])
         mocked_tweet_event_function.reset_mock()
         
-        twitter.tweet_upcoming_events()
+        twitter.tweet_upcoming_shortterm_events()
         self.assertEquals(1, mocked_tweet_event_function.call_count)
         self.assertEqual(TweetedEvent.objects.count(), 3)
         tweets.append(mocked_tweet_event_function.call_args[0][0])
         mocked_tweet_event_function.reset_mock()
         
         # 4rd call: no more upcomming event
-        twitter.tweet_upcoming_events()
+        twitter.tweet_upcoming_shortterm_events()
         self.assertFalse(mocked_tweet_event_function.called)
         
         # assert correct tweets

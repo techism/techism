@@ -14,42 +14,45 @@ import logging
 from datetime import timedelta
 from django.db.models import F
 
-def tweet_upcoming_events():
-    event_list = get_short_term_events()
+def tweet_upcoming_longterm_events():
+    __tweet_upcoming_events('L')
+        
+        
+def tweet_upcoming_shortterm_events():
+    __tweet_upcoming_events('S')
+
+
+def __tweet_upcoming_events(type):
+    if type == 'L':
+        event_list = get_long_term_events()
+    else:
+        event_list = get_short_term_events()
     
     for event in event_list:
-        must_tweet, prefix = __must_tweet_and_prefix(event, 'S')
+        must_tweet, prefix = __must_tweet_and_prefix(event, type)
         if must_tweet:
             tweet = format_tweet(event, prefix)
             try:
-                __tweet_event(tweet)
-                __mark_as_tweeted(event, tweet)
+                __tweet_event(tweet, type)
+                __mark_as_tweeted(event, tweet, type)
                 break
             except TweepError, e:
                 logger = logging.getLogger(__name__)
                 logger.error(e.reason,  exc_info=True)
                 if e.reason == u'Status is a duplicate.':
-                    __mark_as_tweeted(event, tweet + " (duplicate)")
+                    __mark_as_tweeted(event, tweet + " (duplicate)", type)
                     break
                 else:
                     raise
 
 
-def tweet_upcoming_longterm_events():
-    event_list = get_long_term_events()
-    
-    for event in event_list:
-        must_tweet, prefix = __must_tweet_and_prefix(event, 'L')
-        raise Exception ("Not implemented yet")
-
-
-
 def __must_tweet_and_prefix(event, type):
     # check if already tweeted, reweet only when changed
     tweet = None
-    tweet_list = TweetedEvent.objects.filter(event=event).order_by('-date_time_created')
+    tweet_list = TweetedEvent.objects.filter(event=event).filter(type=type).order_by('-date_time_created')
     if tweet_list:
         tweet = tweet_list[0]
+        
         changed, prefix = utils.get_changed_and_change_prefix(event, tweet.date_time_created)
         if changed and not tweet.tweet.startswith(prefix):
             return (True, prefix)
@@ -98,7 +101,7 @@ def get_long_term_events():
     return event_list
 
 
-def __tweet_event(tweet):
+def __tweet_event(tweet, type):
     CONSUMER_KEY = service.get_twitter_consumer_key_for_tweets()
     CONSUMER_SECRET = service.get_twitter_consumer_secret_for_tweets()
     ACCESS_KEY = service.get_twitter_access_key_for_tweets()
@@ -109,8 +112,9 @@ def __tweet_event(tweet):
     api.update_status(tweet)
 
 
-def __mark_as_tweeted(event, tweet):
+def __mark_as_tweeted(event, tweet, type):
     tweeted_event = TweetedEvent()
     tweeted_event.event = event
     tweeted_event.tweet = tweet
+    tweeted_event.type = type
     tweeted_event.save()
