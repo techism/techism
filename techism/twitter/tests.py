@@ -14,11 +14,15 @@ class TwitterIntegrationTest(TestCase):
     fixtures = ['test-utils/fixture.json']
     now_local = timezone.localtime(timezone.now())
     tomorrow_local = now_local + datetime.timedelta(days=1)
+    nextweek_local = now_local + datetime.timedelta(days=7)
     tomorrow_190000 = tomorrow_local.replace(hour=19, minute=0, second=0)
     tomorrow_localtime = tomorrow_190000.strftime("%d.%m.%Y %H:%M")
+    tomorrow_string = tomorrow_local.strftime("%d.%m.%Y")
+    nextweek_string = nextweek_local.strftime("%d.%m.%Y")
+    
 
     @mock.patch('techism.twitter.twitter.__tweet_event')
-    def _test_short_term_tweet_canceled_event(self, mocked_tweet_event_function):
+    def test_short_term_tweet_canceled_event(self, mocked_tweet_event_function):
         event1 = Event.objects.get(id=1)
         event1.canceled = True
         event1.save()
@@ -48,7 +52,7 @@ class TwitterIntegrationTest(TestCase):
         self.assertFalse(mocked_tweet_event_function.called)
         
     @mock.patch('techism.twitter.twitter.__tweet_event')
-    def _test_long_term_tweet_canceled_event(self, mocked_tweet_event_function):
+    def test_long_term_tweet_canceled_event(self, mocked_tweet_event_function):
         event1 = Event.objects.get(id=7)
         event1.canceled = True
         event1.save()
@@ -64,7 +68,7 @@ class TwitterIntegrationTest(TestCase):
         self.assertFalse(mocked_tweet_event_function.called)
 
     @mock.patch('techism.twitter.twitter.__tweet_event')
-    def _test_short_term_tweet_updated_event(self, mocked_tweet_event_function):
+    def test_short_term_tweet_updated_event(self, mocked_tweet_event_function):
         # tweet events, without prefix
         twitter.tweet_upcoming_shortterm_events()
         twitter.tweet_upcoming_shortterm_events()
@@ -159,7 +163,7 @@ class TwitterIntegrationTest(TestCase):
         self.assertEqual(len(event_list), 1)
 
     @mock.patch('techism.twitter.twitter.__tweet_event')
-    def _test_short_term_tweet_and_marked_as_tweeted(self, mocked_tweet_event_function):
+    def test_short_term_tweet_and_marked_as_tweeted(self, mocked_tweet_event_function):
         tweets = []
         
         # 1st call: one event is tweeted and marked
@@ -191,6 +195,26 @@ class TwitterIntegrationTest(TestCase):
         event1 = Event.objects.get(id=1)
         self.assertIn(event1.title + ' - ' + self.tomorrow_localtime + ' ' + settings.HTTP_URL + event1.get_absolute_url(), tweets)
         self.assertIn(event2.title + ' - ' + self.tomorrow_localtime + ' ' + settings.HTTP_URL + event2.get_absolute_url(), tweets)
+
+
+    @mock.patch('techism.twitter.twitter.__tweet_event')
+    def test_long_term_tweet_and_marked_as_tweeted(self, mocked_tweet_event_function):
+        tweets = []
+        
+        # 1st call: one event is tweeted and marked
+        twitter.tweet_upcoming_longterm_events()
+        self.assertEquals(1, mocked_tweet_event_function.call_count)
+        self.assertEqual(TweetedEvent.objects.count(), 1)
+        tweets.append(mocked_tweet_event_function.call_args[0][0])
+        mocked_tweet_event_function.reset_mock()
+        
+        # 2. call: no more upcomming event
+        twitter.tweet_upcoming_longterm_events()
+        self.assertFalse(mocked_tweet_event_function.called)
+        
+        # assert correct tweets
+        event = Event.objects.get(id=7)
+        self.assertIn(event.title + ' - ' + self.tomorrow_string + '-' + self.nextweek_string + ' ' + settings.HTTP_URL + event.get_absolute_url(), tweets)
 
 
 class TwitterUnitTest(TestCase):
