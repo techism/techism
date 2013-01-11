@@ -172,6 +172,7 @@ class AccountsViewsTest(TestCase):
         
         # check to result
         self.assertEqual(response.status_code, 200)
+        self.assertNotIn('Content-Security-Policy', response)
         self.assertIn("Login mit Google", response.content)
         self.assertIn("Login mit Twitter", response.content)
         self.assertIn("Login mit Yahoo", response.content)
@@ -181,7 +182,36 @@ class AccountsViewsTest(TestCase):
         response = self.client.get('/accounts/logout/', follow=True)
         self.assertTrue(response.redirect_chain)
         self.assertEqual(response.status_code, 200)
+        self.assertIn('Content-Security-Policy', response)
         target_url = response.redirect_chain[-1][0]
         url = urlparse(target_url)
         self.assertEqual('/', url.path)
-     
+
+class SitemapViewsTest(TestCase):
+    
+    def test_sitemap_view(self):
+        response = self.client.get('/sitemap.xml')
+        self.assertEqual(response.status_code, 200)
+        self.assertNotIn('Content-Security-Policy', response)
+
+class StaticViewsTest(TestCase):
+    
+    def test_about_view(self):
+        response = self.client.get('/about/')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('Content-Security-Policy', response)
+        self.assertEqual(response['Cache-Control'], 'public, must-revalidate, max-age=10800')
+        self.assertIn('Expires', response)
+        self.assertIn('Last-Modified', response)
+        self.assertIn('ETag', response)
+    
+    def test_impressum_view(self):
+        response = self.client.get('/impressum/')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('Content-Security-Policy', response)
+        self.assertEqual(response['Cache-Control'], 'public, must-revalidate, max-age=10800')
+        self.assertIn('Expires', response)
+        self.assertIn('Last-Modified', response)
+        self.assertIn('ETag', response)
+
+
