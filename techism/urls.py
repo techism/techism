@@ -36,15 +36,15 @@ urlpatterns = patterns('',
     (r'^events/create/(?P<event_id>\d+)/$', 'techism.events.views.create'),
     (r'^events/create/$', 'techism.events.views.create'),
     (r'^events/locations/$', 'techism.events.views.locations'),
-    (r'^events/[-_0-9a-zA-Z]*(?P<event_id>\d+)/$', 'techism.events.views.details'),
+    (r'^events/[-_0-9a-zA-Z]*?(?P<event_id>\d+)/$', 'techism.events.views.details'),
     
     # orgs
     (r'^orgs/$', 'techism.organizations.views.index'),
     (r'^orgs/tags/(?P<tag_name>.+)/$', 'techism.organizations.views.tag'),
     
     # static pages
-    (r'^impressum/$', direct_to_template, { 'template': 'impressum.html' }),
-    (r'^about/$', direct_to_template, { 'template': 'about.html' }),
+    (r'^impressum/$', cache(THREE_HOURS, direct_to_template), { 'template': 'impressum.html' }),
+    (r'^about/$', cache(THREE_HOURS, direct_to_template), { 'template': 'about.html' }),
     
     # iCal
     (r'^feed.ics$', cache(THREE_HOURS, ical_views.ical)),
