@@ -104,8 +104,13 @@ def get_long_term_events():
 def __tweet_event(tweet, type):
     CONSUMER_KEY = service.get_twitter_consumer_key_for_tweets()
     CONSUMER_SECRET = service.get_twitter_consumer_secret_for_tweets()
-    ACCESS_KEY = service.get_twitter_access_key_for_tweets()
-    ACCESS_SECRET = service.get_twitter_access_secret_for_tweets()
+    if type == 'L':
+        ACCESS_KEY = service.get_twitter_access_key_for_longterm_tweets()
+        ACCESS_SECRET = service.get_twitter_access_secret_for_longterm_tweets()
+
+    else:
+        ACCESS_KEY = service.get_twitter_access_key_for_shortterm_tweets()
+        ACCESS_SECRET = service.get_twitter_access_secret_for_shortterm_tweets()
     auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
     auth.set_access_token(ACCESS_KEY, ACCESS_SECRET)
     api = tweepy.API(auth)
