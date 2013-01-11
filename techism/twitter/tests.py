@@ -77,6 +77,7 @@ class TwitterIntegrationTest(TestCase):
         # tweet events, without prefix
         twitter.tweet_upcoming_shortterm_events()
         twitter.tweet_upcoming_shortterm_events()
+        twitter.tweet_upcoming_shortterm_events()
         mocked_tweet_event_function.reset_mock()
 
         # hack: save without change to create a version
@@ -108,10 +109,6 @@ class TwitterIntegrationTest(TestCase):
         twitter.tweet_upcoming_shortterm_events()
         self.assertEquals(1, mocked_tweet_event_function.call_count)
         self.assertTrue(mocked_tweet_event_function.call_args[0][0].startswith('[Abgesagt] Future event'), 'Tweet must start with [Abgesagt]')
-        mocked_tweet_event_function.reset_mock()
-        
-        twitter.tweet_upcoming_shortterm_events()
-        self.assertEquals(1, mocked_tweet_event_function.call_count)
         mocked_tweet_event_function.reset_mock()
         
         # no more tweet
