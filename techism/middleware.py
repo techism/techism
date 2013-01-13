@@ -41,6 +41,7 @@ class ContentSecurityPolicyMiddleware(object):
         
         standard_policy = "default-src 'self';" \
             "img-src 'self' *.tile.openstreetmap.org staticmap.openstreetmap.de;" \
+            "style-src 'self' 'unsafe-inline';" \
             "connect-src 'self' nominatim.openstreetmap.org;" \
             "xhr-src 'self' nominatim.openstreetmap.org;" 
         #header for firefox and Internet Explorer 
