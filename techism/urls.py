@@ -5,8 +5,6 @@ from techism.sitemaps import TechismSitemap
 from techism.events.sitemaps import EventIndexSitemap,EventDetailsSitemap,EventTagsSitemap
 from techism.organizations.sitemaps import OrgIndexSitemap,OrgTagsSitemap
 from django.contrib import admin
-from techism.utils import cache
-from techism.ical import views as ical_views
 
 
 ONE_HOUR = 60 * 60
@@ -43,18 +41,18 @@ urlpatterns = patterns('',
     (r'^orgs/tags/(?P<tag_name>.+)/$', 'techism.organizations.views.tag'),
     
     # static pages
-    (r'^impressum/$', cache(THREE_HOURS, direct_to_template), { 'template': 'impressum.html' }),
-    (r'^about/$', cache(THREE_HOURS, direct_to_template), { 'template': 'about.html' }),
+    (r'^impressum/$', direct_to_template, { 'template': 'impressum.html' }),
+    (r'^about/$', direct_to_template, { 'template': 'about.html' }),
     
     # iCal
-    (r'^feed.ics$', cache(THREE_HOURS, ical_views.ical)),
-    (r'^ical/(?P<event_id>.+).ics$', cache(THREE_HOURS, ical_views.ical_single_event)),
+    (r'^feed.ics$', 'techism.ical.views.ical'),
+    (r'^ical/(?P<event_id>.+).ics$', 'techism.ical.views.ical_single_event'),
     
     # Atom
-    (r'^feeds/atom/upcomming_events$', cache(THREE_HOURS, UpcommingEventsAtomFeed())),
+    (r'^feeds/atom/upcomming_events$', UpcommingEventsAtomFeed()),
     
     # RSS
-    (r'^feeds/rss/upcomming_events$', cache(THREE_HOURS, UpcommingEventsRssFeed())),
+    (r'^feeds/rss/upcomming_events$', UpcommingEventsRssFeed()),
     
     # Admin
     url(r'^admin/', include(admin.site.urls)),

@@ -200,18 +200,18 @@ class StaticViewsTest(TestCase):
         response = self.client.get('/about/')
         self.assertEqual(response.status_code, 200)
         self.assertIn('Content-Security-Policy', response)
-        self.assertEqual(response['Cache-Control'], 'public, must-revalidate, max-age=10800')
-        self.assertIn('Expires', response)
-        self.assertIn('Last-Modified', response)
-        self.assertIn('ETag', response)
+        self.assertCacheHeaders(response)
     
     def test_impressum_view(self):
         response = self.client.get('/impressum/')
         self.assertEqual(response.status_code, 200)
         self.assertIn('Content-Security-Policy', response)
-        self.assertEqual(response['Cache-Control'], 'public, must-revalidate, max-age=10800')
-        self.assertIn('Expires', response)
-        self.assertIn('Last-Modified', response)
+        self.assertCacheHeaders(response)
+    
+    def assertCacheHeaders(self, response):
         self.assertIn('ETag', response)
+        self.assertIn('Expires', response)
+        self.assertIn('Cache-Control', response)
+        self.assertIn('max-age=60', response['Cache-Control'])
 
 

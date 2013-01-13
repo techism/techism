@@ -39,14 +39,6 @@ STATICFILES_DIRS = (
     os.path.abspath(os.path.join(os.path.dirname(__file__), '../../static')),
 )
 
-# List of finder classes that know how to find static files in
-# various locations.
-STATICFILES_FINDERS = (
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
-)
-
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (  
     'django.template.loaders.filesystem.Loader',  
@@ -65,6 +57,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 )
 
 MIDDLEWARE_CLASSES = (
+    'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -72,6 +65,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'techism.middleware.SecureRequiredMiddleware',
     'techism.middleware.ContentSecurityPolicyMiddleware',
+    'django.middleware.cache.FetchFromCacheMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
@@ -82,6 +76,8 @@ TEMPLATE_DIRS = (
     os.path.abspath(os.path.join(os.path.dirname(__file__), 'templates')),
 )
 
+CACHE_MIDDLEWARE_SECONDS  = 60
+CACHE_MIDDLEWARE_ANONYMOUS_ONLY = True
 USE_ETAGS = True
 
 INSTALLED_APPS = (

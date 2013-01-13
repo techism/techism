@@ -26,10 +26,17 @@ class OrganizationViewsTest(TestCase):
     
     fixtures = ['test-utils/fixture.json']
     
+    def assertCacheHeaders(self, response):
+        self.assertIn('ETag', response)
+        self.assertIn('Expires', response)
+        self.assertIn('Cache-Control', response)
+        self.assertIn('max-age=60', response['Cache-Control'])
+
     def test_index_view(self):
         response = self.client.get('/orgs/')
         self.assertEqual(response.status_code, 200)
         self.assertIn('Content-Security-Policy', response)
+        self.assertCacheHeaders(response)
         self.assertIsNotNone(response.context['organization_list'])
         self.assertEqual(len(response.context['organization_list']), 2)
         
@@ -37,5 +44,6 @@ class OrganizationViewsTest(TestCase):
         response = self.client.get('/orgs/tags/tag1/')
         self.assertEqual(response.status_code, 200)
         self.assertIn('Content-Security-Policy', response)
+        self.assertCacheHeaders(response)
         self.assertIsNotNone(response.context['organization_list'])
         self.assertEqual(len(response.context['organization_list']), 2)
