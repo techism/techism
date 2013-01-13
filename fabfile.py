@@ -98,9 +98,9 @@ def __run_tests(target_dir, django_settings_module):
         with __virtualenv(), shell_env(DJANGO_SETTINGS_MODULE=django_settings_module):
             run("./manage.py test techism events ical rss twitter organizations")
 
-def __collect_static(target_dir):
+def __collect_static(target_dir, django_settings_module):
     with cd(BASE_DIR), cd(target_dir):
-        with __virtualenv():
+        with __virtualenv(), shell_env(DJANGO_SETTINGS_MODULE=django_settings_module):
             run("./manage.py collectstatic -v 0 --noinput")
 
 def __create_active_symlink(next_active_dir, active_dir):
@@ -144,7 +144,7 @@ def deploy_dev():
     __clean_checkout(next_dev_dir)
     __setup_venv(next_dev_dir)
     __create_log_dir(DEV_LOG_DIR)
-    __collect_static(next_dev_dir)
+    __collect_static(next_dev_dir, DEV_SETTINGS)
     __run_tests(next_dev_dir, DEV_SETTINGS)
     __manage_dev_db()
     __migrate_db(next_dev_dir, DEV_SETTINGS)
@@ -158,7 +158,7 @@ def deploy_staging():
     __clean_checkout(next_staging_dir)
     __setup_venv(next_staging_dir)
     __create_log_dir(STAGING_LOG_DIR)
-    __collect_static(next_staging_dir)
+    __collect_static(next_staging_dir, STAGING_SETTINGS)
     __run_tests(next_staging_dir, STAGING_SETTINGS)
     __manage_staging_db()
     __migrate_db(next_staging_dir, STAGING_SETTINGS)
@@ -174,7 +174,7 @@ def deploy_prod():
     __create_log_dir(STAGING_LOG_DIR)
     __backup_db(PROD_DB_NAME)
     __migrate_db(next_prod_dir, PROD_SETTINGS)
-    __collect_static(next_prod_dir)
+    __collect_static(next_prod_dir, PROD_SETTINGS)
     __install_crontab(next_prod_dir)
     __create_active_symlink(next_prod_dir, PROD_DIR)
     __touch_wsgi(next_prod_dir, PROD_WSGI)
