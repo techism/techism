@@ -16,11 +16,13 @@
         {% endfor %}   
         {% if event_list.has_next %}
             <article class="vevent" id="more">
+              <header>
                <h2>
                    {% if event_list.has_next %}
                        <a href="?page={{ event_list.next_page_number }}" class="next">Mehr</a>
                    {% endif %} 
                </h2>
+              </header>
             </article>
         {% endif %}
     {% else %}
