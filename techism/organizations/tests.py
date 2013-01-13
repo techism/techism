@@ -39,7 +39,8 @@ class OrganizationViewsTest(TestCase):
         self.assertCacheHeaders(response)
         self.assertIsNotNone(response.context['organization_list'])
         self.assertEqual(len(response.context['organization_list']), 2)
-        
+        self.assertIsNotNone(response.context['tags'])
+
     def test_index_view_tag(self):
         response = self.client.get('/orgs/tags/tag1/')
         self.assertEqual(response.status_code, 200)
@@ -47,3 +48,18 @@ class OrganizationViewsTest(TestCase):
         self.assertCacheHeaders(response)
         self.assertIsNotNone(response.context['organization_list'])
         self.assertEqual(len(response.context['organization_list']), 2)
+        self.assertIsNotNone(response.context['tags'])
+
+    def test_index_view_tag_without_orgs(self):
+        response = self.client.get('/orgs/tags/tagwithoutorg/')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('Content-Security-Policy', response)
+        self.assertCacheHeaders(response)
+        self.assertIsNotNone(response.context['organization_list'])
+        self.assertEqual(len(response.context['organization_list']), 0)
+        self.assertIsNotNone(response.context['tags'])
+        self.assertIn('Zur Zeit sind keine Gruppen vorhanden.', response.content)
+
+    def test_index_view_tag_of_nonexisting_tag(self):
+        response = self.client.get('/orgs/tags/nonexistingtag/')
+        self.assertEqual(response.status_code, 404)

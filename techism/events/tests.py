@@ -66,6 +66,29 @@ class EventViewsTest(TestCase):
         self.assertEqual(len(response.context['event_list']), 5)
         self.assertIsNotNone(response.context['tags'])
 
+    def test_tags_view_with_events(self):
+        response = self.client.get('/events/tags/python/')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('Content-Security-Policy', response)
+        self.assertCacheHeaders(response)
+        self.assertIsNotNone(response.context['event_list'])
+        self.assertEqual(len(response.context['event_list']), 2)
+        self.assertIsNotNone(response.context['tags'])
+
+    def test_tags_view_without_events(self):
+        response = self.client.get('/events/tags/tagwithoutevent/')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('Content-Security-Policy', response)
+        self.assertCacheHeaders(response)
+        self.assertIsNotNone(response.context['event_list'])
+        self.assertEqual(len(response.context['event_list']), 0)
+        self.assertIsNotNone(response.context['tags'])
+        self.assertIn('Zur Zeit sind keine Events vorhanden.', response.content)
+
+    def test_tags_view_of_nonexisting_tag(self):
+        response = self.client.get('/events/tags/nonexistingtag/')
+        self.assertEqual(response.status_code, 404)
+
     def test_details_view(self):
         response = self.client.get('/events/1/')
         self.assertEqual(response.status_code, 200)
@@ -304,7 +327,7 @@ class EventFormsTest(TestCase):
         field = CommaSeparatedTagsFormField(max_length=200, label= u'Tags', required=True)
         tags = field.clean("python, java")
         self.assertItemsEqual((python,java), tags)
-        self.assertEqual(4, EventTag.objects.count())
+        self.assertEqual(5, EventTag.objects.count())
         
     def test_comma_separated_tags_form_field_new_tags(self):
         field = CommaSeparatedTagsFormField(max_length=200, label= u'Tags', required=True)
@@ -312,7 +335,7 @@ class EventFormsTest(TestCase):
         self.assertEqual(2, len(tags))
         self.assertEqual(tags[0], EventTag.objects.get(name="foo"))
         self.assertEqual(tags[1], EventTag.objects.get(name="bar"))
-        self.assertEqual(6, EventTag.objects.count())
+        self.assertEqual(7, EventTag.objects.count())
         
     def test_comma_separated_tags_form_field_strip_lowercase_filter_empty_and_duplicates(self):
         field = CommaSeparatedTagsFormField(max_length=200, label= u'Tags', required=True)
@@ -321,7 +344,7 @@ class EventFormsTest(TestCase):
         self.assertEqual(tags[0], EventTag.objects.get(name="foo"))
         self.assertEqual(tags[1], EventTag.objects.get(name="foo bar"))
         self.assertEqual(tags[2], EventTag.objects.get(name="bar"))
-        self.assertEqual(7, EventTag.objects.count())
+        self.assertEqual(8, EventTag.objects.count())
 
     def test_comma_separated_tags_form_field_allowed_characters(self):
         field = CommaSeparatedTagsFormField(max_length=200, label= u'Tags', required=True)
@@ -329,7 +352,7 @@ class EventFormsTest(TestCase):
         self.assertEqual(2, len(tags))
         self.assertEqual(tags[0], EventTag.objects.get(name="foo"))
         self.assertEqual(tags[1], EventTag.objects.get(name="a_z-0.9 äöüß"))
-        self.assertEqual(6, EventTag.objects.count())
+        self.assertEqual(7, EventTag.objects.count())
 
     def test_comma_separated_tags_form_field_not_allowed_characters(self):
         field = CommaSeparatedTagsFormField(max_length=200, label= u'Tags', required=True)
