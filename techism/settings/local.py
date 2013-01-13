@@ -34,6 +34,8 @@ HTTPS_URL = 'https://localhost:8443'
 try:
     from debug_toolbar.middleware import DebugToolbarMiddleware
     MIDDLEWARE_CLASSES += ('debug_toolbar.middleware.DebugToolbarMiddleware',)
+    MIDDLEWARE_CLASSES = list(MIDDLEWARE_CLASSES)
+    MIDDLEWARE_CLASSES.remove('techism.middleware.ContentSecurityPolicyMiddleware')
     INTERNAL_IPS = ('127.0.0.1',)
     INSTALLED_APPS += ('debug_toolbar',)
 except ImportError:
