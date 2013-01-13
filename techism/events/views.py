@@ -66,7 +66,7 @@ def tag(request, tag_name):
 
 def __get_event_query_set():
     event_query_set = event_service.get_upcomming_published_events_query_set()
-    event_query_set = event_query_set.order_by('date_time_begin')
+    event_query_set = event_query_set.order_by('date_time_begin', 'id')
     event_query_set = event_query_set.prefetch_related('tags')
     event_query_set = event_query_set.prefetch_related('location')
     event_query_set = event_query_set.prefetch_related('user')

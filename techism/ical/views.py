@@ -17,7 +17,7 @@ ONE_YEAR = ONE_DAY * 365
 
 def ical(request):
     ninety_days = timezone.now() + timedelta(days=90)
-    event_list = event_service.get_upcomming_published_events_query_set().filter(date_time_begin__lte=ninety_days).order_by('date_time_begin')
+    event_list = event_service.get_upcomming_published_events_query_set().filter(date_time_begin__lte=ninety_days).order_by('date_time_begin', 'id')
     cal = ical_service.create_calendar_with_metadata(event_list, request)
     response = create_httpresponse(cal.as_string())
     return response

@@ -17,7 +17,7 @@ class UpcommingEventsRssFeed(Feed):
     def items(self):
         today = timezone.now() + timedelta(days=0)
         seven_days = timezone.now() + timedelta(days=7)
-        event_list = event_service.get_upcomming_published_events_query_set().filter(date_time_begin__gte=today).filter(date_time_begin__lte=seven_days).order_by('date_time_begin')
+        event_list = event_service.get_upcomming_published_events_query_set().filter(date_time_begin__gte=today).filter(date_time_begin__lte=seven_days).order_by('date_time_begin', 'id')
         return event_list
 
     def item_title(self, item):
