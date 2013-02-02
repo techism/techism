@@ -9,18 +9,16 @@
 {% endblock %}
 
 {% block content %}
-<section id="content">
+<div id="content">
     {% if event.published %}
         {% include "events/_event_details.html" %}
     {% else %}
-    <article class="vevent">
-        <section class="detail">
-            <h3>Dieses Event ist noch nicht veröffentlicht.</h3>
-            <p class="description">Neue Events werden erst nach einem Review freigeschaltet.</p>
-        </section>
-    </article>
+    <div class="vevent" class="detail">
+        <h3>Dieses Event ist noch nicht veröffentlicht.</h3>
+        <p class="description">Neue Events werden erst nach einem Review freigeschaltet.</p>
+    </div>
     {% endif %}
-</section>
+</div>
 
 {% include "events/_tagcloud.html" %}
 

@@ -1,8 +1,7 @@
 {% extends "base.html" %} {% load staticfiles %} {% load url from future %} {% block head %}
 <link rel="stylesheet" href="{% static 'zocial-20121201/zocial.css' %}" />
 {% endblock %} {% block content %}
-<div id="content">
-    <div class="content">
+<div id="content" class="content">
         <h2>Login</h2>
 
         <h3>Wähle deinen Login Provider:</h3>
@@ -34,8 +33,6 @@
             <strong>Datenschutz:</strong> Bei der Anmeldung speichern wir deinen Namen und E-Mail Adresse ab. Diese
             Daten werden bei jedem Login aktualisiert. Die Übertragung deiner Daten nach dem Login ist verschlüsselt.
         </p>
-
-    </div>
 </div>
 {% endblock %} {% block scripts %}
 <script src="{% static 'js/accounts/login.js' %}"></script>

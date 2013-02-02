@@ -119,7 +119,7 @@ Techism.Map.Map = function(latLonCallback) {
 
 
 Techism.Map.renderEventDetailMap = function() {
-    var where = $(this).children("section.where");
+    var where = $(this).children("div.where");
     
     // exit if no where id exists
     if( where.length == 0) {

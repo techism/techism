@@ -9,13 +9,13 @@
 {% endblock %}
 
 {% block content %}
-<section id="content">
+<div id="content">
     {% if event_list %}
         {% for event in event_list %} 
             {% include "events/_event_details.html" %}
         {% endfor %}   
         {% if event_list.has_next %}
-            <article class="vevent" id="more">
+            <div class="vevent" id="more">
               <header>
                <h2>
                    {% if event_list.has_next %}
@@ -23,16 +23,14 @@
                    {% endif %} 
                </h2>
               </header>
-            </article>
+            </div>
         {% endif %}
     {% else %}
-        <article class="vevent">
-            <section>
-                <p>Zur Zeit sind keine Events vorhanden.</p>
-            </section>
-        </article>
+        <div class="content">
+            <p>Zur Zeit sind keine Events vorhanden.</p>
+        </div>
     {% endif %}  
-</section>
+</div>
 
 {% include "events/_tagcloud.html" %}
 

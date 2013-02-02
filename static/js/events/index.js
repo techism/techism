@@ -3,7 +3,7 @@ $(document).ready(function(){
   $(".detail").hide(); 
 
   // clicks for touch interface
-  $('article.vevent > header')
+  $('div.vevent > header')
     .live('click', function() {
       $(this)
         .parent()

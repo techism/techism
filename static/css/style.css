@@ -1,4 +1,4 @@
-section, header, footer, aside, nav, article { display: block; }
+header, footer, nav { display: block; }
 body {
   padding: 0;
   margin: 0 auto;
@@ -20,20 +20,20 @@ body {
   color: #99e600;
   text-decoration: none;
 }
-nav div ul {
+nav ul {
   padding: 0px;
   margin: 0px;
   margin-left: 10px;
   margin-top: 20px;
 }
-nav div ul li {
+nav ul li {
   font-size: 28px;
   font-weight: normal;
   list-style: none;
   margin-right: 5px;
   display: inline;
 }
-nav div ul a {
+nav ul a {
   font-size: 24px;
   font-weight: bold;
   list-style: none;
@@ -41,15 +41,15 @@ nav div ul a {
   display: inline;
   text-decoration: none;
 }
-nav div ul li {
+nav ul li {
   text-decoration: none;
   color: #bbbbbb;
 }
-nav div ul a:hover {
+nav ul a:hover {
   text-decoration: none;
   color: #bbbbbb;
 }
-nav div ul item {
+nav ul item {
   padding: 15px;
   margin: 15px;
 }
@@ -281,14 +281,6 @@ textarea:focus {
   width: auto;
   border-radius: 5px;
   background: -webkit-gradient(linear, left top, left 25, from(#ffffff), color-stop(4%, #eeeeee), to(#d8d8d8));
-}
-#version span {
-  font-size: 10px;
-  color: #3b3b3b;
-}
-#version a {
-  font-size: 10px;
-  color: #3b3b3b;
 }
 .canceled { text-decoration: line-through; }
 .organizations { 

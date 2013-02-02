@@ -10,15 +10,19 @@
 
 {% block content %}
 
-<section id="content">
-	{% include "events/_event_details.html" %}
-	<div id="create" class="content">
-		<form action="" method="post">
-			{% csrf_token %}
-			{{ form.id }}
-			<div class="row submit"><p><input type="submit" value="Event absagen" /></p></div> 
-		</form>
-</section>
+<div id="content">
+    {% include "events/_event_details.html" %}
+    <div id="create" class="content">
+        <form action="" method="post">
+            {% csrf_token %} {{ form.id }}
+            <div class="row submit">
+                <p>
+                    <input type="submit" value="Event absagen" />
+                </p>
+            </div>
+        </form>
+    </div>
+</div>
 
 {% endblock %}
 

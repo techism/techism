@@ -14,19 +14,15 @@
 </head>
 
 <body>
-    <section id="top">
-        <nav>
-            <div>
-                <ul>
-                    <li><a href="/"><img width="105" height="33" src="{% static 'images/techism_logo_05.png' %}" alt="Techism">
-                    <li{% if '/events/' in request.path or '/' == request.path %} id="active"{% endif %}><a href="/events/">Events</a></li> 
-                    <li id="add"><a href="/events/create/">+</a></li>
-                    <li{% if '/orgs/' in request.path %} id="active"{% endif %}><a href="/orgs/">Gruppen</a></li>
-                    </a></li>
-                </ul>
-            </div>
-        </nav>
-    </section>
+    <nav id="top">
+        <ul>
+            <li><a href="/"><img width="105" height="33" src="{% static 'images/techism_logo_05.png' %}" alt="Techism">
+            <li{% if '/events/' in request.path or '/' == request.path %} id="active"{% endif %}><a href="/events/">Events</a></li> 
+            <li id="add"><a href="/events/create/">+</a></li>
+            <li{% if '/orgs/' in request.path %} id="active"{% endif %}><a href="/orgs/">Gruppen</a></li>
+            </a></li>
+        </ul>
+    </nav>
 
     {% block content %}{% endblock %}
     <footer>

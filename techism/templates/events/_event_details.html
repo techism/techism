@@ -1,9 +1,9 @@
 {% load staticfiles %}
 {% load web_tags %}
 {% load tz %}
-<article class="vevent">
+<div class="vevent">
     <header>
-        <section class="header-content">
+        <div class="header-content">
             <div class="title">
                 <h2 class="summary">
                     {% if event.canceled %}[Abgesagt] {% endif %}<a id="{{ event.id }}_event"{% if event.canceled %} class="canceled"{% endif %} href="#event">{{ event.title }}</a>
@@ -26,18 +26,18 @@
                 <div class="box">{{ event.get_number_of_days }} Tage</div>
             </div>
             {% endif %}
-        </section>
+        </div>
     </header>
-    <section class="detail{% if event.canceled %} canceled{% endif %}">
-        <section>
+    <div class="detail{% if event.canceled %} canceled{% endif %}">
+        <div>
             <a class="url" href="{{ event.get_absolute_url }}"><img src="{% static 'images/world_link.png' %}"> Permalink</a> &nbsp;
             <a href="/ical/{{ event.id }}.ics"><img src="{% static 'images/date.png' %}"> iCal Export</a> &nbsp;
             <a href="webcal://{{ hostname }}/ical/{{ event.id }}.ics"> <img src="{% static 'images/date.png' %}"> WebCal</a>
-        </section>
+        </div>
 
-        <section class="what">
+        <div class="what">
             <h3>Was</h3>
-            <div class="description">{{ event.description|linebreaks }}</div>
+            <p class="description">{{ event.description|linebreaks }}</p>
             <p>
                 <a target="_blank" href="{{ event.url }}"><img src="{% static 'images/world_link.png' %}">
                     Webseite des Veranstalters</a>
@@ -47,8 +47,8 @@
                     <a {% ifequal tag_name tag.name %}class="selected"{% endifequal %} href="/events/tags/{{ tag.name }}/">{{ tag.name }}</a>
                 {% endfor %}
             </p>
-        </section>
-        <section class="when">
+        </div>
+        <div class="when">
             <h3>Wann</h3>
             <div class="date">
                 <div class="dtstart">{{ event.date_time_begin|date:"c" }}</div>
@@ -63,8 +63,8 @@
                     {% endif %}
                 {% endif %}
             </div>
-        </section>
-        <section class="where" id="event{{ event.id }}">
+        </div>
+        <div class="where" id="event{{ event.id }}">
             {% if event.location.name and event.location.street and event.location.city %}
             <h3>Wo</h3>
             <div class="location">{{event.location.name}}, {{event.location.street}}, {{event.location.city}}</div>
@@ -75,6 +75,6 @@
                 <img src="{% static 'images/googlemaps.png' %}"> Location in Google Maps anzeigen</a><br>
             </p>
             {% endif %}
-        </section>
-    </section>
-</article>
+        </div>
+    </div>
+</div>

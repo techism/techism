@@ -1,5 +1,5 @@
-<section id="tagcloud">
+<div id="tagcloud">
     {% for tag in tags|dictsort:"name" %}
         <a class="tag{{ tag.weigth }}{% ifequal tag_name tag.name %} selected{% endifequal %}" href="/orgs/tags/{{ tag.name }}/">{{ tag.name }}</a>
     {% endfor %}
-</section>
+</div>
