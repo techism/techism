@@ -17,7 +17,8 @@ class WebTagsTest(TestCase):
         self.assertNotIn(u'Heute', display)
         self.assertNotIn(u'Morgen', display)
         self.assertNotIn(u'Übermorgen', display)
-    
+
+  
     def test_today(self):
         today_local = timezone.localtime(timezone.now())
         today_utc = today_local.astimezone(pytz.utc)

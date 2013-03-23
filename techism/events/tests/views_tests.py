@@ -85,7 +85,7 @@ class EventViewsTest(TestCase):
         self.assertIsNotNone(response.context['event_list'])
         self.assertEqual(len(response.context['event_list']), 0)
         self.assertIsNotNone(response.context['tags'])
-        self.assertIn('Zur Zeit sind keine Events vorhanden.', response.content)
+        self.assertIn('Keine Events vorhanden.', response.content)
 
     def test_tags_view_of_nonexisting_tag(self):
         response = self.client.get('/events/tags/nonexistingtag/')

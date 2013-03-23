@@ -16,50 +16,39 @@ def index(request):
     event_list = event_service.get_event_query_set()
     tags = event_service.get_current_tags()
     page = __get_paginator_page(request, event_list)
-    if page == -1:
-        return HttpResponseNotFound()
-    return render_to_response(
-        'events/index.html',
-        {
-            'event_list': page,
-            'tags': tags,
-            'hostname': request.get_host()
-        },
-        context_instance=RequestContext(request))
+    return __render_index_template(request, event_list, tags)
 
 
 def year(request, year):
     event_list = event_service.get_all_event_query_set()
     event_list = event_list.filter(date_time_begin__year=year)
-    tags = event_service.get_current_tags()
-    page = __get_paginator_page(request, event_list)
-    if page == -1:
-        return HttpResponseNotFound()
-    return render_to_response(
-        'events/index.html',
-        {
-            'event_list': page,
-            'tags': tags,
-            'hostname': request.get_host()
-        },
-        context_instance=RequestContext(request))
+    tags = ()
+    return __render_index_template(request, event_list, tags)
 
 
 def year_month(request, year, month):
     event_list = event_service.get_all_event_query_set()
     event_list = event_list.filter(date_time_begin__year=year)
     event_list = event_list.filter(date_time_begin__month=month)
-    tags = event_service.get_current_tags()
+    tags = ()
+    return __render_index_template(request, event_list, tags)
+
+
+def tag(request, tag_name):
+    tag = get_object_or_404(EventTag, name=tag_name)
+    event_list = event_service.get_event_query_set()
+    event_list = event_list.filter(tags=tag)
     page = __get_paginator_page(request, event_list)
     if page == -1:
         return HttpResponseNotFound()
+    tags = event_service.get_current_tags()
     return render_to_response(
-        'events/index.html',
+        'events/index.html', 
         {
-            'event_list': page,
-            'tags': tags,
-            'hostname': request.get_host()
-        },
+            'event_list': page, 
+            'tags': tags, 
+            'tag_name': tag_name
+        }, 
         context_instance=RequestContext(request))
 
 
@@ -78,24 +67,6 @@ def details(request, event_id):
             'tags': tags,
             'hostname': request.get_host()
         },
-        context_instance=RequestContext(request))
-
-
-def tag(request, tag_name):
-    tag = get_object_or_404(EventTag, name=tag_name)
-    event_list = event_service.get_event_query_set()
-    event_list = event_list.filter(tags=tag)
-    page = __get_paginator_page(request, event_list)
-    if page == -1:
-        return HttpResponseNotFound()
-    tags = event_service.get_current_tags()
-    return render_to_response(
-        'events/index.html', 
-        {
-            'event_list': page, 
-            'tags': tags, 
-            'tag_name': tag_name
-        }, 
         context_instance=RequestContext(request))
 
 
@@ -175,6 +146,20 @@ def __save_event(request, mode, old_event=None):
                 'mode': mode
             },
             context_instance=RequestContext(request))
+
+
+def __render_index_template (request, event_list, tags):
+    page = __get_paginator_page(request, event_list)
+    if page == -1:
+        return HttpResponseNotFound()
+    return render_to_response(
+        'events/index.html',
+        {
+            'event_list': page,
+            'tags': tags,
+            'hostname': request.get_host()
+        },
+        context_instance=RequestContext(request))
 
 
 def __create_or_update_event_with_location (form, user, event):
