@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from django.test import TestCase
-from event_service import get_current_tags, get_upcomming_published_events_query_set
+from event_service import get_current_tags, get_upcomming_published_events_query_set, get_all_published_events_query_set
 from techism.models import Event, EventTag, Location
 from templatetags import web_tags
 import pytz
@@ -36,7 +36,9 @@ class EventServiceTest(TestCase):
         events = get_upcomming_published_events_query_set()
         self.assertEqual(events.count(), 5)
         
-        
+    def test_all_events(self):
+        events = get_all_published_events_query_set()
+        self.assertEqual(events.count(), 7)
 
 class EventViewsTest(TestCase):
     
@@ -64,6 +66,25 @@ class EventViewsTest(TestCase):
         self.assertCacheHeaders(response)
         self.assertIsNotNone(response.context['event_list'])
         self.assertEqual(len(response.context['event_list']), 5)
+        self.assertIsNotNone(response.context['tags'])
+
+    def test_year_view_with_current_year(self):
+        current_year = str(timezone.localtime(timezone.now()).year)
+        response = self.client.get('/events/' + current_year + '/')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('Content-Security-Policy', response)
+        self.assertCacheHeaders(response)
+        self.assertIsNotNone(response.context['event_list'])
+        self.assertEqual(len(response.context['event_list']), 7)
+        self.assertIsNotNone(response.context['tags'])
+
+    def test_year_view_with_2011(self):
+        response = self.client.get('/events/2011/')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('Content-Security-Policy', response)
+        self.assertCacheHeaders(response)
+        self.assertIsNotNone(response.context['event_list'])
+        self.assertEqual(len(response.context['event_list']), 0)
         self.assertIsNotNone(response.context['tags'])
 
     def test_tags_view_with_events(self):

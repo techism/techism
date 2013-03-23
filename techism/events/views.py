@@ -28,6 +28,23 @@ def index(request):
         context_instance=RequestContext(request))
 
 
+def year(request, year):
+    event_list = __get_all_event_query_set()
+    event_list = event_list.filter(date_time_begin__year=year)
+    tags = event_service.get_current_tags()
+    page = __get_paginator_page(request, event_list)
+    if page == -1:
+        return HttpResponseNotFound()
+    return render_to_response(
+        'events/index.html',
+        {
+            'event_list': page,
+            'tags': tags,
+            'hostname': request.get_host()
+        },
+        context_instance=RequestContext(request))
+
+
 def details(request, event_id):
     # the event_id may be the slugified, e.g. 'munichjs-meetup-286002'
     splitted_event_id = event_id.rsplit('-', 1)
@@ -70,6 +87,14 @@ def __get_event_query_set():
     event_query_set = event_query_set.prefetch_related('tags')
     event_query_set = event_query_set.prefetch_related('location')
     event_query_set = event_query_set.prefetch_related('user')
+    return event_query_set
+
+
+def __get_all_event_query_set():
+    event_query_set = event_service.get_all_published_events_query_set()
+    event_query_set = event_query_set.order_by('date_time_begin', 'id')
+    event_query_set = event_query_set.prefetch_related('tags')
+    event_query_set = event_query_set.prefetch_related('location')
     return event_query_set
 
 

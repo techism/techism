@@ -20,6 +20,10 @@ def get_upcomming_published_events_query_set():
     not_ended = Q(date_time_end__gte=timezone.now())
     return Event.objects.filter(published, (not_or_recently_started | not_ended))
 
+def get_all_published_events_query_set():
+    published = Q(published=True)
+    return Event.objects.filter(published)
+
 def send_event_review_mail(event):
     subject = u'Neues Event - bitte prüfen'
     message_details = u'Titel: %s\n\nBeschreibung: %s\n\n' % (event.title, event.description)
