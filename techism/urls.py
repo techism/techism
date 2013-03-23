@@ -35,6 +35,7 @@ urlpatterns = patterns('',
     (r'^events/create/$', 'techism.events.views.create'),
     (r'^events/locations/$', 'techism.events.views.locations'),
     (r'^events/(\d{4})/$', 'techism.events.views.year'),
+    (r'^events/(\d{4})/(\d{1,2})/$', 'techism.events.views.year_month'),
     (r'^events/[-_0-9a-zA-Z]*?(?P<event_id>\d+)/$', 'techism.events.views.details'),
     
     # orgs

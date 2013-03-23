@@ -8,6 +8,22 @@ import datetime
 from django.core.mail import mail_managers
 from django.conf import settings
 
+def get_event_query_set():
+    event_query_set = get_upcomming_published_events_query_set()
+    event_query_set = event_query_set.order_by('date_time_begin', 'id')
+    event_query_set = event_query_set.prefetch_related('tags')
+    event_query_set = event_query_set.prefetch_related('location')
+    event_query_set = event_query_set.prefetch_related('user')
+    return event_query_set
+
+
+def get_all_event_query_set():
+    event_query_set = get_all_published_events_query_set()
+    event_query_set = event_query_set.order_by('date_time_begin', 'id')
+    event_query_set = event_query_set.prefetch_related('tags')
+    event_query_set = event_query_set.prefetch_related('location')
+    return event_query_set
+
 def get_current_tags():
     published = Q(event__published=True)
     not_or_recently_started = Q(event__date_time_begin__gte=timezone.now() - datetime.timedelta(hours=1))

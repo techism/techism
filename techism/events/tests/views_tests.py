@@ -54,6 +54,20 @@ class EventViewsTest(TestCase):
         self.assertEqual(len(response.context['event_list']), 0)
         self.assertIsNotNone(response.context['tags'])
 
+    def test_year_month_view(self):
+        today = timezone.localtime(timezone.now())
+        year, month, day = today.timetuple()[:3]
+        new_month = month - 1
+        new_date = today.replace(year= year + (new_month / 12), month=new_month % 12)
+        url = '/events/' + str(new_date.year) + '/' + str(new_date.month) + '/'
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('Content-Security-Policy', response)
+        self.assertCacheHeaders(response)
+        self.assertIsNotNone(response.context['event_list'])
+        self.assertEqual(len(response.context['event_list']), 1)
+        self.assertIsNotNone(response.context['tags'])
+
     def test_tags_view_with_events(self):
         response = self.client.get('/events/tags/python/')
         self.assertEqual(response.status_code, 200)

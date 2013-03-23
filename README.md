@@ -17,6 +17,10 @@ or
 
     (venv)$ gunicorn_django techism
 
+### Load testdata manually
+
+    (venv)$ python manage.py loaddata test-utils/fixture.json
+
 ### Save dependencies
 
     (venv)$ pip freeze > dependencies.pip

@@ -28,4 +28,4 @@ class EventServiceTest(TestCase):
         
     def test_all_events(self):
         events = get_all_published_events_query_set()
-        self.assertEqual(events.count(), 7)
+        self.assertEqual(events.count(), 8)
