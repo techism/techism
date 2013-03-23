@@ -34,6 +34,15 @@ def year_month(request, year, month):
     return __render_index_template(request, event_list, tags)
 
 
+def year_month_day(request, year, month, day):
+    event_list = event_service.get_all_event_query_set()
+    event_list = event_list.filter(date_time_begin__year=year)
+    event_list = event_list.filter(date_time_begin__month=month)
+    event_list = event_list.filter(date_time_begin__day=day)
+    tags = ()
+    return __render_index_template(request, event_list, tags)
+
+
 def tag(request, tag_name):
     tag = get_object_or_404(EventTag, name=tag_name)
     event_list = event_service.get_event_query_set()

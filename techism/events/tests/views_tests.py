@@ -5,6 +5,7 @@ from django.test import TestCase
 from django.utils import timezone
 import json
 import reversion
+import datetime
 from techism.models import Event, EventTag, Location
 
 class EventViewsTest(TestCase):
@@ -66,6 +67,21 @@ class EventViewsTest(TestCase):
         self.assertCacheHeaders(response)
         self.assertIsNotNone(response.context['event_list'])
         self.assertEqual(len(response.context['event_list']), 1)
+        self.assertIsNotNone(response.context['tags'])
+
+    def test_year_month_day_view(self):
+        today = timezone.localtime(timezone.now())
+        yesterday = today + datetime.timedelta(days=-1)
+        year = str(yesterday.year)
+        month = str(yesterday.month)
+        day = str(yesterday.day)
+        url = '/events/' + year + '/' + month + '/' + day + '/'
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('Content-Security-Policy', response)
+        self.assertCacheHeaders(response)
+        self.assertIsNotNone(response.context['event_list'])
+        self.assertEqual(len(response.context['event_list']), 2)
         self.assertIsNotNone(response.context['tags'])
 
     def test_tags_view_with_events(self):
