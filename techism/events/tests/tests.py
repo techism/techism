@@ -2,13 +2,13 @@
 # -*- coding: utf-8 -*-
 
 from django.test import TestCase
-from event_service import get_current_tags, get_upcomming_published_events_query_set, get_all_published_events_query_set
+from techism.events.event_service import get_current_tags, get_upcomming_published_events_query_set, get_all_published_events_query_set
 from techism.models import Event, EventTag, Location
-from templatetags import web_tags
+from techism.events.templatetags import web_tags
 import pytz
 import datetime
 from django.utils import timezone
-from forms import EventForm, CommaSeparatedTagsFormField
+from techism.events.forms import EventForm, CommaSeparatedTagsFormField
 from django.core.exceptions import ValidationError
 import json
 import reversion
