@@ -10,6 +10,8 @@ from django.utils import html
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 import json
 from geopy import distance
+from django.utils import timezone
+import datetime
 
 
 def index(request):
@@ -35,6 +37,7 @@ def year_month(request, year, month):
 
 
 def year_month_day(request, year, month, day):
+    #TODO use timerange filter for correct handling of timezones
     event_list = event_service.get_all_event_query_set()
     event_list = event_list.filter(date_time_begin__year=year)
     event_list = event_list.filter(date_time_begin__month=month)

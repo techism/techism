@@ -35,8 +35,8 @@ text = in_file.read()
 
 #Replace 'NOW'
 now_utc = datetime.datetime.utcnow().replace(tzinfo=pytz.utc)
-begin_utc = now_utc + datetime.timedelta(minutes=-30)
-end_utc = now_utc + datetime.timedelta(minutes=30)
+begin_utc = now_utc + datetime.timedelta(minutes=-2)
+end_utc = now_utc + datetime.timedelta(minutes=2)
 text = re.compile('NOW_BEGIN').sub(begin_utc.strftime("%Y-%m-%dT%H:%M:%SZ"), text)
 text = re.compile('NOW_END').sub(end_utc.strftime("%Y-%m-%dT%H:%M:%SZ"), text)
 

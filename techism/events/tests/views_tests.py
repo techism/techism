@@ -19,38 +19,30 @@ class EventViewsTest(TestCase):
         self.assertIn('max-age=60', response['Cache-Control'])
 
     def test_index_view_root(self):
-        response = self.client.get('/')
-        self.assertEqual(response.status_code, 200)
-        self.assertIn('Content-Security-Policy', response)
-        self.assertCacheHeaders(response)
+        url = '/'
+        response = self.__get_response_and_check_headers(url)
         self.assertIsNotNone(response.context['event_list'])
         self.assertEqual(len(response.context['event_list']), 5)
         self.assertIsNotNone(response.context['tags'])
 
     def test_index_view(self):
-        response = self.client.get('/events/')
-        self.assertEqual(response.status_code, 200)
-        self.assertIn('Content-Security-Policy', response)
-        self.assertCacheHeaders(response)
+        url = '/events/'
+        response = self.__get_response_and_check_headers(url)
         self.assertIsNotNone(response.context['event_list'])
         self.assertEqual(len(response.context['event_list']), 5)
         self.assertIsNotNone(response.context['tags'])
 
     def test_year_view_with_current_year(self):
         current_year = str(timezone.localtime(timezone.now()).year)
-        response = self.client.get('/events/' + current_year + '/')
-        self.assertEqual(response.status_code, 200)
-        self.assertIn('Content-Security-Policy', response)
-        self.assertCacheHeaders(response)
+        url = '/events/' + current_year + '/'
+        response = self.__get_response_and_check_headers(url)
         self.assertIsNotNone(response.context['event_list'])
         self.assertEqual(len(response.context['event_list']), 7)
         self.assertIsNotNone(response.context['tags'])
 
     def test_year_view_with_2011(self):
-        response = self.client.get('/events/2011/')
-        self.assertEqual(response.status_code, 200)
-        self.assertIn('Content-Security-Policy', response)
-        self.assertCacheHeaders(response)
+        url = '/events/2011/'
+        response = self.__get_response_and_check_headers(url)
         self.assertIsNotNone(response.context['event_list'])
         self.assertEqual(len(response.context['event_list']), 0)
         self.assertIsNotNone(response.context['tags'])
@@ -61,10 +53,7 @@ class EventViewsTest(TestCase):
         new_month = month - 1
         new_date = today.replace(year= year + (new_month / 12), month=new_month % 12)
         url = '/events/' + str(new_date.year) + '/' + str(new_date.month) + '/'
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
-        self.assertIn('Content-Security-Policy', response)
-        self.assertCacheHeaders(response)
+        response = self.__get_response_and_check_headers(url)
         self.assertIsNotNone(response.context['event_list'])
         self.assertEqual(len(response.context['event_list']), 1)
         self.assertIsNotNone(response.context['tags'])
@@ -76,28 +65,21 @@ class EventViewsTest(TestCase):
         month = str(yesterday.month)
         day = str(yesterday.day)
         url = '/events/' + year + '/' + month + '/' + day + '/'
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
-        self.assertIn('Content-Security-Policy', response)
-        self.assertCacheHeaders(response)
+        response = self.__get_response_and_check_headers(url)
         self.assertIsNotNone(response.context['event_list'])
         self.assertEqual(len(response.context['event_list']), 2)
         self.assertIsNotNone(response.context['tags'])
 
     def test_tags_view_with_events(self):
-        response = self.client.get('/events/tags/python/')
-        self.assertEqual(response.status_code, 200)
-        self.assertIn('Content-Security-Policy', response)
-        self.assertCacheHeaders(response)
+        url = '/events/tags/python/'
+        response = self.__get_response_and_check_headers(url)
         self.assertIsNotNone(response.context['event_list'])
         self.assertEqual(len(response.context['event_list']), 2)
         self.assertIsNotNone(response.context['tags'])
 
     def test_tags_view_without_events(self):
-        response = self.client.get('/events/tags/tagwithoutevent/')
-        self.assertEqual(response.status_code, 200)
-        self.assertIn('Content-Security-Policy', response)
-        self.assertCacheHeaders(response)
+        url = '/events/tags/tagwithoutevent/'
+        response = self.__get_response_and_check_headers(url)
         self.assertIsNotNone(response.context['event_list'])
         self.assertEqual(len(response.context['event_list']), 0)
         self.assertIsNotNone(response.context['tags'])
@@ -108,10 +90,8 @@ class EventViewsTest(TestCase):
         self.assertEqual(response.status_code, 404)
 
     def test_details_view(self):
-        response = self.client.get('/events/1/')
-        self.assertEqual(response.status_code, 200)
-        self.assertIn('Content-Security-Policy', response)
-        self.assertCacheHeaders(response)
+        url = '/events/1/'
+        response = self.__get_response_and_check_headers(url)
         self.assertIsNotNone(response.context['event'])
         self.assertEqual(response.context['event'], Event.objects.get(id=1))
         self.assertIsNotNone(response.context['tags'])
@@ -119,10 +99,8 @@ class EventViewsTest(TestCase):
         self.assertIn("webcal://testserver/ical/1.ics", response.content)
 
     def test_details_view_slugified(self):
-        response = self.client.get('/events/a-b-c-1/')
-        self.assertEqual(response.status_code, 200)
-        self.assertIn('Content-Security-Policy', response)
-        self.assertCacheHeaders(response)
+        url = '/events/a-b-c-1/'
+        response = self.__get_response_and_check_headers(url)
         self.assertIsNotNone(response.context['event'])
         self.assertEqual(response.context['event'], Event.objects.get(id=1))
         self.assertIsNotNone(response.context['tags'])
@@ -145,9 +123,9 @@ class EventViewsTest(TestCase):
         self.assertEqual(response.status_code, 404)
 
     def test_locations_view(self):
-        response = self.client.get('/events/locations/')
+        url = '/events/locations/'
+        response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertNotIn('Content-Security-Policy', response)
         self.assertCacheHeaders(response)
         data = json.loads(response.content)
         self.assertEqual(2, len(data))
@@ -160,10 +138,8 @@ class EventViewsTest(TestCase):
         self.assertIn("48.13788", response.content)
 
     def test_create_view_get(self):
-        response = self.client.get('/events/create/')
-        self.assertEqual(response.status_code, 200)
-        self.assertIn('Content-Security-Policy', response)
-        self.assertCacheHeaders(response)
+        url = '/events/create/'
+        response = self.__get_response_and_check_headers(url)
         self.assertIn('id="id_title"', response.content)
         self.assertIn('id="id_url"', response.content)
         self.assertIn('id="id_description"', response.content)
@@ -325,3 +301,10 @@ class EventViewsTest(TestCase):
     def test_cancel_view_post_is_forbidden_for_unauthenticated_user(self):
         response = self.client.post('/events/cancel/1', follow=True)
         self.assertEqual(response.status_code, 403)
+
+    def __get_response_and_check_headers (self, url):
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('Content-Security-Policy', response)
+        self.assertCacheHeaders(response)
+        return response
