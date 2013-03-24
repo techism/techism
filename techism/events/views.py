@@ -12,6 +12,7 @@ import json
 from geopy import distance
 from django.utils import timezone
 import datetime
+import pytz
 
 
 def index(request):
@@ -37,11 +38,16 @@ def year_month(request, year, month):
 
 
 def year_month_day(request, year, month, day):
-    #TODO use timerange filter for correct handling of timezones
+    now = timezone.localtime(timezone.now())
+    utc_offset = now.utcoffset()
+    utc = pytz.UTC
+    quest_date = datetime.datetime (int(year), int(month), int(day) )
+
+    range_von = utc.localize(datetime.datetime.combine(quest_date,datetime.time.min) - utc_offset)
+    range_bis = utc.localize(datetime.datetime.combine(quest_date,datetime.time.max) - utc_offset)
+
     event_list = event_service.get_all_event_query_set()
-    event_list = event_list.filter(date_time_begin__year=year)
-    event_list = event_list.filter(date_time_begin__month=month)
-    event_list = event_list.filter(date_time_begin__day=day)
+    event_list = event_list.filter(date_time_begin__range=(range_von, range_bis))
     tags = ()
     return __render_index_template(request, event_list, tags)
 
