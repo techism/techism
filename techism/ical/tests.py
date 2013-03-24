@@ -93,6 +93,28 @@ class IcalViewTest(TestCase):
         self.assertIn("UID:5@techism.de", response.content)
         self.assertIn("UID:6@techism.de", response.content)
 
+    def test_view_tag(self):
+        response = self.client.get('/ical/tags/python/feed.ics')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response['Content-Type'], 'text/calendar; charset=UTF-8')
+        self.assertCacheHeaders(response)
+        self.assertNotIn('Content-Security-Policy', response)
+        self.assertIn("BEGIN:VCALENDAR", response.content)
+        self.assertIn("BEGIN:VEVENT", response.content)
+        self.assertEqual(response.content.count("BEGIN:VEVENT"), 2)
+        self.assertIn("UID:2@techism.de", response.content)
+        self.assertIn("UID:6@techism.de", response.content)
+        self.assertIn("END:VEVENT", response.content)
+
+    def test_view_non_existing_tag(self):
+        response = self.client.get('/ical/tags/anonexistingtag/feed.ics')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response['Content-Type'], 'text/calendar; charset=UTF-8')
+        self.assertCacheHeaders(response)
+        self.assertNotIn('Content-Security-Policy', response)
+        self.assertIn("BEGIN:VCALENDAR", response.content)
+        self.assertIn("END:VCALENDAR", response.content)
+
     def test_view_single_future_event(self):
         response = self.client.get('/ical/1.ics')
         self.assertEqual(response.status_code, 200)

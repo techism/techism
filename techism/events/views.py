@@ -6,11 +6,9 @@ from techism.events import event_service
 from techism.events.forms import EventForm, EventCancelForm
 from techism.models import Event, EventTag, Location
 from django.http import HttpResponseRedirect, HttpResponse, HttpResponseForbidden, HttpResponseNotFound
-from django.utils import html
+from django.utils import html, timezone
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
-import json
 from geopy import distance
-from django.utils import timezone
 import datetime
 import pytz
 
@@ -25,6 +23,18 @@ def index(request):
 def year(request, year):
     event_list = event_service.get_all_event_query_set()
     event_list = event_list.filter(date_time_begin__year=year)
+    tags = ()
+    return __render_index_template(request, event_list, tags)
+
+
+def year_tags(request, year, tag_name):
+    try:
+        tag = EventTag.objects.get(name=tag_name)
+        event_list = event_service.get_all_event_query_set()
+        event_list = event_list.filter(date_time_begin__year=year)
+        event_list = event_list.filter(tags=tag)
+    except EventTag.DoesNotExist: 
+        event_list = ()
     tags = ()
     return __render_index_template(request, event_list, tags)
 
@@ -53,9 +63,12 @@ def year_month_day(request, year, month, day):
 
 
 def tag(request, tag_name):
-    tag = get_object_or_404(EventTag, name=tag_name)
-    event_list = event_service.get_event_query_set()
-    event_list = event_list.filter(tags=tag)
+    try:
+        tag = get_object_or_404(EventTag, name=tag_name)
+        event_list = event_service.get_event_query_set()
+        event_list = event_list.filter(tags=tag)
+    except EventTag.DoesNotExist:
+        event_list()
     page = __get_paginator_page(request, event_list)
     if page == -1:
         return HttpResponseNotFound()
@@ -293,23 +306,7 @@ def __cancel_event(request, event):
 
 
 def locations(request):
-    return HttpResponse(__get_locations_as_json(), mimetype="application/json")
-
-
-def __get_locations_as_json():
-    location_list = Location.objects.filter(historized_since__isnull=True)
-    locations = []
-    for location in location_list:
-        loc = dict()
-        loc['id'] = location.id
-        loc['name'] = location.name
-        loc['street'] = location.street
-        loc['city'] = location.city
-        loc['latitude'] = location.latitude
-        loc['longitude'] = location.longitude
-        locations.append(loc)
-    locations_as_json = json.dumps(locations)
-    return locations_as_json
+    return HttpResponse(event_service.get_locations_as_json(), mimetype="application/json")
 
 
 def __get_paginator_page(request, event_list):

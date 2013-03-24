@@ -24,6 +24,7 @@ class EventViewsTest(TestCase):
         self.assertIsNotNone(response.context['event_list'])
         self.assertEqual(len(response.context['event_list']), 5)
         self.assertIsNotNone(response.context['tags'])
+        self.assertTrue(len(response.context['event_list']) > 0)
 
     def test_index_view(self):
         url = '/events/'
@@ -31,6 +32,7 @@ class EventViewsTest(TestCase):
         self.assertIsNotNone(response.context['event_list'])
         self.assertEqual(len(response.context['event_list']), 5)
         self.assertIsNotNone(response.context['tags'])
+        self.assertTrue(len(response.context['event_list']) > 0)
 
     def test_year_view_with_current_year(self):
         current_year = str(timezone.localtime(timezone.now()).year)
@@ -46,6 +48,23 @@ class EventViewsTest(TestCase):
         self.assertIsNotNone(response.context['event_list'])
         self.assertEqual(len(response.context['event_list']), 0)
         self.assertIsNotNone(response.context['tags'])
+
+    def test_year_view_with_current_year_and_tag(self):
+        current_year = str(timezone.localtime(timezone.now()).year)
+        url = '/events/' + current_year + '/tags/python/'
+        response = self.__get_response_and_check_headers(url)
+        self.assertIsNotNone(response.context['event_list'])
+        self.assertEqual(len(response.context['event_list']), 2)
+        self.assertIsNotNone(response.context['tags'])
+
+    def test_year_view_with_current_year_and_nonexisting_tag(self):
+        current_year = str(timezone.localtime(timezone.now()).year)
+        url = '/events/' + current_year + '/tags/nonexistingtag/'
+        response = self.__get_response_and_check_headers(url)
+        self.assertIsNotNone(response.context['event_list'])
+        self.assertEqual(len(response.context['event_list']), 0)
+        self.assertIsNotNone(response.context['tags'])
+        self.assertIn('Keine Events vorhanden.', response.content)
 
     def test_year_month_view(self):
         today = timezone.localtime(timezone.now())
@@ -76,6 +95,7 @@ class EventViewsTest(TestCase):
         self.assertIsNotNone(response.context['event_list'])
         self.assertEqual(len(response.context['event_list']), 2)
         self.assertIsNotNone(response.context['tags'])
+        self.assertTrue(len(response.context['event_list']) > 0)
 
     def test_tags_view_without_events(self):
         url = '/events/tags/tagwithoutevent/'
@@ -83,6 +103,7 @@ class EventViewsTest(TestCase):
         self.assertIsNotNone(response.context['event_list'])
         self.assertEqual(len(response.context['event_list']), 0)
         self.assertIsNotNone(response.context['tags'])
+        self.assertTrue(len(response.context['event_list']) == 0)
         self.assertIn('Keine Events vorhanden.', response.content)
 
     def test_tags_view_of_nonexisting_tag(self):

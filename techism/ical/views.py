@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from techism.events import event_service
 from techism.ical import ical_service
-from techism.models import Event
+from techism.models import Event, EventTag
 from datetime import timedelta
 from django.utils import timezone
 
@@ -16,8 +16,19 @@ ONE_DAY = ONE_HOUR * 24
 ONE_YEAR = ONE_DAY * 365
 
 def ical(request):
-    ninety_days = timezone.now() + timedelta(days=90)
-    event_list = event_service.get_upcomming_published_events_query_set().filter(date_time_begin__lte=ninety_days).order_by('date_time_begin', 'id')
+    event_list = __get_upcomming_published_events_list()
+    cal = ical_service.create_calendar_with_metadata(event_list, request)
+    response = create_httpresponse(cal.as_string())
+    return response
+
+
+def ical_tag(request, tag_name):
+    try:
+        tag = EventTag.objects.get(name=tag_name)
+        event_list = __get_upcomming_published_events_list()
+        event_list = event_list.filter(tags=tag)
+    except EventTag.DoesNotExist:
+        event_list = ()
     cal = ical_service.create_calendar_with_metadata(event_list, request)
     response = create_httpresponse(cal.as_string())
     return response
@@ -39,3 +50,6 @@ def create_httpresponse (content):
     return response
 
 
+def __get_upcomming_published_events_list ():
+    ninety_days = timezone.now() + timedelta(days=100)
+    return event_service.get_upcomming_published_events_query_set().filter(date_time_begin__lte=ninety_days).order_by('date_time_begin', 'id')

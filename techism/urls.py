@@ -28,15 +28,18 @@ urlpatterns = patterns('',
     
     #events
     (r'^events/$', 'techism.events.views.index'),
+
+    (r'^events/(\d{4})/$', 'techism.events.views.year'),
+    (r'^events/(?P<year>\d{4})/tags/(?P<tag_name>.+)/$', 'techism.events.views.year_tags'),
+    (r'^events/(\d{4})/(\d{1,2})/$', 'techism.events.views.year_month'),
+    (r'^events/(\d{4})/(\d{1,2})/(\d{1,2})/$', 'techism.events.views.year_month_day'),
+    
     (r'^events/tags/(?P<tag_name>.+)/$', 'techism.events.views.tag'),
     (r'^events/edit/(?P<event_id>\d+)/$', 'techism.events.views.edit'),
     (r'^events/cancel/(?P<event_id>\d+)/$', 'techism.events.views.cancel'),
     (r'^events/create/(?P<event_id>\d+)/$', 'techism.events.views.create'),
     (r'^events/create/$', 'techism.events.views.create'),
     (r'^events/locations/$', 'techism.events.views.locations'),
-    (r'^events/(\d{4})/$', 'techism.events.views.year'),
-    (r'^events/(\d{4})/(\d{1,2})/$', 'techism.events.views.year_month'),
-    (r'^events/(\d{4})/(\d{1,2})/(\d{1,2})/$', 'techism.events.views.year_month_day'),
     (r'^events/[-_0-9a-zA-Z]*?(?P<event_id>\d+)/$', 'techism.events.views.details'),
     
     # orgs
@@ -49,6 +52,7 @@ urlpatterns = patterns('',
     
     # iCal
     (r'^feed.ics$', 'techism.ical.views.ical'),
+    (r'^ical/tags/(?P<tag_name>.+)/feed.ics$', 'techism.ical.views.ical_tag'),
     (r'^ical/(?P<event_id>.+).ics$', 'techism.ical.views.ical_single_event'),
     
     # Atom
