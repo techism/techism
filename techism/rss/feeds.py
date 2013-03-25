@@ -53,17 +53,24 @@ class UpcommingEventsRssFeed(Feed):
 
 
 class UpcommingEventsTagsRssFeed(UpcommingEventsRssFeed):
-    def items(self, tag_name):
+
+    def get_object(self, request, tag_name):
         try:
-            print tag_name
             tag = EventTag.objects.get(name=tag_name)
+            return tag
+        except EventTag.DoesNotExist: 
+            return None
+
+    def items(self, obj):
+        if (obj):
+            print obj
             today = timezone.now() + timedelta(days=0)
             seven_days = timezone.now() + timedelta(days=7)
             event_list = event_service.get_upcomming_published_events_query_set()
             event_list = event_list.filter(date_time_begin__gte=today).filter(date_time_begin__lte=seven_days)
-            event_list = event_list.filter (tags=tag)
+            event_list = event_list.filter (tags=obj)
             event_list.order_by('date_time_begin', 'id')
-        except EventTag.DoesNotExist: 
+        else:
             event_list = ()
         return event_list
 

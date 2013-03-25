@@ -42,6 +42,19 @@ class FeedTest(TestCase):
         self.assertIn("<link href=\"http://testserver%s\" rel=\"alternate\"></link>" % event.get_absolute_url(), response.content)
         self.assertIn("<id>http://testserver%s</id>" % event.get_absolute_url(), response.content)
 
+    def test_atom_upcomming_events_with_tag(self):
+        event = Event.objects.get(id=2)
+        response = self.client.get('/feeds/atom/tags/python/upcomming_events')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response['Content-Type'], 'application/atom+xml; charset=utf-8')
+        self.assertCacheHeaders(response)
+        self.assertNotIn('Content-Security-Policy', response)
+        self.assertIn("<feed xmlns=\"http://www.w3.org/2005/Atom\" xml:lang=\"de-DE\">", response.content)
+        self.assertEqual(response.content.count("<entry>"), 1)
+        self.assertIn("<title>Future event without end date - %s</title>" % self.tomorrow_190000, response.content)
+        self.assertIn("<link href=\"http://testserver%s\" rel=\"alternate\"></link>" % event.get_absolute_url(), response.content)
+        self.assertIn("<id>http://testserver%s</id>" % event.get_absolute_url(), response.content)
+
     def test_atom_updated_event(self):
         # hack: save without change to create a version
         event = Event.objects.get(id=2)
