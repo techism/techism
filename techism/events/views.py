@@ -47,6 +47,19 @@ def year_month(request, year, month):
     return __render_index_template(request, event_list, tags)
 
 
+def year_month_tags(request, year, month, tag_name):
+    try:
+        tag = EventTag.objects.get(name=tag_name)
+        event_list = event_service.get_all_event_query_set()
+        event_list = event_list.filter(date_time_begin__year=year)
+        event_list = event_list.filter(date_time_begin__month=month)
+        event_list = event_list.filter(tags=tag)
+    except EventTag.DoesNotExist:
+        event_list = ()
+    tags = ()
+    return __render_index_template(request, event_list, tags)
+
+
 def year_month_day(request, year, month, day):
     now = timezone.localtime(timezone.now())
     utc_offset = now.utcoffset()

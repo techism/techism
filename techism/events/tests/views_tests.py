@@ -77,6 +77,15 @@ class EventViewsTest(TestCase):
         self.assertEqual(len(response.context['event_list']), 1)
         self.assertIsNotNone(response.context['tags'])
 
+    def test_year_month_tag_view(self):
+        today = timezone.localtime(timezone.now())
+        new_date = today.replace(year = today.year, month = today.month)
+        url = '/events/' + str(new_date.year) + '/' + str(new_date.month) + '/tags/python/'
+        response = self.__get_response_and_check_headers(url)
+        self.assertIsNotNone(response.context['event_list'])
+        self.assertEqual(len(response.context['event_list']), 2)
+        self.assertIsNotNone(response.context['tags'])
+
     def test_year_month_day_view(self):
         today = timezone.localtime(timezone.now())
         yesterday = today + datetime.timedelta(days=-1)
