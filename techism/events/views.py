@@ -23,7 +23,7 @@ def index(request):
 def year(request, year):
     event_list = event_service.get_all_event_query_set()
     event_list = event_list.filter(date_time_begin__year=year)
-    tags = ()
+    tags = event_service.get_current_tags()
     return __render_index_template(request, event_list, tags)
 
 
@@ -35,7 +35,7 @@ def year_tags(request, year, tag_name):
         event_list = event_list.filter(tags=tag)
     except EventTag.DoesNotExist: 
         event_list = ()
-    tags = ()
+    tags = event_service.get_current_tags()
     return __render_index_template(request, event_list, tags)
 
 
@@ -43,7 +43,7 @@ def year_month(request, year, month):
     event_list = event_service.get_all_event_query_set()
     event_list = event_list.filter(date_time_begin__year=year)
     event_list = event_list.filter(date_time_begin__month=month)
-    tags = ()
+    tags = event_service.get_current_tags()
     return __render_index_template(request, event_list, tags)
 
 
@@ -56,13 +56,13 @@ def year_month_tags(request, year, month, tag_name):
         event_list = event_list.filter(tags=tag)
     except EventTag.DoesNotExist:
         event_list = ()
-    tags = ()
+    tags = event_service.get_current_tags()
     return __render_index_template(request, event_list, tags)
 
 
 def year_month_day(request, year, month, day):
     event_list = _get_event_query_set_for_year_month_day (year, month, day)
-    tags = ()
+    tags = event_service.get_current_tags()
     return __render_index_template(request, event_list, tags)
 
 
@@ -73,7 +73,7 @@ def year_month_day_tags(request, year, month, day, tag_name):
         event_list = event_list.filter(tags=tag)
     except EventTag.DoesNotExist:
         event_list = ()
-    tags = ()
+    tags = event_service.get_current_tags()
     return __render_index_template(request, event_list, tags)
 
 
