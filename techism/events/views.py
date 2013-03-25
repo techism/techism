@@ -61,6 +61,23 @@ def year_month_tags(request, year, month, tag_name):
 
 
 def year_month_day(request, year, month, day):
+    event_list = _get_event_query_set_for_year_month_day (year, month, day)
+    tags = ()
+    return __render_index_template(request, event_list, tags)
+
+
+def year_month_day_tags(request, year, month, day, tag_name):
+    try:
+        tag = EventTag.objects.get(name=tag_name)
+        event_list = _get_event_query_set_for_year_month_day (year, month, day)
+        event_list = event_list.filter(tags=tag)
+    except EventTag.DoesNotExist:
+        event_list = ()
+    tags = ()
+    return __render_index_template(request, event_list, tags)
+
+
+def _get_event_query_set_for_year_month_day (year, month, day):
     now = timezone.localtime(timezone.now())
     utc_offset = now.utcoffset()
     utc = pytz.UTC
@@ -71,8 +88,7 @@ def year_month_day(request, year, month, day):
 
     event_list = event_service.get_all_event_query_set()
     event_list = event_list.filter(date_time_begin__range=(range_von, range_bis))
-    tags = ()
-    return __render_index_template(request, event_list, tags)
+    return event_list
 
 
 def tag(request, tag_name):
