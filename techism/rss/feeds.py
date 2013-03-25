@@ -5,6 +5,7 @@ from django.utils.feedgenerator import Atom1Feed
 from django.utils import html
 from techism import utils
 from techism.events import event_service
+from techism.models import EventTag
 from datetime import timedelta
 from django.utils import timezone
 
@@ -50,5 +51,26 @@ class UpcommingEventsRssFeed(Feed):
     def item_pubdate(self, item):
         return item.date_time_modified
 
+
+class UpcommingEventsTagsRssFeed(UpcommingEventsRssFeed):
+    def items(self, tag_name):
+        try:
+            print tag_name
+            tag = EventTag.objects.get(name=tag_name)
+            today = timezone.now() + timedelta(days=0)
+            seven_days = timezone.now() + timedelta(days=7)
+            event_list = event_service.get_upcomming_published_events_query_set()
+            event_list = event_list.filter(date_time_begin__gte=today).filter(date_time_begin__lte=seven_days)
+            event_list = event_list.filter (tags=tag)
+            event_list.order_by('date_time_begin', 'id')
+        except EventTag.DoesNotExist: 
+            event_list = ()
+        return event_list
+
+
 class UpcommingEventsAtomFeed(UpcommingEventsRssFeed):
+    feed_type = Atom1Feed
+
+
+class UpcommingEventsTagsAtomFeed(UpcommingEventsTagsRssFeed):
     feed_type = Atom1Feed

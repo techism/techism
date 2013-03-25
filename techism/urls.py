@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, include, url
 from django.views.generic.simple import direct_to_template
-from techism.rss.feeds import UpcommingEventsRssFeed, UpcommingEventsAtomFeed
+from techism.rss.feeds import UpcommingEventsRssFeed, UpcommingEventsAtomFeed, UpcommingEventsTagsRssFeed, UpcommingEventsTagsAtomFeed
 from techism.sitemaps import TechismSitemap
 from techism.events.sitemaps import EventIndexSitemap,EventDetailsSitemap,EventTagsSitemap
 from techism.organizations.sitemaps import OrgIndexSitemap,OrgTagsSitemap
@@ -62,9 +62,11 @@ urlpatterns = patterns('',
     
     # Atom
     (r'^feeds/atom/upcomming_events$', UpcommingEventsAtomFeed()),
+    (r'^feeds/atom/tags/(?P<tag_name>.+)/upcomming_events$', UpcommingEventsTagsAtomFeed()),
     
     # RSS
     (r'^feeds/rss/upcomming_events$', UpcommingEventsRssFeed()),
+    (r'^feeds/rss/tags/(?P<tag_name>.+)/upcomming_events$', UpcommingEventsTagsRssFeed()),
     
     # Admin
     url(r'^admin/', include(admin.site.urls)),
