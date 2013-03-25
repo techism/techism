@@ -344,7 +344,7 @@ def __get_paginator_page(request, event_list):
     except ValueError:
         num = 1
     
-    paginator = Paginator(event_list, 7);
+    paginator = Paginator(event_list, 8);
     try:
         page = paginator.page(num)
     except (EmptyPage, InvalidPage):

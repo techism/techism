@@ -113,6 +113,7 @@ h3 {
   border-radius: 5px;
   text-decoration: none;
   line-height: 35px;
+  clear: both;
 }
 #tagcloud a {
   background: #000000;
@@ -122,17 +123,9 @@ h3 {
   text-decoration: none;
   border: 1px solid grey;
   white-space: nowrap;
+
 }
-#tagcloud a.tag0 { color: #b7b7b7; }
-#tagcloud a.tag1 { color: #bfbfbf; }
-#tagcloud a.tag2 { color: #c7c7c7; }
-#tagcloud a.tag3 { color: #cfcfcf; }
-#tagcloud a.tag4 { color: #d7d7d7; }
-#tagcloud a.tag5 { color: #dfdfdf; }
-#tagcloud a.tag6 { color: #e7e7e7; }
-#tagcloud a.tag7 { color: #efefef; }
-#tagcloud a.tag8 { color: #f7f7f7; }
-#tagcloud a.tag9 { color: #ffffff; }
+
 #tagcloud a:hover { color: #99e600; }
 #tagcloud .selected { color: #99e600; }
 .tags a {
@@ -159,6 +152,8 @@ footer ul li { margin-right: 10px; }
   background: #ffffff;
   border-radius: 5px;
   color: #000000;
+  max-width: 900px;
+  float:left;
 }
 .vevent {
   border-top: 1px solid #f7f7f7;
@@ -302,3 +297,36 @@ textarea:focus {
    margin: 0 0 .5em 0;
 }
 
+
+
+a {
+  color: #ffffff;
+  text-decoration:none;
+}
+
+.month {
+  float:left;
+  padding: 5px;
+}
+
+.line {
+  clear:left;
+  height: 135px;
+  overflow: hidden;
+}
+
+.month_title_link {
+  
+  font-weight: bold;
+}
+
+.month > a, .month > label {
+  display: block;
+  float: left;
+  width: 24px;
+  text-align: right;
+}
+
+.day_weekend {
+  color: grey;
+}
