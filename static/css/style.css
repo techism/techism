@@ -2,7 +2,7 @@ header, footer, nav { display: block; }
 body {
   padding: 0;
   margin: 0 auto;
-  width: 85%;
+  width: 95%;
   height: 100%;
   font-family: Verdana, Helvetica, Arial, sans-serif;
   font-size: 16px;
@@ -257,22 +257,16 @@ textarea {
   width: 100px;
   margin-right: 10px;
 }
-input:hover {
+input:hover, textarea:hover {
   border-color: #c9c9c9;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 8px;
 }
-textarea:hover {
+
+input:focus, textarea:focus {
   border-color: #c9c9c9;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 8px;
 }
-input:focus {
-  border-color: #c9c9c9;
-  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 8px;
-}
-textarea:focus {
-  border-color: #c9c9c9;
-  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 8px;
-}
+
 .submit input {
   width: auto;
   border-radius: 5px;
@@ -297,6 +291,14 @@ textarea:focus {
    margin: 0 0 .5em 0;
 }
 
+#calendar {
+  float:left;
+  width:700px;
+  display:block; 
+  /*background-color: #000000; */
+  padding: 10px; 
+  border-radius: 5px;"
+}
 
 
 a {
@@ -316,7 +318,6 @@ a {
 }
 
 .month_title_link {
-  
   font-weight: bold;
 }
 
@@ -325,6 +326,8 @@ a {
   float: left;
   width: 24px;
   text-align: right;
+  font-weight: normal;
+  padding: 0px;
 }
 
 .day_weekend {
