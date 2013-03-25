@@ -30,10 +30,13 @@ urlpatterns = patterns('',
     (r'^events/$', 'techism.events.views.index'),
 
     (r'^events/(?P<year>\d{4})/$', 'techism.events.views.year'),
+    (r'^events/(?P<year>\d{4})/tags/$', 'techism.events.views.year'),
     (r'^events/(?P<year>\d{4})/tags/(?P<tag_name>.+)/$', 'techism.events.views.year_tags'),
     (r'^events/(?P<year>\d{4})/(?P<month>\d{1,2})/$', 'techism.events.views.year_month'),
+    (r'^events/(?P<year>\d{4})/(?P<month>\d{1,2})/tags/$', 'techism.events.views.year_month'),
     (r'^events/(?P<year>\d{4})/(?P<month>\d{1,2})/tags/(?P<tag_name>.+)/$', 'techism.events.views.year_month_tags'),
     (r'^events/(?P<year>\d{4})/(?P<month>\d{1,2})/(?P<day>\d{1,2})/$', 'techism.events.views.year_month_day'),
+    (r'^events/(?P<year>\d{4})/(?P<month>\d{1,2})/(?P<day>\d{1,2})/tags/$', 'techism.events.views.year_month_day'),
     (r'^events/(?P<year>\d{4})/(?P<month>\d{1,2})/(?P<day>\d{1,2})/tags/(?P<tag_name>.+)/$', 'techism.events.views.year_month_day_tags'),
     
     (r'^events/tags/(?P<tag_name>.+)/$', 'techism.events.views.tag'),
