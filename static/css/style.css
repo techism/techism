@@ -121,6 +121,7 @@ h3 {
   border-radius: 5px;
   text-decoration: none;
   border: 1px solid grey;
+  white-space: nowrap;
 }
 #tagcloud a.tag0 { color: #b7b7b7; }
 #tagcloud a.tag1 { color: #bfbfbf; }
