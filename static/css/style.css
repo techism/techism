@@ -152,8 +152,7 @@ footer ul li { margin-right: 10px; }
   background: #ffffff;
   border-radius: 5px;
   color: #000000;
-  max-width: 900px;
-  float:left;
+  overflow: hidden;
 }
 .vevent {
   border-top: 1px solid #f7f7f7;
@@ -292,14 +291,17 @@ input:focus, textarea:focus {
 }
 
 #calendar {
-  float:left;
-  width:700px;
+  float:right;
   display:block; 
-  /*background-color: #000000; */
   padding: 10px; 
   border-radius: 5px;"
 }
 
+@media screen and (max-width: 1000px) {
+  #calendar {
+    display: none;
+  }
+}
 
 a {
   color: #ffffff;
