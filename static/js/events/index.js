@@ -46,4 +46,10 @@ $(document).ready(function(){
   // hook up the manual click guy.
   $('.next').bind('click', moreHandler);
 
+  // highlight selected month/day in calendar
+  $('#calendar a').each(function() {
+    if ($(this).attr('href') == document.location.pathname) {
+      $(this).addClass('selected');
+    }
+  });
 });

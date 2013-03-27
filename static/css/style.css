@@ -293,7 +293,7 @@ input:focus, textarea:focus {
 #calendar {
   float:right;
   display:block; 
-  padding: 10px; 
+  padding-left: 10px; 
   border-radius: 5px;"
 }
 
@@ -303,27 +303,27 @@ input:focus, textarea:focus {
   }
 }
 
-a {
+#calendar a {
   color: #ffffff;
-  text-decoration:none;
+  text-decoration: none;
 }
 
-.month {
+#calendar .month {
   float:left;
-  padding: 5px;
+  padding: 4px;
 }
 
-.line {
+#calendar .line {
   clear:left;
-  height: 135px;
+  height: 133px;
   overflow: hidden;
 }
 
-.month_title_link {
+#calendar .month_title_link {
   font-weight: bold;
 }
 
-.month > a, .month > label {
+#calendar .month > a, #calendar .month > label {
   display: block;
   float: left;
   width: 24px;
@@ -331,7 +331,9 @@ a {
   font-weight: normal;
   padding: 0px;
 }
-
-.day_weekend {
+#calendar .day_weekend {
   color: grey;
+}
+#calendar .selected {
+  color: #99e600;
 }
