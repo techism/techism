@@ -11,7 +11,7 @@
 
 ### Start local development server
 
-    (venv)$ python manage.py runserver
+    (venv)$ ./manage.py runserver
 
 or
 
@@ -19,7 +19,7 @@ or
 
 ### Load testdata manually
 
-    (venv)$ python manage.py loaddata test-utils/fixture.json
+    (venv)$ ./manage.py loaddata test-utils/fixture.json
 
 ### Save dependencies
 
