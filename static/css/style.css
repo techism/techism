@@ -327,7 +327,7 @@ input:focus, textarea:focus {
   display: block;
   float: left;
   width: 24px;
-  text-align: right;
+  text-align: center;
   font-weight: normal;
   padding: 0px;
 }
@@ -336,4 +336,10 @@ input:focus, textarea:focus {
 }
 #calendar .selected {
   color: #99e600;
+}
+
+.current_day {
+  font-weight: bold;
+  background-color: #ffffff;
+  color: #000000;
 }
