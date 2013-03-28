@@ -2,12 +2,16 @@ header, footer, nav { display: block; }
 body {
   padding: 0;
   margin: 0 auto;
-  width: 95%;
   height: 100%;
   font-family: Verdana, Helvetica, Arial, sans-serif;
   font-size: 16px;
   background-color: #000000;
   background: #232323 url("../images/bg_noise.gif") repeat;
+}
+#main {
+  width: 95%;
+  height: 100%;
+  margin: 0 auto;
 }
 #admin {
   background-color: #ffffff;
@@ -23,14 +27,15 @@ body {
 nav ul {
   padding: 0px;
   margin: 0px;
-  margin-left: 10px;
-  margin-top: 20px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #333333;
+  background-color: #000000;
 }
 nav ul li {
   font-size: 28px;
   font-weight: normal;
   list-style: none;
-  margin-right: 5px;
+  margin-left: 5px;
   display: inline;
 }
 nav ul a {
@@ -116,7 +121,6 @@ h3 {
   clear: both;
 }
 #tagcloud a {
-  background: #000000;
   color: #ffffff;
   padding: 5px;
   border-radius: 5px;
