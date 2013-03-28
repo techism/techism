@@ -46,10 +46,21 @@ $(document).ready(function(){
   // hook up the manual click guy.
   $('.next').bind('click', moreHandler);
 
-  // highlight selected month/day in calendar
+  // highlight current day and selected month/day in calendar
+  var today = new Date();
+  var todayUrl = '/events/'+today.getFullYear()+'/'+(today.getMonth()+1)+'/'+today.getDate()+'/';
   $('#calendar a').each(function() {
+    var isToday = $(this).attr('href').indexOf(todayUrl) != -1;
     if ($(this).attr('href') == document.location.pathname) {
-      $(this).addClass('selected');
+      if(isToday) {
+        $(this).addClass('today_selected');
+      }
+      else {
+        $(this).addClass('selected');
+      }
+    }
+    else if(isToday) {
+      $(this).addClass('today');
     }
   });
 });

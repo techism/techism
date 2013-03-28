@@ -334,12 +334,17 @@ input:focus, textarea:focus {
 #calendar .day_weekend {
   color: grey;
 }
-#calendar .selected {
+#calendar a.selected {
+  font-weight: bold;
   color: #99e600;
 }
-
-.current_day {
+#calendar a.today {
   font-weight: bold;
   background-color: #ffffff;
   color: #000000;
+}
+#calendar a.today_selected {
+  font-weight: bold;
+  background-color: #ffffff;
+  color: #99e600;
 }
