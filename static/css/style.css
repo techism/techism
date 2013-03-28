@@ -5,7 +5,7 @@ body {
   height: 100%;
   font-family: Verdana, Helvetica, Arial, sans-serif;
   font-size: 16px;
-  background-color: #000000;
+  background-color: #101010;
   background: #232323 url("../images/bg_noise.gif") repeat;
 }
 #main {
@@ -125,7 +125,7 @@ h3 {
   padding: 5px;
   border-radius: 5px;
   text-decoration: none;
-  border: 1px solid grey;
+  border: 1px solid #444444;
   white-space: nowrap;
 
 }
