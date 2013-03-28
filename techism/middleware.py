@@ -40,7 +40,8 @@ class ContentSecurityPolicyMiddleware(object):
             return response
         
         standard_policy = "default-src 'self';" \
-            "img-src 'self' *.tile.openstreetmap.org staticmap.openstreetmap.de;" \
+            "script-src 'self' *.google-analytics.com;" \
+            "img-src 'self' *.google-analytics.com *.tile.openstreetmap.org staticmap.openstreetmap.de;" \
             "style-src 'self' 'unsafe-inline';" \
             "connect-src 'self' nominatim.openstreetmap.org;" \
             "xhr-src 'self' nominatim.openstreetmap.org;" 
@@ -52,3 +53,4 @@ class ContentSecurityPolicyMiddleware(object):
         response['Content-Security-Policy']= standard_policy
         
         return response
+
