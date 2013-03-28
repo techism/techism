@@ -283,7 +283,7 @@ input:focus, textarea:focus {
   word-wrap:break-word;
 }
 .more {
-  max-width:100%;
+  max-width:90%;
 }
 
 .description {
