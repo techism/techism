@@ -348,3 +348,4 @@ input:focus, textarea:focus {
   background-color: #ffffff;
   color: #99e600;
 }
+#calendar a:hover { color: #99e600; }
