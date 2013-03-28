@@ -39,7 +39,7 @@ class EventViewsTest(TestCase):
         url = '/events/' + current_year + '/'
         response = self.__get_response_and_check_headers(url)
         self.assertIsNotNone(response.context['event_list'])
-        self.assertEqual(len(response.context['event_list']), 7)
+        self.assertEqual(len(response.context['event_list']), 8)
         self.assertIsNotNone(response.context['tags'])
 
     def test_year_view_with_2011(self):
