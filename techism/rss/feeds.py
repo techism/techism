@@ -63,7 +63,6 @@ class UpcommingEventsTagsRssFeed(UpcommingEventsRssFeed):
 
     def items(self, obj):
         if (obj):
-            print obj
             today = timezone.now() + timedelta(days=0)
             seven_days = timezone.now() + timedelta(days=7)
             event_list = event_service.get_upcomming_published_events_query_set()

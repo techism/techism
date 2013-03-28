@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, include, url
-from django.views.generic.simple import direct_to_template
+from django.views.generic.base import TemplateView
 from techism.rss.feeds import UpcommingEventsRssFeed, UpcommingEventsAtomFeed, UpcommingEventsTagsRssFeed, UpcommingEventsTagsAtomFeed
 from techism.sitemaps import TechismSitemap
 from techism.events.sitemaps import EventIndexSitemap,EventDetailsSitemap,EventTagsSitemap
@@ -59,8 +59,8 @@ urlpatterns = patterns('',
     (r'^api/csp/$', 'techism.api.views.csp_reporting'),
 
     # static pages
-    (r'^impressum/$', direct_to_template, { 'template': 'impressum.html' }),
-    (r'^about/$', direct_to_template, { 'template': 'about.html' }),
+    (r'^impressum/$', TemplateView.as_view(template_name='impressum.html')),
+    (r'^about/$', TemplateView.as_view(template_name='about.html')),
     
     # iCal
     (r'^feed.ics$', 'techism.ical.views.ical'),
@@ -79,7 +79,7 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     
     # Login
-    (r'^accounts/login/$', direct_to_template, { 'template': 'accounts/login.html' }),
+    (r'^accounts/login/$', TemplateView.as_view(template_name='accounts/login.html' )),
     (r'^accounts/logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
     url(r'^accounts/', include('social_auth.urls')),
     

@@ -41,6 +41,8 @@ try:
 except ImportError:
     pass
 
+SECRET_KEY = 'dummy-for-development'
+
 ### import settings stored in database
 
 from database import *
