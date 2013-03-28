@@ -29,23 +29,23 @@
         <div id="twocol">
             <div id="left">
                 <ul>
-                    <li><a href="/impressum/">Impressum</a></li>
-                    <li><a href="/about/">Über</a></li>
+                    <li><a href="/impressum/">impressum</a></li>
+                    <li><a href="/about/">über</a></li>
                     {% if user.is_authenticated %}
                         {% if user.is_superuser %}
-                            <li><a href="/admin/">Admin</a></li> 
+                            <li><a href="/admin/">admin</a></li> 
                         {% endif %}
-                        <li><a href="/accounts/logout/">Logout</a></li> 
+                        <li><a href="/accounts/logout/">logout</a></li> 
                     {% else %}
-                        <li><a href="/accounts/login/">Login</a></li>
+                        <li><a href="/accounts/login/">login</a></li>
                     {% endif %}
                 </ul>
             </div>
             <div id="right">
                 <ul>
-                    <li><a href="/feed.ics">iCal</a></li>
-                    <li><a href="/feeds/atom/upcomming_events">RSS</a></li>
-                    <li><a href="http://twitter.com/techism">Twitter</a></li>
+                    <li><a href="/feed.ics">ical</a></li>
+                    <li><a href="/feeds/atom/upcomming_events">rss</a></li>
+                    <li><a href="http://twitter.com/techism">twitter</a></li>
                 </ul>
             </div>
         </div>
