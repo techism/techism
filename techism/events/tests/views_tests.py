@@ -72,9 +72,13 @@ class EventViewsTest(TestCase):
         new_month = month - 1
         new_date = today.replace(year= year + (new_month / 12), month=new_month % 12)
         url = '/events/' + str(new_date.year) + '/' + str(new_date.month) + '/'
+
         response = self.__get_response_and_check_headers(url)
         self.assertIsNotNone(response.context['event_list'])
-        self.assertEqual(len(response.context['event_list']), 1)
+        if (new_date.day == 1):
+            self.assertEqual(len(response.context['event_list']), 3)
+        else:
+            self.assertEqual(len(response.context['event_list']), 1)
         self.assertIsNotNone(response.context['tags'])
 
     def test_year_month_tag_view(self):

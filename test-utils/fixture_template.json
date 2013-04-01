@@ -19,6 +19,9 @@
 {"pk": 1, "model": "techism.organizationtag", "fields": {"name": "tag1"}}, 
 {"pk": 2, "model": "techism.organizationtag", "fields": {"name": "tag2"}}, 
 {"pk": 3, "model": "techism.organizationtag", "fields": {"name": "tagwithoutorg"}}, 
-{"pk": 1, "model": "techism.organization", "fields": {"url": "http://example.com/", "tags": [1], "description": "", "title": "Testorganisation1"}}, 
-{"pk": 2, "model": "techism.organization", "fields": {"url": "http://example.com/", "tags": [1, 2], "description": "", "title": "Testorganisation2"}}
+{"pk": 1, "model": "techism.organization", "fields": {"url": "http://example.com/", "tags": [1], "description": "Lorem ipsum dolor sit amet", "title": "Testorganisation1"}}, 
+{"pk": 2, "model": "techism.organization", "fields": {"url": "http://example.com/", "tags": [1, 2], "description": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.", "title": "Testorganisation2"}},
+{"pk": 3, "model": "techism.organization", "fields": {"url": "http://example.com/", "tags": [2], "description": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.", "title": "Testorganisation3"}},
+{"pk": 4, "model": "techism.organization", "fields": {"url": "http://example.com/", "tags": [1, 2], "description": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.", "title": "Testorganisation4"}},
+{"pk": 5, "model": "techism.organization", "fields": {"url": "http://example.com/", "tags": [1], "description": "Lorem ipsum dolor sit amet", "title": "Testorganisation5"}}
 ]
