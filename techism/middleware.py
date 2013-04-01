@@ -41,7 +41,7 @@ class ContentSecurityPolicyMiddleware(object):
         
         standard_policy = "default-src 'self';" \
             "script-src 'self' *.google-analytics.com;" \
-            "img-src 'self' *.google-analytics.com *.tile.openstreetmap.org staticmap.openstreetmap.de;" \
+            "img-src 'self' *.google-analytics.com *.tile.openstreetmap.org staticmap.openstreetmap.de *.tiles.mapbox.com;" \
             "style-src 'self' 'unsafe-inline';" \
             "connect-src 'self' nominatim.openstreetmap.org;" \
             "xhr-src 'self' nominatim.openstreetmap.org;" 
