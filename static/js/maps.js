@@ -1,7 +1,6 @@
 Techism.Map = {}
-Techism.Map.attribution = ' Imagery from <a href="http://mapbox.com/about/maps/">MapBox</a> &mdash;'+
-    ' Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>';
-Techism.Map.tileUrlHttp = 'http://{s}.tiles.mapbox.com/v3/ckoppelt.map-4bsnpmp0/{z}/{x}/{y}.png';
+Techism.Map.attribution = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>';
+Techism.Map.tileUrlHttp = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 Techism.Map.tileUrlHttps = '/map/tile/{z}/{x}/{y}.png';
 Techism.Map.tileUrl = location.protocol === 'https:' ? Techism.Map.tileUrlHttps : Techism.Map.tileUrlHttp;
 Techism.Map.searchUrlHttp = 'http://nominatim.openstreetmap.org/search';
