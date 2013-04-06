@@ -6,10 +6,15 @@
 
         <h3>Wähle deinen Login Provider:</h3>
         <p>
-            <a class="zocial google" href="{% url 'socialauth_begin' 'google' %}">Login mit Google</a> <a
-                class="zocial twitter" href="{% url 'socialauth_begin' 'twitter' %}">Login mit Twitter</a> <a
-                class="zocial yahoo" href="{% url 'socialauth_begin' 'yahoo' %}">Login mit Yahoo</a> <a
-                class="zocial openid" href="#">Login mit OpenID</a>
+            <a class="zocial google" href="{% url 'socialauth_begin' 'google' %}">Login mit Google</a> 
+            <a class="zocial twitter" href="{% url 'socialauth_begin' 'twitter' %}">Login mit Twitter</a> 
+            <a class="zocial yahoo" href="{% url 'socialauth_begin' 'yahoo' %}">Login mit Yahoo</a> 
+            <a class="zocial openid" href="#">Login mit OpenID</a>
+            <!-- Define a form to send the POST data -->
+            <form method="post" action="{% url 'socialauth_complete' "browserid" %}">
+                <input type="hidden" name="assertion" value="" />
+                <a class="zocial browserid" rel="nofollow" id="browserid" href="#">Login mit Mozilla Persona</a>
+            </form>
         </p>
         <div id="openid">
             <form action="{% url 'socialauth_begin' 'openid' %}" method="post">
@@ -36,6 +41,5 @@
 </div>
 {% endblock %} {% block scripts %}
 <script src="{% static 'js/accounts/login.js' %}"></script>
+<script src="https://browserid.org/include.js" type="text/javascript"></script>
 {% endblock %}
-
-
