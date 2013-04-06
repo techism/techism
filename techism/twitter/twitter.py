@@ -96,7 +96,7 @@ def get_short_term_events():
 
 def get_long_term_events():
     now_utc = timezone.now()
-    ninety_days = now_utc + timedelta(days=90)
+    ninety_days = now_utc + timedelta(days=60)
     event_list = event_service.get_upcomming_published_events_query_set().filter(date_time_begin__gte=now_utc).filter(date_time_begin__lte=ninety_days).filter(date_time_end__gte=F('date_time_begin')+timedelta(hours=8)).order_by('date_time_begin', 'id')
     return event_list
 
