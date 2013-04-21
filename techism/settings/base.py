@@ -93,6 +93,7 @@ INSTALLED_APPS = (
     'techism.ical',
     'techism.rss',
     'techism.twitter',
+    'techism.api',
     'django.contrib.admin',
     'social_auth',
     'reversion',
