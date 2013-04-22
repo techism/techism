@@ -32,12 +32,12 @@
         <div>
             <a class="url" href="{{ event.get_absolute_url }}"><img src="{% static 'images/world_link.png' %}"> Permalink</a> &nbsp;
             <a href="/ical/{{ event.id }}.ics"><img src="{% static 'images/date.png' %}"> iCal Export</a> &nbsp;
-            <a href="webcal://{{ hostname }}/ical/{{ event.id }}.ics"> <img src="{% static 'images/date.png' %}"> WebCal</a>
+            <!--a href="http://www.google.com/calendar/event?action=TEMPLATE&text={{ event.title }}&dates=20130422T123000Z/20130422T100000Z&details=&location=Marienplatz%2C%20M%C3%BCnchen&trp=false&sprop=techism&sprop=name:http%3A%2F%2Ftechism.de" target="_blank">zu Google Calendar hinzufügen</a-->
         </div>
 
         <div class="what">
             <h3>Was</h3>
-            <p class="description">{{ event.description|linebreaks }}</p>
+            <p class="description">{{ event.description|urlize|linebreaks }}</p>
             <p>
                 <a target="_blank" href="{{ event.url }}"><img src="{% static 'images/world_link.png' %}">
                     Webseite des Veranstalters</a>
