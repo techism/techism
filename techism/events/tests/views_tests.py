@@ -142,7 +142,7 @@ class EventViewsTest(TestCase):
         self.assertEqual(response.context['event'], Event.objects.get(id=1))
         self.assertIsNotNone(response.context['tags'])
         self.assertIn("Morgen", response.content)
-        self.assertIn("webcal://testserver/ical/1.ics", response.content)
+        self.assertIn("/ical/1.ics", response.content)
 
     def test_details_view_slugified(self):
         url = '/events/a-b-c-1/'
@@ -151,7 +151,7 @@ class EventViewsTest(TestCase):
         self.assertEqual(response.context['event'], Event.objects.get(id=1))
         self.assertIsNotNone(response.context['tags'])
         self.assertIn("Morgen", response.content)
-        self.assertIn("webcal://testserver/ical/1.ics", response.content)
+        self.assertIn("/ical/1.ics", response.content)
 
     def test_details_view_with_nonexisting_event(self):
         response = self.client.get('/events/1234567890/')
