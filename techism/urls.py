@@ -50,7 +50,12 @@ urlpatterns = patterns('',
     # orgs
     (r'^orgs/$', 'techism.organizations.views.index'),
     (r'^orgs/tags/(?P<tag_name>.+)/$', 'techism.organizations.views.tag'),
-    
+   
+    # api
+    (r'^api/events/(?P<year>\d{4})/$', 'techism.api.views.events'),
+    (r'^api/events/(?P<year>\d{4})/(?P<month>\d{1,2})/$', 'techism.api.views.events'),
+    (r'^api/events/(?P<year>\d{4})/(?P<month>\d{1,2})/(?P<day>\d{1,2})/$', 'techism.api.views.events'),
+
     # static pages
     (r'^impressum/$', direct_to_template, { 'template': 'impressum.html' }),
     (r'^about/$', direct_to_template, { 'template': 'about.html' }),
