@@ -38,6 +38,7 @@ HTTPS_PATHS = (
     '/admin/',
     '/accounts/',
 )
+ALLOWED_HOSTS = ['www.techism.de']
 HTTP_URL = 'http://www.techism.de'
 HTTPS_URL = 'https://www.techism.de'
 

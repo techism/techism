@@ -1,5 +1,7 @@
 import os.path
 
+SECRET_KEY = 'dummy-for-development'
+
 TIME_ZONE = 'Europe/Berlin'
 
 LANGUAGE_CODE = 'de-DE'
