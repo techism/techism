@@ -96,7 +96,7 @@ def __migrate_db(target_dir, django_settings_module):
 def __run_tests(target_dir, django_settings_module):
     with cd(BASE_DIR), cd(target_dir):
         with __virtualenv(), shell_env(DJANGO_SETTINGS_MODULE=django_settings_module):
-            run("./manage.py test techism events ical rss twitter organizations")
+            run("./manage.py test techism events ical rss twitter organizations api")
 
 def __collect_static(target_dir, django_settings_module):
     with cd(BASE_DIR), cd(target_dir):
