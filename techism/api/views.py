@@ -6,20 +6,17 @@ from django.utils import timezone
 from django.http import HttpResponseRedirect, HttpResponse, HttpResponseForbidden, HttpResponseNotFound
 from techism.events import event_service
 import json
+import logging
+
 
 @require_http_methods(["POST"])
 def csp_reporting(request):
-  #parse csp und log it
-	#{
-  	#"csp-report": {
-    #"document-uri": "http://example.com/signup.html",
-    #"referrer": "http://evil.example.net/haxor.html",
-    #"blocked-uri": "http://evil.example.net/injected.png",
-    #"violated-directive": "img-src *.example.com",
-    #"original-policy": "default-src 'self'; img-src 'self' *.example.com; report-uri /_/csp-reports",
-  	#}
-	#}
-	pass
+  data = json.loads(request.body)
+  values = data["csp-report"]
+  logger = logging.getLogger(__name__)
+  logger.warning('[CSP-REPORT]' + str(values))
+  return HttpResponse('')
+	
 
 @require_http_methods(["GET"])
 def events(request, year, month = None, day = None):
@@ -60,5 +57,5 @@ def events(request, year, month = None, day = None):
 
 @require_http_methods(["POST"])
 def create(request):
-  #parse body
-  pass
+  data = json.loads(request.body)
+  return HttpResponse('')

@@ -55,6 +55,8 @@ urlpatterns = patterns('',
     (r'^api/events/(?P<year>\d{4})/$', 'techism.api.views.events'),
     (r'^api/events/(?P<year>\d{4})/(?P<month>\d{1,2})/$', 'techism.api.views.events'),
     (r'^api/events/(?P<year>\d{4})/(?P<month>\d{1,2})/(?P<day>\d{1,2})/$', 'techism.api.views.events'),
+    (r'^api/events/$', 'techism.api.views.create'),
+    (r'^api/csp/$', 'techism.api.views.csp_reporting'),
 
     # static pages
     (r'^impressum/$', direct_to_template, { 'template': 'impressum.html' }),
