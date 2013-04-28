@@ -44,7 +44,10 @@ class ApiViewTest(TestCase):
     	self.assertEqual(2, len(data))
 
     def test_create(self):
-    	response = self.client.post('/api/events/', '{"test": "value", "test" : "test"}', content_type="application/json")
+        json = '''[{ "description": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy...", 
+        "title": "Running event without end date", "url": "http://example.com", 
+        "canceled": false, "date_time_end": "2013-04-28 17:04", "date_time_begin": "2013-04-28 17:04"}]'''
+    	response = self.client.post('/api/events/', json, content_type="application/json")
         self.assertEqual('', response.content)
 
     def __get_response(self, url):

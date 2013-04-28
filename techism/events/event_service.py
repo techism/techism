@@ -7,6 +7,7 @@ import datetime
 from django.core.mail import mail_managers
 from django.conf import settings
 import json
+import json_service
 
 def get_event_query_set():
     event_query_set = get_upcomming_published_events_query_set()
@@ -54,15 +55,4 @@ def send_event_review_mail(event):
 
 def get_locations_as_json():
     location_list = Location.objects.filter(historized_since__isnull=True)
-    locations = []
-    for location in location_list:
-        loc = dict()
-        loc['id'] = location.id
-        loc['name'] = location.name
-        loc['street'] = location.street
-        loc['city'] = location.city
-        loc['latitude'] = location.latitude
-        loc['longitude'] = location.longitude
-        locations.append(loc)
-    locations_as_json = json.dumps(locations)
-    return locations_as_json
+    return json_service.get_locations_as_json(location_list)
