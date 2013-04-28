@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/techism/techism.png)](https://travis-ci.org/techism/techism)
+
 ##Setup
 
     $ sudo apt-get install python-pip python-virtualenv
