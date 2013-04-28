@@ -35,6 +35,7 @@ def events(request, year, month = None, day = None):
 @permission_required('is_superuser')
 def create(request):
   #TODO: validate
+  print 'test'
   event = json_service.get_event_from_json(request.body)
   event.save()
   return HttpResponse('')
