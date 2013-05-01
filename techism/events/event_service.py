@@ -6,7 +6,6 @@ from django.utils import timezone
 import datetime
 from django.core.mail import mail_managers
 from django.conf import settings
-import json
 import json_service
 
 def get_event_query_set():
