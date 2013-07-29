@@ -3,5 +3,6 @@ SHELL=/bin/bash
 20 */4 * * * cd /srv/www/techism-staging && source venv/bin/activate && export DJANGO_SETTINGS_MODULE="techism.settings.staging" && ./manage.py sendtwitter_long
 */5 * * * * cd /srv/www/techism-prod && source venv/bin/activate && export DJANGO_SETTINGS_MODULE="techism.settings.prod" && ./manage.py sendtwitter
 20 */4 * * * cd /srv/www/techism-prod && source venv/bin/activate && export DJANGO_SETTINGS_MODULE="techism.settings.prod" && ./manage.py sendtwitter_long
+55 5 * * * cd /srv/www/techism-prod && source venv/bin/activate && export DJANGO_SETTINGS_MODULE="techism.settings.prod" && ./manage.py event_export_csv
 12 4 * * * /usr/bin/pg_dump techismp -f /backup/prod-db/$(date +"\%Y-\%m-\%d-\%H-\%M-\%S").pg_dump
 

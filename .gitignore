@@ -7,3 +7,4 @@ techism.sqlite
 .settings
 fixture.json
 *.*~
+static-collected/
