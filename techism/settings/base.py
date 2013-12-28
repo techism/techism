@@ -104,6 +104,10 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
 )
 
+# django-openid 2.5.5 is not compatible with JsonSerializer which is default since Django 1.6
+# see http://stackoverflow.com/questions/20301338/django-openid-auth-typeerror-openid-yadis-manager-yadisservicemanager-object-is
+SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
+
 AUTHENTICATION_BACKENDS = (
     'social_auth.backends.google.GoogleBackend',
     'social_auth.backends.twitter.TwitterBackend',

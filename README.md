@@ -29,7 +29,7 @@ or
 
 ### Run tests
 
-    (venv)$ ./manage.py test techism events ical rss twitter organizations api csv
+    (venv)$ ./manage.py test techism
 
 ### Edit test data
 
