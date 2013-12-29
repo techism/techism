@@ -323,7 +323,7 @@ input:focus, textarea:focus {
   overflow: hidden;
 }
 
-#calendar .month_title_link {
+#calendar .month .month_title_link {
   font-weight: bold;
 }
 
