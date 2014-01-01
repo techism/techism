@@ -39,7 +39,8 @@ class EventViewsTest(TestCase):
         url = '/events/' + current_year + '/'
         response = self.__get_response_and_check_headers(url)
         self.assertIsNotNone(response.context['event_list'])
-        self.assertEqual(len(response.context['event_list']), 8)
+        for event in response.context['event_list']:
+            self.assertEqual(str(event.date_time_begin.year), current_year)
         self.assertIsNotNone(response.context['tags'])
 
     def test_year_view_with_2011(self):
@@ -68,9 +69,10 @@ class EventViewsTest(TestCase):
 
     def test_year_month_view(self):
         today = timezone.localtime(timezone.now())
-        year, month, day = today.timetuple()[:3]
-        new_month = month - 1
-        new_date = today.replace(year= year + (new_month / 12), month=new_month % 12)
+        year, month, _ = today.timetuple()[:3]
+        new_month = (month + -1 - 1) % 12 + 1
+        new_year = year - (new_month / 12)
+        new_date = today.replace(year=new_year, month=new_month)
         url = '/events/' + str(new_date.year) + '/' + str(new_date.month) + '/'
 
         response = self.__get_response_and_check_headers(url)

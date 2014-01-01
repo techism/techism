@@ -17,13 +17,14 @@ def replace_day_hour(pattern, days_offset, hour, text):
     result = p.sub(str, text)
     return result
 
-def replace_month_day(pattern, months_offset, day_new, text):
+def replace_month_day(pattern, months_offset, new_day, text):
     p = re.compile(pattern)
     today_utc = datetime.datetime.utcnow().replace(tzinfo=pytz.utc)
     today_local = today_utc.astimezone(pytz.timezone("Europe/Berlin"))
     year, month, day = today_local.timetuple()[:3]
-    new_month = month + months_offset
-    date_local = today_local.replace(year= year + (new_month / 12), month=new_month % 12, day=day_new, hour=1, minute=0, second=0, microsecond=0)
+    new_month = (month + months_offset - 1) % 12 + 1
+    new_year = year - (new_month / 12)
+    date_local = today_local.replace(year=new_year, month=new_month, day=new_day, hour=1, minute=0, second=0, microsecond=0)
     date_utc = date_local.astimezone(pytz.utc)
     str = date_utc.strftime("%Y-%m-%dT%H:%M:%SZ")
     result = p.sub(str, text)
