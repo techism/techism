@@ -5,36 +5,42 @@ from techism.models import Location, EventTag
 import re
 from django.core.exceptions import ValidationError
 
+def convert_to_event_tags(tag_names):
+    # strip, lower case, filter empty, filter duplicates, allowed characters
+    tag_names = [t.strip().lower() for t in tag_names]
+    tag_names = filter(None, tag_names)
+    tags = []
+    r = re.compile('^[-_\. A-ZÄÖÜa-zäöüß0-9]+$')
+    for tag_name in tag_names:
+        if not r.match(tag_name):
+            raise ValidationError('Unerlaubte Zeichen')
+        tag, _ = EventTag.objects.get_or_create(name=tag_name)
+        if not tag in tags:
+            tags.append(tag)
+    return tags
+
 class CommaSeparatedTagsWidget(forms.TextInput):
     def render(self, name, value, attrs=None):
         if isinstance(value, (list, tuple)):
             value = u', '.join([unicode(v) for v in value])
         return super(CommaSeparatedTagsWidget, self).render(name, value, attrs)
-    
+
 class CommaSeparatedTagsFormField(forms.CharField):
     widget = CommaSeparatedTagsWidget
+
     def clean(self, value):
         # validate non-empty value
         super(CommaSeparatedTagsFormField, self).validate(value)
         
-        # split, strip, lower case, filter empty, filter duplicates, allowed characters
+        # split and convert
         tag_names = value.split(',')
-        tag_names = [t.strip().lower() for t in tag_names]
-        tag_names = filter(None, tag_names)
-        tags = []
-        r = re.compile('^[-_\. A-ZÄÖÜa-zäöüß0-9]+$')
-        for tag_name in tag_names:
-            if not r.match(tag_name):
-                raise ValidationError('Unerlaubte Zeichen')
-            tag,_ = EventTag.objects.get_or_create(name=tag_name)
-            if not tag in tags:
-                tags.append(tag)
+        tags = convert_to_event_tags(tag_names)
         
         # validate non-empty tags
         super(CommaSeparatedTagsFormField, self).validate(tags)
         
         return tags
-    
+
 class EventForm(forms.Form):
     title = forms.CharField(max_length=200, label=u'Titel')
     url = forms.URLField()

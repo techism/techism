@@ -8,7 +8,6 @@ from techism.models import Event, EventTag, Location
 from django.http import HttpResponseRedirect, HttpResponse, HttpResponseForbidden, HttpResponseNotFound
 from django.utils import html, timezone
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
-from geopy import distance
 import datetime
 import pytz
 
@@ -255,46 +254,13 @@ def __create_or_update_event_with_location (form, user, event):
 def __get_and_update_or_create_location(form):
     "Get, updates, or creates a Location from the submitted EventForm"
     
-    if form.cleaned_data['location']:
-        # existing location
-        existing_location = form.cleaned_data['location']
-        name_equal = existing_location.name == form.cleaned_data['location_name']
-        street_equal = existing_location.street == form.cleaned_data['location_street']
-        city_equal = existing_location.city == form.cleaned_data['location_city']
-        distance_in_meters = distance.distance((existing_location.latitude, existing_location.longitude),
-                      (form.cleaned_data['location_latitude'], form.cleaned_data['location_longitude'])).meters
-        if (name_equal and street_equal and city_equal and distance_in_meters < 300):
-            # existing location and submitted fields are equal/similar: update
-            # existing_location.name=form.cleaned_data['location_name']
-            # existing_location.street=form.cleaned_data['location_street']
-            # existing_location.city=form.cleaned_data['location_city']
-            existing_location.latitude = form.cleaned_data['location_latitude']
-            existing_location.longitude = form.cleaned_data['location_longitude']
-            existing_location.save()
-            return existing_location
-        else:
-            # existing location and submitted fields differ: create new location
-            location = __create_location(form)
-            return location
-    else:
-        # no existing location: create new location
-        if form.cleaned_data['location_name']:
-            location = __create_location(form)
-            return location
-        else:
-            return None
-
-
-def __create_location(form):
-    "Creates a new Location from the submitted EventForm"
-    location = Location()
-    location.name=form.cleaned_data['location_name']
-    location.street=form.cleaned_data['location_street']
-    location.city=form.cleaned_data['location_city']
-    location.latitude=form.cleaned_data['location_latitude']
-    location.longitude=form.cleaned_data['location_longitude']
-    location.save()
-    return location
+    return event_service.update_or_create_location(
+        form.cleaned_data['location'],
+        form.cleaned_data['location_name'],
+        form.cleaned_data['location_street'],
+        form.cleaned_data['location_city'],
+        form.cleaned_data['location_latitude'],
+        form.cleaned_data['location_longitude'])
 
 
 def __to_event_form (event):

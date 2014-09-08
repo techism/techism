@@ -11,3 +11,16 @@ try:
 except DatabaseError:
     from django.db import connection
     connection._rollback()
+
+
+### additional permissions
+
+from django.db.models.signals import post_syncdb
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.auth.models import Permission
+from techism.models import Event
+
+def add_custom_permissions(sender, **kwargs):
+    ct = ContentType.objects.get_for_model(model=Event)
+    Permission.objects.get_or_create(codename='use_api', name='Use API', content_type=ct)
+post_syncdb.connect(add_custom_permissions)

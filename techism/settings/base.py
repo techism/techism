@@ -109,6 +109,7 @@ INSTALLED_APPS = (
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
 
 AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
     'social_auth.backends.google.GoogleBackend',
     'social_auth.backends.twitter.TwitterBackend',
     'social_auth.backends.yahoo.YahooBackend',
@@ -119,6 +120,7 @@ AUTHENTICATION_BACKENDS = (
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_URL = '/accounts/logout/'
+HTTP_AUTH_REALM = 'Techism'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

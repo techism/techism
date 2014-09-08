@@ -3,11 +3,13 @@
 
 from django.views.decorators.http import require_http_methods
 import json
-from django.http import HttpResponseRedirect, HttpResponse, HttpResponseForbidden, HttpResponseNotFound
+from django.http import HttpResponse
 from techism.events import event_service
 from techism.events import json_service
 import logging
 from django.contrib.auth.decorators import permission_required
+from techism.middleware import http_auth
+from django.views.decorators.csrf import csrf_exempt
 
 @require_http_methods(["POST"])
 def csp_reporting(request):
@@ -17,7 +19,6 @@ def csp_reporting(request):
     # TODO: validate
     logger.warning('[CSP-REPORT]' + str(values))
     return HttpResponse('')
-
 
 @require_http_methods(["GET"])
 def events(request, year, month=None, day=None):
@@ -30,11 +31,11 @@ def events(request, year, month=None, day=None):
     events_as_json = json_service.get_events_as_json(event_list)
     return HttpResponse(events_as_json, mimetype="application/json")
 
-
 @require_http_methods(["POST"])
-@permission_required('is_superuser')
+@csrf_exempt
+@http_auth
+@permission_required("techism.use_api", raise_exception=True)
 def create(request):
     # TODO: validate
-    event = json_service.get_event_from_json(request.body)
-    event.save()
+    event = json_service.save_event_from_json(request.body, request.user)
     return HttpResponse(event.id)
