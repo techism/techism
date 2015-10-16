@@ -98,9 +98,8 @@ INSTALLED_APPS = (
     'techism.api',
     'techism.csv',
     'django.contrib.admin',
-    'social_auth',
-    'reversion',
-    'south'
+    'social.apps.django_app.default',
+    'reversion'
     # 'django.contrib.admindocs',
 )
 
@@ -110,11 +109,11 @@ SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
-    'social_auth.backends.google.GoogleBackend',
-    'social_auth.backends.twitter.TwitterBackend',
-    'social_auth.backends.yahoo.YahooBackend',
-    'social_auth.backends.OpenIDBackend',
-    'social_auth.backends.browserid.BrowserIDBackend',
+    'social.backends.google.GoogleOAuth2',
+    'social.backends.twitter.TwitterOAuth',
+    'social.backends.yahoo.YahooOpenId',
+    'social.backends.open_id.OpenIdAuth',
+#    'social.backends.browserid.BrowserIDBackend',
 )
 
 LOGIN_URL = '/accounts/login/'

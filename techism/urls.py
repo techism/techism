@@ -81,7 +81,7 @@ urlpatterns = patterns('',
     # Login
     (r'^accounts/login/$', TemplateView.as_view(template_name='accounts/login.html' )),
     (r'^accounts/logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
-    url(r'^accounts/', include('social_auth.urls')),
+    url(r'^accounts/', include('social.apps.django_app.urls', namespace='social')),
     
     #Sitemap
     (r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps})

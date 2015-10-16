@@ -187,7 +187,8 @@ class EventViewsTest(TestCase):
 
     def test_create_view_get(self):
         url = '/events/create/'
-        response = self.__get_response_and_check_headers(url)
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
         self.assertIn('id="id_title"', response.content)
         self.assertIn('id="id_url"', response.content)
         self.assertIn('id="id_description"', response.content)
@@ -318,7 +319,6 @@ class EventViewsTest(TestCase):
         response = self.client.get('/events/create/1', follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertIn('Content-Security-Policy', response)
-        self.assertCacheHeaders(response)
         self.assertIn('id="id_title"', response.content)
         self.assertIn('id="id_url"', response.content)
         self.assertIn('id="id_description"', response.content)

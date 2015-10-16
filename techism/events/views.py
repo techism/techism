@@ -301,7 +301,7 @@ def __cancel_event(request, event):
 
 
 def locations(request):
-    return HttpResponse(event_service.get_locations_as_json(), mimetype="application/json")
+    return HttpResponse(event_service.get_locations_as_json(), content_type="application/json")
 
 
 def __get_paginator_page(request, event_list):

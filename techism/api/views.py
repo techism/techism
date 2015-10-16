@@ -29,7 +29,7 @@ def events(request, year, month=None, day=None):
     if day:
         event_list = event_list.filter(date_time_begin__day=day)
     events_as_json = json_service.get_events_as_json(event_list)
-    return HttpResponse(events_as_json, mimetype="application/json")
+    return HttpResponse(events_as_json, content_type="application/json")
 
 @require_http_methods(["POST"])
 @csrf_exempt
