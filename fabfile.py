@@ -7,7 +7,7 @@ from contextlib import contextmanager as _contextmanager
 import datetime
 
 
-env.hosts = ["techism@next.techism.de:2222"]
+env.hosts = ["techism@141.0.21.39:2222"]
 
 BASE_DIR = "/srv/www"
 GIT_REPO_DIR = "techism.git"
@@ -72,7 +72,7 @@ def __manage_dev_db():
         run("dropdb %s" % DEV_DB_NAME)
         run("createdb -E UTF8 -T template0 %s" % DEV_DB_NAME)
         #if confirm("Copy prod DB?", default=True):
-        #    run("pg_dump %s | psql %s" % (PROD_DB_NAME, STAGING_DB_NAME))
+        #    run("pg_dump %s | psql %s" % (PROD_DB_NAME, DEV_DB_NAME))
 
 def __manage_staging_db():
     if confirm("Drop staging DB?", default=False): 
@@ -90,7 +90,13 @@ def __backup_db(db_name):
 def __migrate_db(target_dir, django_settings_module):
     with cd(BASE_DIR), cd(target_dir):
         with __virtualenv(), shell_env(DJANGO_SETTINGS_MODULE=django_settings_module):
-            run("./manage.py syncdb")
+            #run("./manage.py migrate --fake-initial contenttypes")
+            #run("./manage.py migrate --fake-initial auth")
+            #run("./manage.py migrate --fake-initial sessions")
+            #run("./manage.py migrate --fake-initial admin")
+            #run("./manage.py migrate --fake-initial techism")
+            #run("./manage.py migrate --fake default")
+            #run("./manage.py migrate --fake-initial reversion")
             run("./manage.py migrate")
 
 def __run_tests(target_dir, django_settings_module):
