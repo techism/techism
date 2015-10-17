@@ -10,7 +10,7 @@ $(document).ready(function(){
 });
 
 $(function () {
-    $('#browserid').click(function (e) {
+    $('#persona').click(function (e) {
         e.preventDefault();
         var self = $(this);
         navigator.id.get(function (assertion) {

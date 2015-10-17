@@ -6,14 +6,16 @@
 
         <h3>Wähle deinen Login Provider:</h3>
         <p>
+            <!--
             <a class="zocial google" href="{% url 'social:begin' 'google-oauth2' %}">Login mit Google</a>
+             -->
             <a class="zocial twitter" href="{% url 'social:begin' 'twitter' %}">Login mit Twitter</a>
             <a class="zocial yahoo" href="{% url 'social:begin' 'yahoo' %}">Login mit Yahoo</a>
             <a class="zocial openid" href="#">Login mit OpenID</a>
             <!-- Define a form to send the POST data -->
-            <form method="post" action="{% url 'social:complete' 'browserid' %}">
+            <form method="post" action="{% url 'social:complete' 'persona' %}">
                 <input type="hidden" name="assertion" value="" />
-                <a class="zocial browserid" rel="nofollow" id="browserid" href="#">Login mit Mozilla Persona</a>
+                <a class="zocial browserid" rel="nofollow" id="persona" href="#">Login mit Mozilla Persona</a>
             </form>
         </p>
         <div id="openid">

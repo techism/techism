@@ -113,7 +113,7 @@ AUTHENTICATION_BACKENDS = (
     'social.backends.twitter.TwitterOAuth',
     'social.backends.yahoo.YahooOpenId',
     'social.backends.open_id.OpenIdAuth',
-#    'social.backends.browserid.BrowserIDBackend',
+    'social.backends.persona.PersonaAuth',
 )
 
 LOGIN_URL = '/accounts/login/'
