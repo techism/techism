@@ -31,7 +31,7 @@ DATABASES = {
     }
 }
 
-WSGI_APPLICATION = 'techism.settings.techism_wsgi.application'
+WSGI_APPLICATION = 'techism.settings.server_wsgi.application'
 
 SESSION_COOKIE_SECURE = True
 HTTPS_PATHS = (
@@ -43,7 +43,7 @@ HTTP_URL = 'http://www.techism.de'
 HTTPS_URL = 'https://www.techism.de'
 
 LOGGING['handlers']['errorlogfile']['filename'] = '/var/log/techism/error.log'
-LOGGING['handlers']['debuglogfile']['filename'] = '/var/log/techism//debug.log'
+LOGGING['handlers']['debuglogfile']['filename'] = '/var/log/techism/debug.log'
 
 
 ### import settings stored in database
