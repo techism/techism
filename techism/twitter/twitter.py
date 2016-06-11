@@ -75,15 +75,13 @@ def format_tweet(event, prefix):
     else:
         date_string = date_time_begin_localtime.strftime("%d.%m.%Y %H:%M")
     
-    base_url = settings.HTTP_URL
-    relative_url = event.get_absolute_url()
-    long_url = base_url + relative_url
+    url = event.url
     twitter_short_url_length = 25
     
     max_length = 140 - len(date_string) - twitter_short_url_length - len(prefix) - 5
     title = event.title[:max_length]
     
-    tweet = u'%s%s - %s %s' % (prefix, title, date_string, long_url)
+    tweet = u'%s%s - %s %s' % (prefix, title, date_string, url)
     
     return tweet
 

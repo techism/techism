@@ -195,8 +195,8 @@ class TwitterIntegrationTest(TestCase):
         # assert correct tweets
         event2 = Event.objects.get(id=2)
         event1 = Event.objects.get(id=1)
-        self.assertIn(event1.title + ' - ' + self.tomorrow_localtime + ' ' + settings.HTTP_URL + event1.get_absolute_url(), tweets)
-        self.assertIn(event2.title + ' - ' + self.tomorrow_localtime + ' ' + settings.HTTP_URL + event2.get_absolute_url(), tweets)
+        self.assertIn(event1.title + ' - ' + self.tomorrow_localtime + ' ' + 'http://example.com', tweets)
+        self.assertIn(event2.title + ' - ' + self.tomorrow_localtime + ' ' + 'http://example.com', tweets)
 
 
     @mock.patch('techism.twitter.twitter.__tweet_event')
@@ -216,7 +216,7 @@ class TwitterIntegrationTest(TestCase):
         
         # assert correct tweets
         event = Event.objects.get(id=7)
-        self.assertIn(event.title + ' - ' + self.tomorrow_string + '-' + self.nextweek_string + ' ' + settings.HTTP_URL + event.get_absolute_url(), tweets)
+        self.assertIn(event.title + ' - ' + self.tomorrow_string + '-' + self.nextweek_string + ' ' + 'http://example.com', tweets)
 
 
 class TwitterUnitTest(TestCase):
@@ -228,10 +228,11 @@ class TwitterUnitTest(TestCase):
         event.date_time_begin = now_utc
         event.get_absolute_url = mock.Mock(return_value='/events/java-event-1')
         event.title = 'Testevent'
+        event.url = 'http://www.meetup.com'
         tweet = twitter.format_tweet(event, '')
         now_local = timezone.localtime(now_utc)
         now_local_str = now_local.strftime("%d.%m.%Y %H:%M")
-        self.assertEqual(tweet, u'Testevent - ' + now_local_str + ' ' + settings.HTTP_URL + '/events/java-event-1')
+        self.assertEqual(tweet, u'Testevent - ' + now_local_str + ' ' + 'http://www.meetup.com')
 
 class Mock(object):
     pass
