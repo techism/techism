@@ -242,11 +242,11 @@ def __create_or_update_event_with_location (form, user, event):
             event.user = user
     
     # Event must be persisted before tags can be set (many-to-may relationship)
-    if event.id == None:
-        event.save()
+    #if event.id == None:
+    #    event.save()
     
     event.tags = form.cleaned_data['tags']
-    event.save()
+    #event.save()
     
     return event
 
@@ -286,7 +286,7 @@ def __cancel_event(request, event):
     form = EventCancelForm(request.POST) 
     if form.is_valid():
         event.canceled = True;
-        event.save()
+        #event.save()
         url = event.get_absolute_url()
         return HttpResponseRedirect(url)
     else:
