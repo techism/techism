@@ -1,6 +1,11 @@
-[![Build Status](https://travis-ci.org/techism/techism.png)](https://travis-ci.org/techism/techism)
+Techism
+=======
 
-##Setup
+**Note: Operation of the techism platform ended 2017.**
+
+This repository contains the source code of techism.
+
+## Setup
 
     $ sudo apt-get install python-pip python-virtualenv
     $ git clone git://github.com/techism/techism.git
@@ -9,7 +14,7 @@
     $ source venv/bin/activate
     (venv)$ pip install -r dependencies.pip
 
-##Development
+## Development
 
 ### Start local development server
 
@@ -55,7 +60,7 @@ Then apply the schema migration to the database:
     $ ./manage.py migrate
 
 
-##Deployment
+## Deployment
 
 Create another virtualenv and install Fabric:
 
@@ -84,7 +89,7 @@ SSH host key fingerprints of the server are:
 * ECDSA: 50:09:98:00:60:19:f4:b8:c1:4f:af:35:91:0c:38:d5
 
 
-##Executing manage.py
+## Executing manage.py
 
 If one needs to manually run manage.py, e.g. for loading data, 
 some environment variables needs to be set:
